@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://computersgoldcoast.com.au/sitemap.xml
