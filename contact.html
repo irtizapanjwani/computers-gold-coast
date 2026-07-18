@@ -1,9 +1,12 @@
 <!-- ============================================================
   Computers Gold Coast — Contact page. Single destination for all
   enquiries. This is the ONLY page the phone number appears on.
-  Form is wired to FormSubmit (works with the business email, needs a
-  one-time activation click on first submit). Swap the action for a
-  FormSubmit alias endpoint to keep the email address off the page.
+  Two paths:
+    1. "I know what needs fixing" -> external forms.app repair-quote
+       form (opens in a new tab). No email exposed on this path.
+    2. "I'm not sure what's wrong" -> the on-page general form, wired
+       to FormSubmit via an ALIAS (never the raw email address) so the
+       business email stays out of the page source.
 ============================================================= -->
 <!doctype html>
 <html lang="en">
@@ -64,9 +67,16 @@
   .hero p.lead{max-width:620px; font-size:17px; color:#cbd5e1; margin:22px 0 0;}
 
   .bg-white{background:#fff;}
+  .bg-gray{background:var(--gray-50);}
   .grid{display:grid; gap:40px;}
   .grid-2{grid-template-columns:1.2fr 1fr;}
   @media (max-width:900px){ .grid-2{grid-template-columns:1fr;} }
+  .grid.path-grid{grid-template-columns:1fr 1fr;}
+  @media (max-width:900px){ .grid.path-grid{grid-template-columns:1fr;} }
+  .path-card{background:var(--sky-50); border:1px solid var(--gray-200); border-radius:16px; padding:30px; display:flex; flex-direction:column;}
+  .path-card h3{font-size:21px; margin-bottom:12px;}
+  .path-card p{color:var(--text-soft); font-size:15px; margin:0 0 24px;}
+  .path-card .pill{align-self:flex-start; margin-top:auto;}
 
   .form-field{margin-bottom:18px;}
   .form-field label{display:block; font-size:14px; font-weight:600; margin-bottom:6px;}
@@ -120,18 +130,39 @@
   <section class="hero">
     <div class="wrap">
       <div class="badge">📞 Onsite &amp; Remote &middot; 7am–10pm, 7 Days</div>
-      <h1>Let's Get Your Tech Sorted. <span class="accent">Fill Out The Form, Or Give Me A Call.</span></h1>
-      <p class="lead">Tell me what's going on and I'll get back to you fast, usually the same day. If you'd rather talk it through now, call and we'll work out the best way to fix it. No call-out fees anywhere on the Gold Coast.</p>
+      <h1>Let's Get Your Tech Sorted. <span class="accent">Fast Quotes, Straight Answers.</span></h1>
+      <p class="lead">If you already know what needs fixing, grab a repair quote and I'll come back with an accurate price. If something's playing up and you're not sure why, send me the details or call and we'll work it out. No call-out fees anywhere on the Gold Coast.</p>
     </div>
   </section>
 
   <section class="bg-white">
     <div class="wrap">
+      <span class="eyebrow">Two ways to get a price</span>
+      <h2 style="font-size:30px; margin-bottom:8px;">What sounds like you?</h2>
+      <p style="color:var(--text-soft); max-width:640px; margin:0 0 34px;">Pick the one that fits and you'll get a faster, more accurate answer back from me.</p>
+      <div class="grid path-grid">
+        <div class="path-card">
+          <h3>I know what needs fixing</h3>
+          <p>Cracked or dim screen, a charge port (DC jack) that only works at the right angle, a dead key or a whole keyboard, a battery that won't hold. If it's a laptop, MacBook or iMac and you already know the fault, this is the quick way to a real price. Fill in your model and what's wrong on the quote form and I'll get back to you with an accurate number instead of a rough guess over the phone.</p>
+          <a class="pill pill-primary" href="https://ikfycq6u.forms.app/zoorepairs" target="_blank" rel="noopener">Get a Repair Quote →</a>
+        </div>
+        <div class="path-card">
+          <h3>I'm not sure what's wrong</h3>
+          <p>Desktop or laptop that won't start, running slow, throwing errors, or just not behaving and you can't say why. That's how most jobs come in and it's no problem at all. Send me the details in the form below or give me a call and we'll work out what's going on together.</p>
+          <a class="pill pill-dark" href="#form">Send Me the Details</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-gray" id="form">
+    <div class="wrap">
       <div class="grid grid-2">
         <div>
           <span class="eyebrow">Send A Message</span>
           <h2 style="font-size:28px; margin-bottom:22px;">Tell Me What You Need.</h2>
-          <form action="https://formsubmit.co/robert@zoorepairs.com.au" method="POST">
+          <!-- FormSubmit alias endpoint — keeps the raw email out of the page source. -->
+          <form action="https://formsubmit.co/db4eea575889e7938a03c579f439a01d" method="POST">
             <input type="hidden" name="_subject" value="New enquiry from computersgoldcoast.com.au">
             <input type="hidden" name="_captcha" value="false">
             <input type="hidden" name="_template" value="table">
@@ -147,18 +178,6 @@
             <div class="form-field">
               <label for="phone">Phone</label>
               <input type="tel" id="phone" name="phone">
-            </div>
-            <div class="form-field">
-              <label for="service">What do you need help with?</label>
-              <select id="service" name="service">
-                <option>Computer or laptop repair</option>
-                <option>Virus / spyware removal</option>
-                <option>Data backup or recovery</option>
-                <option>WiFi / networking / NBN</option>
-                <option>CCTV, alarms or security</option>
-                <option>Business IT</option>
-                <option>Something else</option>
-              </select>
             </div>
             <div class="form-field">
               <label for="message">Tell me a bit about it</label>
