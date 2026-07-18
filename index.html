@@ -5,7 +5,7 @@
   across your portfolio the same way you already do on your other sites.
 
   NEEDS YOUR INPUT BEFORE GOING LIVE:
-  - Phone number below is your shared portfolio number (0477 319 160) —
+  - Phone number below is your shared business number —
     swap it if Gold Coast has/gets its own line.
   - "Areas We Service" suburb list is generic Gold Coast geography —
     edit to match where you actually operate.
@@ -81,7 +81,13 @@
   nav a:hover{color:var(--accent);}
   .header-cta{display:flex; align-items:center; gap:18px;}
   .phone-link{font-weight:600; color:var(--text); text-decoration:none; font-size:14px;}
-  @media (max-width:900px){ nav{display:none;} }
+  .nav-toggle{display:none; background:none; border:0; padding:6px; font-size:22px; line-height:1; cursor:pointer; color:var(--text);}
+  .header-cta .pill{white-space:nowrap;}
+  @media (max-width:900px){
+    nav{display:none;}
+    .nav-toggle{display:inline-flex;}
+    .site-header.nav-open nav{display:flex; flex-direction:column; gap:16px; position:absolute; top:100%; left:0; right:0; background:#fff; border-bottom:1px solid var(--gray-200); padding:18px 24px;}
+  }
 
   .hero{background:var(--navy); color:#fff; position:relative; overflow:hidden; padding:120px 0;}
   .hero .badge{display:inline-flex; gap:8px; align-items:center; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); border-radius:999px; padding:8px 16px; font-size:13px; margin-bottom:24px;}
@@ -170,11 +176,11 @@
         <a href="index.html#about">About Us</a>
         <a href="services.html">Services</a>
         <a href="index.html#testimonials">Reviews</a>
-        <a href="index.html#quote">Contact</a>
+        <a href="contact.html">Contact</a>
       </nav>
       <div class="header-cta">
-        <a class="phone-link" href="tel:+61477319160">0477 319 160</a>
-        <a class="pill pill-dark" href="index.html#quote">Get Free Quote</a>
+        <a class="pill pill-dark" href="contact.html">Contact Us</a>
+        <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
       </div>
     </div>
   </header>
@@ -185,8 +191,7 @@
       <h1>Gold Coast's Trusted Computer Repairs. <span class="accent">Fast, Affordable, Local.</span></h1>
       <p class="lead">Family-owned, not a franchise. We fix Macs and PCs — onsite at your Gold Coast home or office, or remotely — with absolutely no call-out fees, 7am to 10pm, every day.</p>
       <div class="cta-row">
-        <a class="pill pill-primary" href="index.html#quote">Get a Free Quote</a>
-        <a class="pill pill-outline" href="tel:+61477319160">Call 0477 319 160</a>
+        <a class="pill pill-primary" href="contact.html">Get In Touch</a>
       </div>
       <div class="trust-row">
         <div>✓ $0 Call-Out Fees</div>
@@ -277,45 +282,12 @@
     </div>
   </section>
 
-  <section class="bg-navy contact-section" id="quote">
-    <div class="wrap">
-      <div>
-        <span class="eyebrow">Get In Touch</span>
-        <h2>Get Your Free Quote.</h2>
-        <p style="color:#cbd5e1; margin-top:16px;">Tell us your device and symptom and we'll get back to you with an indicative quote — call, or fill in the form.</p>
-        <div class="benefit"><div>⏱️</div><div><h4>Fast Response</h4><p>We aim to get back to every enquiry the same business day.</p></div></div>
-        <div class="benefit"><div>💵</div><div><h4>No Call-Out Fees, Ever</h4><p>We come to you across the Gold Coast at no extra cost.</p></div></div>
-        <div class="benefit"><div>📅</div><div><h4>Open 7am–10pm, 7 Days</h4><p>Including weekends and holidays — because computers don't break on a schedule.</p></div></div>
-      </div>
-      <!-- Static form — no submit handler yet. Point action at your form processor of choice. -->
-      <form action="#" method="post">
-        <div><label for="gc-name">Full Name</label><input id="gc-name" name="name" type="text" required></div>
-        <div><label for="gc-phone">Phone Number</label><input id="gc-phone" name="phone" type="tel" required></div>
-        <div><label for="gc-email">Email Address</label><input id="gc-email" name="email" type="email" required></div>
-        <div>
-          <label for="gc-device">Device Type</label>
-          <select id="gc-device" name="device">
-            <option>Apple MacBook / iMac</option>
-            <option>Windows Laptop</option>
-            <option>Desktop PC</option>
-            <option>WiFi / Home Network</option>
-            <option>Business IT</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div><label for="gc-issue">Describe the Fault (Briefly)</label><textarea id="gc-issue" name="issue" rows="3"></textarea></div>
-        <button class="pill pill-primary" type="submit">Request Free Quote</button>
-      </form>
-    </div>
-  </section>
-
   <section class="bg-accent cta-banner">
     <div class="wrap">
       <h2>Computer Acting Up? Don't Wait For It To Get Worse.</h2>
       <p>Slow, crashing, or infected — the sooner we look at it, the cheaper and faster the fix usually is.</p>
       <div class="cta-row">
-        <a class="pill pill-dark" href="index.html#quote">Get Free Quote</a>
-        <a class="pill" style="background:#fff;color:var(--navy);" href="tel:+61477319160">Call 0477 319 160</a>
+        <a class="pill pill-dark" href="contact.html">Get In Touch</a>
       </div>
       <p style="margin-top:28px; font-weight:700; color:var(--navy);">NO CALL-OUT FEE. EVER.</p>
     </div>
@@ -350,8 +322,7 @@
         <div>
           <h4>Direct Contact</h4>
           <ul>
-            <li><a href="tel:+61477319160">0477 319 160</a></li>
-            <li><a href="index.html#quote">Get a Free Quote</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
           </ul>
         </div>
       </div>
@@ -362,5 +333,7 @@
     </div>
   </footer>
 
+
+  <script>document.querySelectorAll('.nav-toggle').forEach(function(b){b.addEventListener('click',function(){var h=b.closest('.site-header');var o=h.classList.toggle('nav-open');b.setAttribute('aria-expanded',o);});});</script>
 </body>
 </html>
