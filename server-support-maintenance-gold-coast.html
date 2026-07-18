@@ -1,0 +1,416 @@
+<!-- ============================================================
+  Computers Gold Coast — Server Support & Maintenance page.
+  Adapted from https://www.zoorepairs.com.au/computer-services/server-support-and-maintenance/
+  reusing the same real service description, in the same navy/
+  sky-blue design system as index.html, services.html and the
+  other Computers Gold Coast service pages.
+
+  WHAT I CHANGED FROM THE SOURCE:
+  - The source describes dispatch across "Brisbane, Toowoomba, the
+    Darling Downs or anywhere in-between." That's swapped for the
+    Gold Coast and its hinterland (in the spirit of the Starlink
+    page's approach — genuine local equivalents, not a literal find/
+    replace of place names that aren't near the Gold Coast).
+  - The Brisbane CBD example in the FAQ ("How fast can you reach a
+    Brisbane CBD office?") is swapped for the Gold Coast's own
+    business precinct (Southport), keeping the same "90 minutes,
+    traffic permitting" style commitment that's stated on the source
+    page rather than inventing a new figure.
+  - The "regional town west of Toowoomba" FAQ is swapped for a Gold
+    Coast hinterland example (Tamborine Mountain), matching the
+    hinterland examples already used on the Starlink page.
+  - The source page's SLA claims (2-hour arrival guarantee, "fixed
+    monthly fee") are kept because they're stated on the source as-is
+    — no specific dollar figure is invented anywhere, same as the
+    other pages; a firm price still isn't quoted, only "call for a
+    quote."
+  - The source page ends with a raw list of external reference links
+    (ACSC, VMware Security Advisories, Microsoft Learn, Ubuntu Server
+    docs, Dell driver catalogue). Rather than reproduce a bare link
+    list, which doesn't match this site's page format, the one
+    substantive point from it (alignment with the ASD/ACSC Essential
+    Eight) is folded into the relevant FAQ answer, and the rest is
+    dropped as it's not really page content, just source footer
+    clutter.
+  - Brand references (Zoo Computer Repairs) changed to Computers Gold
+    Coast. Vendor/product names (Dell PowerEdge, HPE ProLiant, Lenovo
+    ThinkSystem, Synology, VMware, Hyper-V, etc.) are genuine products
+    this kind of service works on, so they're kept as-is.
+
+  TO GO LIVE: upload alongside the other pages to your cPanel
+  public_html folder, or it's already pushed to GitHub so Cloudflare
+  Pages will serve it automatically once live.
+============================================================= -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Server Support &amp; Maintenance Gold Coast | Computers Gold Coast</title>
+<meta name="description" content="Emergency on-site server repair and maintenance for Gold Coast businesses. Dell, HPE, Lenovo, Synology, Windows Server, VMware and Hyper-V — rapid dispatch, data-safe workflow.">
+<link rel="canonical" href="https://computersgoldcoast.com.au/server-support-maintenance-gold-coast.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Server Support &amp; Maintenance Gold Coast | Computers Gold Coast">
+<meta property="og:description" content="Emergency on-site server repair and maintenance for Gold Coast businesses. Dell, HPE, Lenovo, Synology, Windows Server, VMware and Hyper-V.">
+<meta property="og:url" content="https://computersgoldcoast.com.au/server-support-maintenance-gold-coast.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Server Support &amp; Maintenance Gold Coast | Computers Gold Coast">
+<meta name="twitter:description" content="Emergency on-site server repair and maintenance for Gold Coast businesses. Dell, HPE, Lenovo, Synology, Windows Server, VMware and Hyper-V.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "Server Support and Maintenance",
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Computers Gold Coast",
+    "telephone": "+61477319160",
+    "url": "https://computersgoldcoast.com.au/"
+  },
+  "areaServed": ["Surfers Paradise","Broadbeach","Southport","Robina","Burleigh Heads","Nerang","Varsity Lakes","Coolangatta"]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#020617; --sky-50:#f0f9ff; --gray-50:#f9fafb; --gray-200:#e5e7eb;
+    --accent:#38bdf8; --text:#0f172a; --text-soft:#475569;
+  }
+  *{box-sizing:border-box;}
+  body{font-family:'Inter',ui-sans-serif,system-ui,sans-serif; color:var(--text); line-height:1.55; margin:0;}
+  h1,h2,h3{font-family:'Space Grotesk',ui-sans-serif,system-ui,sans-serif; font-weight:700; line-height:1.15; margin:0;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 24px;}
+  .eyebrow{font-size:13px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:12px; display:block;}
+  section{padding:88px 0;}
+  .pill{display:inline-flex; align-items:center; gap:8px; border-radius:999px; padding:14px 28px; font-weight:600; font-size:15px; text-decoration:none; border:2px solid transparent; cursor:pointer; transition:transform .15s ease;}
+  .pill:hover{transform:translateY(-2px);}
+  .pill-primary{background:var(--accent); color:var(--navy);}
+  .pill-outline{border-color:rgba(255,255,255,.4); color:#fff;}
+  .pill-dark{background:var(--navy); color:#fff;}
+
+  .site-header{position:sticky; top:0; z-index:40; background:rgba(255,255,255,.95); backdrop-filter:blur(8px); border-bottom:1px solid var(--gray-200);}
+  .site-header .wrap{display:flex; align-items:center; justify-content:space-between; padding:14px 24px;}
+  .brand{display:flex; flex-direction:column; text-decoration:none; color:var(--text); line-height:1.1;}
+  .brand .word{font-family:'Space Grotesk'; font-weight:700; font-size:19px;}
+  .brand .word span{color:var(--accent);}
+  .brand .tagline{font-size:11px; color:var(--text-soft); font-weight:500;}
+  nav{display:flex; gap:28px; align-items:center;}
+  nav a{color:var(--text); text-decoration:none; font-size:14px; font-weight:500;}
+  nav a:hover{color:var(--accent);}
+  .header-cta{display:flex; align-items:center; gap:18px;}
+  .phone-link{font-weight:600; color:var(--text); text-decoration:none; font-size:14px;}
+  @media (max-width:900px){ nav{display:none;} }
+
+  .hero{background:var(--navy); color:#fff; padding:96px 0 72px;}
+  .hero .badge{display:inline-flex; gap:8px; align-items:center; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); border-radius:999px; padding:8px 16px; font-size:13px; margin-bottom:24px;}
+  .hero h1{font-size:48px; color:#fff; max-width:820px;}
+  .hero h1 .accent{color:var(--accent);}
+  .hero p.lead{max-width:660px; font-size:17px; color:#cbd5e1; margin:22px 0 32px;}
+  .hero .cta-row{display:flex; gap:16px; flex-wrap:wrap; margin-bottom:44px;}
+  .trust-row{display:flex; gap:32px; flex-wrap:wrap; border-top:1px solid rgba(255,255,255,.15); padding-top:26px;}
+  .trust-row div{font-size:14px; color:#e2e8f0; font-weight:500;}
+
+  .bg-sky{background:var(--sky-50);}
+  .bg-white{background:#fff;}
+  .bg-gray{background:var(--gray-50); border-top:1px solid var(--gray-200); border-bottom:1px solid var(--gray-200);}
+  .bg-navy{background:var(--navy); color:#fff;}
+  .bg-accent{background:var(--accent);}
+
+  .section-head{max-width:680px; margin-bottom:48px;}
+  .section-head h2{font-size:32px;}
+  .section-head p{color:var(--text-soft); margin-top:14px; font-size:15.5px;}
+  .bg-navy .section-head p{color:#cbd5e1;}
+
+  .grid{display:grid; gap:24px;}
+  .grid-2{grid-template-columns:1fr 1fr;}
+  .grid-3{grid-template-columns:repeat(3,1fr);}
+  .grid-4{grid-template-columns:repeat(4,1fr);}
+  @media (max-width:900px){ .grid-2,.grid-3,.grid-4{grid-template-columns:1fr;} }
+
+  .feature{padding:4px;}
+  .feature .icon{font-size:28px; margin-bottom:14px;}
+  .feature h3{font-size:17px; margin-bottom:8px;}
+  .feature p{color:var(--text-soft); font-size:14px; margin:0;}
+
+  .area-chip{background:#fff; border:1px solid var(--gray-200); border-radius:12px; padding:16px; text-align:center; font-weight:600; font-size:14.5px;}
+
+  .check-list{list-style:none; margin:0; padding:0; display:grid; gap:14px;}
+  .check-list li{display:flex; gap:10px; font-size:14.5px; color:var(--text-soft);}
+  .check-list li b{color:var(--text); font-weight:600;}
+  .check-list li::before{content:"✓"; color:var(--accent); font-weight:700; flex-shrink:0;}
+  .bg-navy .check-list li{color:#cbd5e1;}
+  .bg-navy .check-list li b{color:#fff;}
+
+  details.faq{background:#fff; border:1px solid var(--gray-200); border-radius:12px; padding:18px 22px; margin-bottom:12px;}
+  details.faq summary{font-weight:600; font-size:15px; cursor:pointer; list-style:none;}
+  details.faq summary::-webkit-details-marker{display:none;}
+  details.faq summary::after{content:"+"; float:right; font-size:20px; color:var(--accent);}
+  details.faq[open] summary::after{content:"−";}
+  details.faq p, details.faq ul{color:var(--text-soft); font-size:14px; margin:14px 0 0;}
+  details.faq ul{padding-left:20px;}
+
+  .cta-banner{text-align:center;}
+  .cta-banner h2{font-size:32px; max-width:700px; margin:0 auto;}
+  .cta-banner p{margin:14px 0 28px; font-size:15.5px;}
+  .cta-banner .cta-row{display:flex; gap:16px; justify-content:center; flex-wrap:wrap;}
+
+  footer{padding:48px 0; background:var(--navy); color:#cbd5e1;}
+  footer p{color:#94a3b8; font-size:14px; margin:0;}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,.1); padding-top:20px; margin-top:24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-size:13px; color:#94a3b8;}
+  footer a{color:#cbd5e1; text-decoration:none;}
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html">
+        <span class="word">Computers<span> Gold Coast</span></span>
+        <span class="tagline">Local Computer &amp; Laptop Repairs</span>
+      </a>
+      <nav>
+        <a href="index.html#about">About Us</a>
+        <a href="services.html">Services</a>
+        <a href="index.html#testimonials">Reviews</a>
+        <a href="index.html#quote">Contact</a>
+      </nav>
+      <div class="header-cta">
+        <a class="phone-link" href="tel:+61477319160">0477 319 160</a>
+        <a class="pill pill-dark" href="index.html#quote">Get Free Quote</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap">
+      <div class="badge">🖥️ Emergency On-Site Server Repair For Business &middot; Gold Coast &amp; Surrounds</div>
+      <h1>Server Support &amp; Maintenance Gold Coast. <span class="accent">Local, Fast, Business-Focused.</span></h1>
+      <p class="lead">When a production server crashes, every minute hits productivity, revenue and client confidence. Computers Gold Coast sends certified engineers directly to your premises — Gold Coast, its hinterland, or northern NSW border towns — to diagnose, repair and protect Windows Server, Linux, VMware ESXi and Hyper-V hosts running your critical line-of-business applications or file shares.</p>
+      <div class="cta-row">
+        <a class="pill pill-primary" href="index.html#quote">Book Emergency On-Site Repair</a>
+        <a class="pill pill-outline" href="tel:+61477319160">Call 0477 319 160</a>
+      </div>
+      <div class="trust-row">
+        <div>✓ One-Hour Call-Back</div>
+        <div>✓ Multi-Vendor Expertise</div>
+        <div>✓ Data-Safe Workflow</div>
+        <div>✓ Mobile Spares Kit</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="wrap">
+      <div class="grid grid-2" style="align-items:center;">
+        <div>
+          <span class="eyebrow">Why It Matters</span>
+          <h2 style="font-size:30px;">Every Minute Of Server Downtime Costs You.</h2>
+          <p style="color:var(--text-soft); margin-top:16px; font-size:15.5px;">Staff sit idle while files and printers are offline, unclean shutdowns damage payroll or inventory data, and after-hours call-outs cost triple the daytime rate. Missed orders and late invoices hurt your reputation with clients who don't care why the system is down — only that it is.</p>
+        </div>
+        <div>
+          <span class="eyebrow">Our Approach</span>
+          <h2 style="font-size:30px;">One Team For Hardware, OS &amp; Virtualisation.</h2>
+          <p style="color:var(--text-soft); margin-top:16px; font-size:15.5px;">A real ETA within 60 minutes, no call-centre run-around. We fix Dell PowerEdge, HPE ProLiant, Lenovo ThinkSystem and Synology NAS hardware, plus Windows Server and VMware ESXi issues, in one visit — with an image-level backup or snapshot taken before any invasive work to protect SQL, MYOB, Xero or EPOS data.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-sky">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">What's Included</span>
+        <h2>Why Business Clients Call Us First.</h2>
+      </div>
+      <div class="grid grid-3">
+        <div class="feature"><div class="icon">📞</div><h3>One-Hour Call-Back &amp; Rapid Dispatch</h3><p>A real ETA within 60 minutes, not a call-centre run-around.</p></div>
+        <div class="feature"><div class="icon">🧰</div><h3>Multi-Vendor Expertise</h3><p>Dell PowerEdge, HPE ProLiant, Lenovo ThinkSystem, Synology NAS, Windows Server and VMware ESXi, all handled in one visit.</p></div>
+        <div class="feature"><div class="icon">🚐</div><h3>Mobile Spares Kit</h3><p>Common RAID drives, PSUs, fans, NICs and memory on the van, so repairs happen same-day instead of waiting on freight.</p></div>
+        <div class="feature"><div class="icon">💾</div><h3>Data-First Workflow</h3><p>Image-level backup or snapshot before invasive work, protecting SQL, MYOB, Xero or EPOS data.</p></div>
+        <div class="feature"><div class="icon">🔄</div><h3>Temporary Work-Arounds</h3><p>A loan NAS or micro-hypervisor keeps payroll, email or point-of-sale online while parts arrive.</p></div>
+        <div class="feature"><div class="icon">📋</div><h3>Root-Cause &amp; Prevention Report</h3><p>A written summary with next-step recommendations after every incident, not just a fixed server.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Typical Faults We Repair Onsite</span>
+        <h2>Hardware, OS And Virtualisation Faults We See Most.</h2>
+      </div>
+      <ul class="check-list" style="grid-template-columns:1fr 1fr;">
+        <li><b>Dead PSU or fan modules</b> — replaced from the mobile spares kit where possible.</li>
+        <li><b>RAID rebuilds &amp; failed disks</b> — using the latest firmware catalogue for your hardware.</li>
+        <li><b>Windows Server bluescreen or Linux kernel panic</b> — diagnosed and resolved onsite.</li>
+        <li><b>Hyper-V / VMware VMs stuck or refusing to boot</b> — restored without a full host rebuild where possible.</li>
+        <li><b>Corrupt Active Directory, DNS or DHCP services</b> — rebuilt and re-synced.</li>
+        <li><b>Overheating chassis</b> — dust removal, fan curve reset, thermal paste reseat.</li>
+        <li><b>Sudden slow I/O on SQL-based applications</b> — throttled and stabilised while the cause is fixed.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="bg-navy">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Break/Fix Engagement</span>
+        <h2 style="color:#fff;">How Our Onsite Repair Process Works.</h2>
+      </div>
+      <ul class="check-list" style="grid-template-columns:1fr 1fr;">
+        <li><b>Phone triage</b> — an engineer confirms symptoms and brings likely spares before leaving the workshop.</li>
+        <li><b>On-site diagnosis</b> — hardware tests, log review, OS and hypervisor checks.</li>
+        <li><b>Data-safe action</b> — a snapshot or image taken before any disk swaps or registry edits.</li>
+        <li><b>Repair or loaner</b> — faulty parts replaced, or a temporary host spun up.</li>
+        <li><b>Post-fix verification</b> — services start, users connect, backups resume.</li>
+        <li><b>Root-cause &amp; prevention report</b> — a written summary with next-step recommendations.</li>
+      </ul>
+      <div class="cta-row" style="margin-top:28px;">
+        <a class="pill pill-primary" href="index.html#quote">Book Emergency On-Site Repair</a>
+        <a class="pill pill-outline" href="tel:+61477319160">Call 0477 319 160</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-gray">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Extras Business Owners Often Request</span>
+        <h2>Beyond The Break/Fix Callout.</h2>
+        <p>Once the fire's out, plenty of clients ask us to set up ongoing protection so it doesn't happen again.</p>
+      </div>
+      <div class="grid grid-4">
+        <div class="feature"><div class="icon">⏱️</div><h3>Rapid-Response SLA</h3><p>Prepaid hours with a 2-hour arrival guarantee and a fixed monthly fee — ask for a quote for your business.</p></div>
+        <div class="feature"><div class="icon">🖥️</div><h3>Hot-Swap Spare Server</h3><p>An inexpensive standby unit pre-configured for fail-over if the main server goes down.</p></div>
+        <div class="feature"><div class="icon">🔧</div><h3>Quarterly Preventive Tune-Up</h3><p>Firmware, OS patches and disk SMART review on a regular schedule — see our <a href="preventative-maintenance-gold-coast.html">preventative maintenance service</a>.</p></div>
+        <div class="feature"><div class="icon">🔌</div><h3>Loan UPS &amp; Power Audit</h3><p>Verify clean power so crashes don't recur — see our <a href="ups-surge-protection-gold-coast.html">UPS &amp; surge protection service</a>.</p></div>
+        <div class="feature"><div class="icon">💽</div><h3>Bare-Metal DR Image</h3><p>A portable SSD image plus an encrypted cloud copy so you're always covered.</p></div>
+        <div class="feature"><div class="icon">☁️</div><h3>Cloud Fail-Over Plan</h3><p>Replicate critical VMs to the cloud so staff can work remotely if the office server ever goes down.</p></div>
+        <div class="feature"><div class="icon">🏢</div><h3>Server-Room Health Audit</h3><p>Cooling, dust, cable management and rack power balancing reviewed on the spot.</p></div>
+        <div class="feature"><div class="icon">🔔</div><h3>24×7 Remote Monitoring</h3><p>Disk, temperature and UPS alerts emailed before failure, not after.</p></div>
+      </div>
+      <p style="margin-top:32px; font-size:15px; color:var(--text-soft);">Call <a href="tel:+61477319160" style="color:var(--navy); font-weight:600;">0477 319 160</a> and we'll talk through which of these makes sense for your setup, and give you a straight quote.</p>
+    </div>
+  </section>
+
+  <section class="bg-sky">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Related Services</span>
+        <h2>Round Out Your Business's IT Resilience.</h2>
+      </div>
+      <div class="grid grid-3">
+        <div class="feature"><div class="icon">💼</div><h3>Business IT Support</h3><p>Need ongoing support beyond the server itself? Our <a href="business-it-support-gold-coast.html">business IT support</a> covers the rest of your network and workstations.</p></div>
+        <div class="feature"><div class="icon">🗄️</div><h3>NAS &amp; File Server Setup</h3><p>Considering a smaller Synology or QNAP setup instead of a full server? See our <a href="nas-file-server-setup-gold-coast.html">NAS &amp; file server setup</a>.</p></div>
+        <div class="feature"><div class="icon">📂</div><h3>Data Backup &amp; Transfer</h3><p>Already got the server fixed? Lock in proper <a href="data-backup-transfer-gold-coast.html">data backup &amp; transfer</a> so it doesn't happen again.</p></div>
+        <div class="feature"><div class="icon">🔒</div><h3>Computer &amp; Network Security</h3><p>Server hardening is only part of the picture — our <a href="computer-network-security-gold-coast.html">computer &amp; network security</a> service covers the rest of the network.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-accent cta-banner">
+    <div class="wrap">
+      <h2>Server Down Right Now?</h2>
+      <p>Call for an engineer dispatched right now — a real ETA within 60 minutes, no call-centre run-around.</p>
+      <div class="cta-row">
+        <a class="pill pill-dark" href="index.html#quote">Get Free Quote</a>
+        <a class="pill" style="background:#fff;color:var(--navy);" href="tel:+61477319160">Call 0477 319 160</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Where We Work</span>
+        <h2>Service Areas.</h2>
+        <p>We support business servers across the Gold Coast, and dispatch engineers widely across South East Queensland.</p>
+      </div>
+      <div class="grid grid-4">
+        <div class="area-chip">Surfers Paradise</div>
+        <div class="area-chip">Broadbeach</div>
+        <div class="area-chip">Southport</div>
+        <div class="area-chip">Robina</div>
+        <div class="area-chip">Burleigh Heads</div>
+        <div class="area-chip">Nerang</div>
+        <div class="area-chip">Varsity Lakes</div>
+        <div class="area-chip">Coolangatta</div>
+      </div>
+      <p style="margin-top:24px; font-size:15px; color:var(--text-soft);">Not sure if we cover your area? Call <a href="tel:+61477319160" style="color:var(--navy); font-weight:600;">0477 319 160</a> — we dispatch technicians widely across South East Queensland.</p>
+    </div>
+  </section>
+
+  <section class="bg-gray">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Frequently Asked Questions</span>
+        <h2>Server Support Questions, Answered.</h2>
+      </div>
+      <details class="faq">
+        <summary>What counts as a "critical server emergency" for your rapid-response service?</summary>
+        <p>Any outage that stops payroll, point-of-sale, SQL Server databases, or mission-critical line-of-business apps. If staff can't log in or customers can't transact, that's an emergency — call us immediately.</p>
+      </details>
+      <details class="faq">
+        <summary>How fast can you reach a Southport business?</summary>
+        <p>Under our two-hour SLA, a certified engineer is usually at the door within 90 minutes — traffic and Gold Coast bridge crossings permitting.</p>
+      </details>
+      <details class="faq">
+        <summary>Can you recover a failed RAID 5 array on a Dell PowerEdge with no recent backup?</summary>
+        <p>Yes — our RAID recovery process includes hot-spare insertion, RAID-level consistency checks, and block-level cloning to minimise data loss.</p>
+      </details>
+      <details class="faq">
+        <summary>Do you handle Hyper-V blue-screen loops?</summary>
+        <p>Yes. We capture memory dumps, identify faulty driver issues, and restore virtual-machine uptime, often without a full host rebuild.</p>
+      </details>
+      <details class="faq">
+        <summary>My Linux server won't boot after a kernel update — can you fix that?</summary>
+        <p>Yes — GRUB rollback, initramfs regeneration and LVM checks get most Ubuntu Server or CentOS hosts back online within the same visit.</p>
+      </details>
+      <details class="faq">
+        <summary>Active Directory database is corrupt. Can you do an authoritative restore?</summary>
+        <p>Yes — using standard directory service recovery tools, we rebuild SYSVOL, re-sync DFS-R, and re-establish secure logins.</p>
+      </details>
+      <details class="faq">
+        <summary>Can you supply a loan Synology NAS while waiting on warranty parts?</summary>
+        <p>We keep pre-tested Synology and QNAP units ready. We can replicate your shared folders overnight, then reverse-sync once the main server is fixed.</p>
+      </details>
+      <details class="faq">
+        <summary>We're in the Gold Coast hinterland, around Tamborine Mountain — do you still offer on-site response?</summary>
+        <p>Yes — hinterland and regional South East Queensland is part of our coverage. Travel surcharges may apply, but we can often be onsite the same day.</p>
+      </details>
+      <details class="faq">
+        <summary>Do you align repairs with the ASD Essential Eight baseline?</summary>
+        <p>Yes — patch levels, application control, MFA and backup verification are mapped to Essential Eight maturity from the Australian Cyber Security Centre, so cyber-insurance renewals go smoothly.</p>
+      </details>
+      <details class="faq">
+        <summary>Do you provide fixed-price quarterly firmware maintenance visits?</summary>
+        <p>Yes — our quarterly server firmware maintenance bundle covers BIOS, RAID, BMC, NIC and drive firmware with rollback testing, and costs less than a single emergency call-out.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="bg-white cta-banner">
+    <div class="wrap">
+      <h2>Don't Wait For A Full Outage.</h2>
+      <p>Call Computers Gold Coast for emergency server repair, or ask about a rapid-response SLA for your business.</p>
+      <div class="cta-row">
+        <a class="pill pill-primary" href="index.html#quote">Get a Free Quote</a>
+        <a class="pill pill-outline" style="border-color:var(--navy); color:var(--navy);" href="tel:+61477319160">Call 0477 319 160</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <p>Computers Gold Coast — family-owned technicians serving the Gold Coast.</p>
+      <div class="footer-bottom">
+        <span>© 2026 Computers Gold Coast. All rights reserved.</span>
+        <span><a href="tel:+61477319160">0477 319 160</a></span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

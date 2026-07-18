@@ -1,0 +1,344 @@
+<!-- ============================================================
+  Computers Gold Coast — New Website Design page.
+  Adapted from https://www.zoorepairs.com.au/computer-services/new-website/
+  reusing the same real service description, in the same navy/sky-blue
+  design system as index.html and services.html.
+
+  WHAT I CHANGED FROM THE SOURCE:
+  - Brand references (Zoo Computer Repairs) changed to Computers Gold Coast,
+    service area references changed to this site's Gold Coast suburb list.
+  - No Brisbane-specific place names or stats appeared on this source page,
+    so nothing needed dropping there.
+  - The source page has a 20-question generic FAQ block; I kept a
+    representative subset in the same format/length as this site's other
+    service pages rather than reproducing all 20.
+  - The source states a real, specific inclusion ("up to 5 pages... basic
+    SEO setup, contact form") for its standard package but never quotes a
+    price for it — this page keeps that same package description without
+    inventing a price, and points people to a free quote instead.
+  - Since this business's sister site (zoorepairs.com.au) does the same web
+    design work referenced here, it's fine per project instructions to keep
+    that framing rather than remove it.
+
+  TO GO LIVE: upload alongside the other pages to your cPanel public_html
+  folder, or it's already pushed to GitHub so Cloudflare Pages will serve it
+  automatically once live.
+============================================================= -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Website Design Gold Coast | Computers Gold Coast</title>
+<meta name="description" content="Custom, mobile-first website design for Gold Coast small businesses and tradies. Clean design, built-in SEO, secure and easy to update. Free discovery visit.">
+<link rel="canonical" href="https://computersgoldcoast.com.au/new-website-design-gold-coast.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:title" content="New Website Design Gold Coast | Computers Gold Coast">
+<meta property="og:description" content="Custom, mobile-first website design for Gold Coast small businesses and tradies. Clean design, built-in SEO, secure and easy to update. Free discovery visit.">
+<meta property="og:url" content="https://computersgoldcoast.com.au/new-website-design-gold-coast.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="New Website Design Gold Coast | Computers Gold Coast">
+<meta name="twitter:description" content="Custom, mobile-first website design for Gold Coast small businesses and tradies. Clean design, built-in SEO, secure and easy to update. Free discovery visit.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "Custom Website Design",
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Computers Gold Coast",
+    "telephone": "+61477319160",
+    "url": "https://computersgoldcoast.com.au/"
+  },
+  "areaServed": ["Surfers Paradise","Broadbeach","Southport","Robina","Burleigh Heads","Nerang","Varsity Lakes","Coolangatta"]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#020617; --sky-50:#f0f9ff; --gray-50:#f9fafb; --gray-200:#e5e7eb;
+    --accent:#38bdf8; --text:#0f172a; --text-soft:#475569;
+  }
+  *{box-sizing:border-box;}
+  body{font-family:'Inter',ui-sans-serif,system-ui,sans-serif; color:var(--text); line-height:1.55; margin:0;}
+  h1,h2,h3{font-family:'Space Grotesk',ui-sans-serif,system-ui,sans-serif; font-weight:700; line-height:1.15; margin:0;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 24px;}
+  .eyebrow{font-size:13px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:12px; display:block;}
+  section{padding:88px 0;}
+  .pill{display:inline-flex; align-items:center; gap:8px; border-radius:999px; padding:14px 28px; font-weight:600; font-size:15px; text-decoration:none; border:2px solid transparent; cursor:pointer; transition:transform .15s ease;}
+  .pill:hover{transform:translateY(-2px);}
+  .pill-primary{background:var(--accent); color:var(--navy);}
+  .pill-outline{border-color:rgba(255,255,255,.4); color:#fff;}
+  .pill-dark{background:var(--navy); color:#fff;}
+
+  .site-header{position:sticky; top:0; z-index:40; background:rgba(255,255,255,.95); backdrop-filter:blur(8px); border-bottom:1px solid var(--gray-200);}
+  .site-header .wrap{display:flex; align-items:center; justify-content:space-between; padding:14px 24px;}
+  .brand{display:flex; flex-direction:column; text-decoration:none; color:var(--text); line-height:1.1;}
+  .brand .word{font-family:'Space Grotesk'; font-weight:700; font-size:19px;}
+  .brand .word span{color:var(--accent);}
+  .brand .tagline{font-size:11px; color:var(--text-soft); font-weight:500;}
+  nav{display:flex; gap:28px; align-items:center;}
+  nav a{color:var(--text); text-decoration:none; font-size:14px; font-weight:500;}
+  nav a:hover{color:var(--accent);}
+  .header-cta{display:flex; align-items:center; gap:18px;}
+  .phone-link{font-weight:600; color:var(--text); text-decoration:none; font-size:14px;}
+  @media (max-width:900px){ nav{display:none;} }
+
+  .hero{background:var(--navy); color:#fff; padding:96px 0 72px;}
+  .hero .badge{display:inline-flex; gap:8px; align-items:center; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); border-radius:999px; padding:8px 16px; font-size:13px; margin-bottom:24px;}
+  .hero h1{font-size:48px; color:#fff; max-width:820px;}
+  .hero h1 .accent{color:var(--accent);}
+  .hero p.lead{max-width:660px; font-size:17px; color:#cbd5e1; margin:22px 0 32px;}
+  .hero .cta-row{display:flex; gap:16px; flex-wrap:wrap; margin-bottom:44px;}
+  .trust-row{display:flex; gap:32px; flex-wrap:wrap; border-top:1px solid rgba(255,255,255,.15); padding-top:26px;}
+  .trust-row div{font-size:14px; color:#e2e8f0; font-weight:500;}
+
+  .bg-sky{background:var(--sky-50);}
+  .bg-white{background:#fff;}
+  .bg-gray{background:var(--gray-50); border-top:1px solid var(--gray-200); border-bottom:1px solid var(--gray-200);}
+  .bg-navy{background:var(--navy); color:#fff;}
+  .bg-accent{background:var(--accent);}
+
+  .section-head{max-width:680px; margin-bottom:48px;}
+  .section-head h2{font-size:32px;}
+  .section-head p{color:var(--text-soft); margin-top:14px; font-size:15.5px;}
+  .bg-navy .section-head p{color:#cbd5e1;}
+
+  .grid{display:grid; gap:24px;}
+  .grid-2{grid-template-columns:1fr 1fr;}
+  .grid-3{grid-template-columns:repeat(3,1fr);}
+  .grid-4{grid-template-columns:repeat(4,1fr);}
+  @media (max-width:900px){ .grid-2,.grid-3,.grid-4{grid-template-columns:1fr;} }
+
+  .feature{padding:4px;}
+  .feature .icon{font-size:28px; margin-bottom:14px;}
+  .feature h3{font-size:17px; margin-bottom:8px;}
+  .feature p{color:var(--text-soft); font-size:14px; margin:0;}
+
+  .area-chip{background:#fff; border:1px solid var(--gray-200); border-radius:12px; padding:16px; text-align:center; font-weight:600; font-size:14.5px;}
+
+  .price-card{background:#fff; border:1px solid var(--gray-200); border-radius:16px; padding:26px; display:flex; flex-direction:column;}
+  .price-card.featured{border-color:var(--accent); box-shadow:0 0 0 2px var(--accent) inset;}
+  .price-card .tag{font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); margin-bottom:10px;}
+  .price-card h3{font-size:17px; margin-bottom:6px;}
+  .price-card .price{font-family:'Space Grotesk'; font-size:22px; font-weight:700; color:var(--navy); margin:8px 0 16px;}
+  .price-card .price span{font-size:13px; font-weight:500; color:var(--text-soft);}
+  .price-card ul{margin:0; padding-left:18px; font-size:13.5px; color:var(--text-soft); flex-grow:1;}
+  .price-card ul li{margin-bottom:6px;}
+
+  .check-list{list-style:none; margin:0; padding:0; display:grid; gap:14px;}
+  .check-list li{display:flex; gap:10px; font-size:14.5px; color:var(--text-soft);}
+  .check-list li b{color:var(--text); font-weight:600;}
+  .check-list li::before{content:"\2713"; color:var(--accent); font-weight:700; flex-shrink:0;}
+  .bg-navy .check-list li{color:#cbd5e1;}
+  .bg-navy .check-list li b{color:#fff;}
+
+  details.faq{background:#fff; border:1px solid var(--gray-200); border-radius:12px; padding:18px 22px; margin-bottom:12px;}
+  details.faq summary{font-weight:600; font-size:15px; cursor:pointer; list-style:none;}
+  details.faq summary::-webkit-details-marker{display:none;}
+  details.faq summary::after{content:"+"; float:right; font-size:20px; color:var(--accent);}
+  details.faq[open] summary::after{content:"\2212";}
+  details.faq p, details.faq ul{color:var(--text-soft); font-size:14px; margin:14px 0 0;}
+  details.faq ul{padding-left:20px;}
+
+  .cta-banner{text-align:center;}
+  .cta-banner h2{font-size:32px; max-width:700px; margin:0 auto;}
+  .cta-banner p{margin:14px 0 28px; font-size:15.5px;}
+  .cta-banner .cta-row{display:flex; gap:16px; justify-content:center; flex-wrap:wrap;}
+
+  footer{padding:48px 0; background:var(--navy); color:#cbd5e1;}
+  footer p{color:#94a3b8; font-size:14px; margin:0;}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,.1); padding-top:20px; margin-top:24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-size:13px; color:#94a3b8;}
+  footer a{color:#cbd5e1; text-decoration:none;}
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html">
+        <span class="word">Computers<span> Gold Coast</span></span>
+        <span class="tagline">Local Computer &amp; Laptop Repairs</span>
+      </a>
+      <nav>
+        <a href="index.html#about">About Us</a>
+        <a href="services.html">Services</a>
+        <a href="index.html#testimonials">Reviews</a>
+        <a href="index.html#quote">Contact</a>
+      </nav>
+      <div class="header-cta">
+        <a class="phone-link" href="tel:+61477319160">0477 319 160</a>
+        <a class="pill pill-dark" href="index.html#quote">Get Free Quote</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap">
+      <div class="badge">🌐 Custom Website Design &middot; Gold Coast &amp; Surrounds</div>
+      <h1>New Website Design Gold Coast. <span class="accent">Built To Convert Visitors Into Customers.</span></h1>
+      <p class="lead">A professional website isn't a luxury — it's a necessity. Whether you're a small business owner, a startup, or a solo tradie, your website is often the first impression people have of your brand. Computers Gold Coast helps you make that impression count with affordable, professional website creation designed to showcase your business and convert visitors into customers.</p>
+      <div class="cta-row">
+        <a class="pill pill-primary" href="index.html#quote">Get a Free Quote</a>
+        <a class="pill pill-outline" href="tel:+61477319160">Call 0477 319 160</a>
+      </div>
+      <div class="trust-row">
+        <div>&#10003; Technicians &amp; Designers</div>
+        <div>&#10003; Mobile-First Builds</div>
+        <div>&#10003; SEO Built In</div>
+        <div>&#10003; Ongoing Support Options</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="wrap">
+      <div class="grid grid-2" style="align-items:center;">
+        <div>
+          <span class="eyebrow">Why It Matters</span>
+          <h2 style="font-size:30px;">Your Website Is Often The First Impression.</h2>
+          <p style="color:var(--text-soft); margin-top:16px; font-size:15.5px;">A professional website isn't a luxury — it's a necessity. Whether you're a small business owner, a startup, or a solo tradie, your website is often the first thing people see of your brand, so it needs to work as hard as you do.</p>
+        </div>
+        <div>
+          <span class="eyebrow">Our Approach</span>
+          <h2 style="font-size:30px;">Built With You, Not Just For You.</h2>
+          <p style="color:var(--text-soft); margin-top:16px; font-size:15.5px;">Computers Gold Coast offers affordable, professional website creation designed to showcase your business and convert visitors into customers. We're technicians <i>and</i> designers, so you get someone who can solve backend issues and design an appealing, user-friendly interface — not just a pretty template.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-sky">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">What's Included</span>
+        <h2>Everything Your New Website Needs, Built In.</h2>
+      </div>
+      <div class="grid grid-3">
+        <div class="feature"><div class="icon">🎨</div><h3>Custom Design &amp; Branding</h3><p>A fully branded website based on your logo, colour scheme and tone of voice, with a clean, modern layout and easy navigation.</p></div>
+        <div class="feature"><div class="icon">📱</div><h3>Responsive, Mobile-First Design</h3><p>Optimised for desktops, laptops, tablets and phones, with speed-optimised load times and mobile-friendly menus and buttons.</p></div>
+        <div class="feature"><div class="icon">🧑‍💻</div><h3>WordPress &amp; CMS Setup</h3><p>Built on easy-to-use platforms like WordPress so you can update your site without needing a developer, with full CMS training included.</p></div>
+        <div class="feature"><div class="icon">🔍</div><h3>SEO Built In From Day One</h3><p>On-page SEO including metadata, header structure, image compression and schema markup, plus keyword strategy for your industry and niche.</p></div>
+        <div class="feature"><div class="icon">🛒</div><h3>E-Commerce &amp; Online Booking</h3><p>Booking forms or scheduling tools for service businesses, online shops via WooCommerce or Shopify, and integration with Stripe, PayPal or Afterpay.</p></div>
+        <div class="feature"><div class="icon">🔐</div><h3>Security &amp; Backups</h3><p>Secure password protocols and login protection, backups configured through hosting or plugins, and SSL certificate setup.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Who Is This Service For?</span>
+        <h2>Built For Real Gold Coast Businesses.</h2>
+      </div>
+      <ul class="check-list" style="grid-template-columns:1fr 1fr; max-width:900px;">
+        <li><b>Small businesses</b> — needing a professional online presence.</li>
+        <li><b>Tradies</b> — wanting job enquiries through a contact form.</li>
+        <li><b>Local cafés and restaurants</b> — wanting a digital menu or online orders.</li>
+        <li><b>Freelancers or sole traders</b> — needing a personal portfolio or landing page.</li>
+        <li><b>Tutors and educators</b> — offering bookings or digital content.</li>
+        <li><b>Retailers</b> — looking to launch an online store or showcase products.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="bg-navy">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">What Makes A Good Website In 2026?</span>
+        <h2 style="color:#fff;">The Principles We Build Every Site Around.</h2>
+      </div>
+      <ul class="check-list" style="grid-template-columns:1fr 1fr;">
+        <li><b>Fast load times</b> — nobody waits around for a slow site.</li>
+        <li><b>Trust indicators</b> — ABN, reviews, certifications, visibly displayed.</li>
+        <li><b>Mobile-first experience</b> — most visitors land on a phone.</li>
+        <li><b>Easy to update</b> — you shouldn't need a developer for text changes.</li>
+        <li><b>Clear calls to action</b> — Book Now, Buy Now, Contact Us, front and centre.</li>
+        <li><b>Optimised for search engines</b> — see our dedicated <a href="seo-services-gold-coast.html" style="color:#fff; text-decoration:underline;">SEO service</a> for ongoing ranking work.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="bg-sky">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Optional Add-Ons</span>
+        <h2>Pair Your New Site With The Extras That Matter.</h2>
+      </div>
+      <div class="grid grid-4">
+        <div class="feature"><div class="icon">💬</div><h3>Google Business Profile Setup</h3><p>Get your business showing up correctly in local search and maps.</p></div>
+        <div class="feature"><div class="icon">🔍</div><h3>SEO Keyword Research</h3><p>Local listing optimisation and keyword research tailored to your industry.</p></div>
+        <div class="feature"><div class="icon">🖼️</div><h3>Logo Design Or Refresh</h3><p>See our full <a href="logos-business-cards-gold-coast.html" style="color:var(--navy); font-weight:600;">logo, pamphlet &amp; business card design</a> service.</p></div>
+        <div class="feature"><div class="icon">📧</div><h3>Domain &amp; Custom Email</h3><p>A professional address that matches your new site — see <a href="domain-custom-emails-gold-coast.html" style="color:var(--navy); font-weight:600;">domain &amp; custom email setup</a>.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-gray">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Related Services</span>
+        <h2>Everything Around Your New Site.</h2>
+      </div>
+      <p style="color:var(--text-soft); font-size:15.5px; max-width:800px;">Need somewhere reliable to host it? See our <a href="web-hosting-gold-coast.html" style="color:var(--navy); font-weight:600;">web hosting</a> service. Already have a site that just needs freshening up instead of a full rebuild? Check our <a href="website-redesigns-updates-gold-coast.html" style="color:var(--navy); font-weight:600;">redesigns &amp; updates</a> page. And once it's live, our <a href="seo-services-gold-coast.html" style="color:var(--navy); font-weight:600;">SEO services</a> help people actually find it.</p>
+    </div>
+  </section>
+
+  <section class="bg-gray">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Frequently Asked Questions</span>
+        <h2>Your Questions, Answered.</h2>
+      </div>
+      <details class="faq">
+        <summary>Do I need to have all my content ready before you start building?</summary>
+        <p>Not at all. We can help you create or organise your website copy, images and layout during the planning stage, and guide you on what's needed for a content-rich business website.</p>
+      </details>
+      <details class="faq">
+        <summary>What's included in your basic small business website package?</summary>
+        <p>The standard package includes up to 5 pages (e.g. Home, About, Services, Blog, Contact), responsive design, basic SEO setup, a contact form, and onsite setup support. Get in touch for a free quote tailored to your business.</p>
+      </details>
+      <details class="faq">
+        <summary>Can you integrate my existing logo and branding into the website?</summary>
+        <p>Yes — we'll build your site to match your visual identity, including logo, colours, typography and existing marketing materials.</p>
+      </details>
+      <details class="faq">
+        <summary>What platforms do you build websites on?</summary>
+        <p>We primarily build on WordPress, but can also work with Shopify, Webflow and Squarespace depending on your business goals.</p>
+      </details>
+      <details class="faq">
+        <summary>Do you offer website hosting as well?</summary>
+        <p>Yes — see our dedicated <a href='web-hosting-gold-coast.html'>web hosting</a> page for details, or we can guide you through reliable, Australian-based hosting with a trusted provider.</p>
+      </details>
+      <details class="faq">
+        <summary>Can you help redesign an old website that no longer performs?</summary>
+        <p>Yes — see our <a href='website-redesigns-updates-gold-coast.html'>website redesigns &amp; updates</a> service to update outdated layouts, improve speed, and optimise for SEO and mobile responsiveness.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="bg-white cta-banner">
+    <div class="wrap">
+      <h2>Ready To Launch Your New Website?</h2>
+      <p>Book a free discovery visit and let's plan a site that actually works for your business.</p>
+      <div class="cta-row">
+        <a class="pill pill-primary" href="index.html#quote">Get a Free Quote</a>
+        <a class="pill pill-outline" style="border-color:var(--navy); color:var(--navy);" href="tel:+61477319160">Call 0477 319 160</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <p>Computers Gold Coast — family-owned technicians serving the Gold Coast.</p>
+      <div class="footer-bottom">
+        <span>© 2026 Computers Gold Coast. All rights reserved.</span>
+        <span><a href="tel:+61477319160">0477 319 160</a></span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

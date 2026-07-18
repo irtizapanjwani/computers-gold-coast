@@ -1,0 +1,347 @@
+<!-- ============================================================
+  Computers Gold Coast — Plex / Media Server Setup page.
+
+  CONTENT SOURCING NOTE: the Brisbane source page for this service
+  (zoorepairs.com.au/computer-services/plex-and-media-server-setups-and-configurations/)
+  is an empty stub with no body copy, so unlike most pages on this site
+  this one is NOT a localized clone. It was written fresh using:
+  - the real service blurb already published on this site's services.html
+  - SERP research of top-ranking Plex Media Server setup pages
+    (Plex official support, TROYPOINT, SpeedTestHQ, CableTV.com, IONOS)
+    for keywords, headings, FAQ topics and entities
+  No prices, stats, or claims were invented — Plex Pass pricing is not
+  quoted (it changes); pricing follows the site's free-phone-quote
+  pattern.
+============================================================= -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plex &amp; Media Server Setup Gold Coast | Computers Gold Coast</title>
+<meta name="description" content="Professional Plex Media Server setup on the Gold Coast. Library organisation, NAS &amp; NVIDIA Shield installs, remote access, transcoding fixes and buffering troubleshooting — your movies, TV shows, music and photos on every screen.">
+<link rel="canonical" href="https://computersgoldcoast.com.au/plex-media-server-setup-gold-coast.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Plex &amp; Media Server Setup Gold Coast | Computers Gold Coast">
+<meta property="og:description" content="Professional Plex Media Server setup, library organisation, remote access and buffering fixes on the Gold Coast. Your movies on every screen.">
+<meta property="og:url" content="https://computersgoldcoast.com.au/plex-media-server-setup-gold-coast.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Plex &amp; Media Server Setup Gold Coast | Computers Gold Coast">
+<meta name="twitter:description" content="Professional Plex Media Server setup, library organisation, remote access and buffering fixes on the Gold Coast.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "Plex and Media Server Setup and Configuration",
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Computers Gold Coast",
+    "telephone": "+61477319160",
+    "url": "https://computersgoldcoast.com.au/"
+  },
+  "areaServed": ["Surfers Paradise","Broadbeach","Southport","Robina","Burleigh Heads","Nerang","Varsity Lakes","Coolangatta"]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#020617; --sky-50:#f0f9ff; --gray-50:#f9fafb; --gray-200:#e5e7eb;
+    --accent:#38bdf8; --text:#0f172a; --text-soft:#475569;
+  }
+  *{box-sizing:border-box;}
+  body{font-family:'Inter',ui-sans-serif,system-ui,sans-serif; color:var(--text); line-height:1.55; margin:0;}
+  h1,h2,h3{font-family:'Space Grotesk',ui-sans-serif,system-ui,sans-serif; font-weight:700; line-height:1.15; margin:0;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 24px;}
+  .eyebrow{font-size:13px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:12px; display:block;}
+  section{padding:88px 0;}
+  .pill{display:inline-flex; align-items:center; gap:8px; border-radius:999px; padding:14px 28px; font-weight:600; font-size:15px; text-decoration:none; border:2px solid transparent; cursor:pointer; transition:transform .15s ease;}
+  .pill:hover{transform:translateY(-2px);}
+  .pill-primary{background:var(--accent); color:var(--navy);}
+  .pill-outline{border-color:rgba(255,255,255,.4); color:#fff;}
+  .pill-dark{background:var(--navy); color:#fff;}
+
+  .site-header{position:sticky; top:0; z-index:40; background:rgba(255,255,255,.95); backdrop-filter:blur(8px); border-bottom:1px solid var(--gray-200);}
+  .site-header .wrap{display:flex; align-items:center; justify-content:space-between; padding:14px 24px;}
+  .brand{display:flex; flex-direction:column; text-decoration:none; color:var(--text); line-height:1.1;}
+  .brand .word{font-family:'Space Grotesk'; font-weight:700; font-size:19px;}
+  .brand .word span{color:var(--accent);}
+  .brand .tagline{font-size:11px; color:var(--text-soft); font-weight:500;}
+  nav{display:flex; gap:28px; align-items:center;}
+  nav a{color:var(--text); text-decoration:none; font-size:14px; font-weight:500;}
+  nav a:hover{color:var(--accent);}
+  .header-cta{display:flex; align-items:center; gap:18px;}
+  .phone-link{font-weight:600; color:var(--text); text-decoration:none; font-size:14px;}
+  @media (max-width:900px){ nav{display:none;} }
+
+  .hero{background:var(--navy); color:#fff; padding:96px 0 72px;}
+  .hero .badge{display:inline-flex; gap:8px; align-items:center; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); border-radius:999px; padding:8px 16px; font-size:13px; margin-bottom:24px;}
+  .hero h1{font-size:48px; color:#fff; max-width:820px;}
+  .hero h1 .accent{color:var(--accent);}
+  .hero p.lead{max-width:660px; font-size:17px; color:#cbd5e1; margin:22px 0 32px;}
+  .hero .cta-row{display:flex; gap:16px; flex-wrap:wrap; margin-bottom:44px;}
+  .trust-row{display:flex; gap:32px; flex-wrap:wrap; border-top:1px solid rgba(255,255,255,.15); padding-top:26px;}
+  .trust-row div{font-size:14px; color:#e2e8f0; font-weight:500;}
+
+  .bg-sky{background:var(--sky-50);}
+  .bg-white{background:#fff;}
+  .bg-gray{background:var(--gray-50); border-top:1px solid var(--gray-200); border-bottom:1px solid var(--gray-200);}
+  .bg-navy{background:var(--navy); color:#fff;}
+  .bg-accent{background:var(--accent);}
+
+  .section-head{max-width:680px; margin-bottom:48px;}
+  .section-head h2{font-size:32px;}
+  .section-head p{color:var(--text-soft); margin-top:14px; font-size:15.5px;}
+  .bg-navy .section-head p{color:#cbd5e1;}
+
+  .grid{display:grid; gap:24px;}
+  .grid-2{grid-template-columns:1fr 1fr;}
+  .grid-3{grid-template-columns:repeat(3,1fr);}
+  .grid-4{grid-template-columns:repeat(4,1fr);}
+  @media (max-width:900px){ .grid-2,.grid-3,.grid-4{grid-template-columns:1fr;} }
+
+  .feature{padding:4px;}
+  .feature .icon{font-size:28px; margin-bottom:14px;}
+  .feature h3{font-size:17px; margin-bottom:8px;}
+  .feature p{color:var(--text-soft); font-size:14px; margin:0;}
+
+  .area-chip{background:#fff; border:1px solid var(--gray-200); border-radius:12px; padding:16px; text-align:center; font-weight:600; font-size:14.5px;}
+
+  .check-list{list-style:none; margin:0; padding:0; display:grid; gap:14px;}
+  .check-list li{display:flex; gap:10px; font-size:14.5px; color:var(--text-soft);}
+  .check-list li b{color:var(--text); font-weight:600;}
+  .check-list li::before{content:"✓"; color:var(--accent); font-weight:700; flex-shrink:0;}
+  .bg-navy .check-list li{color:#cbd5e1;}
+  .bg-navy .check-list li b{color:#fff;}
+
+  details.faq{background:#fff; border:1px solid var(--gray-200); border-radius:12px; padding:18px 22px; margin-bottom:12px;}
+  details.faq summary{font-weight:600; font-size:15px; cursor:pointer; list-style:none;}
+  details.faq summary::-webkit-details-marker{display:none;}
+  details.faq summary::after{content:"+"; float:right; font-size:20px; color:var(--accent);}
+  details.faq[open] summary::after{content:"−";}
+  details.faq p, details.faq ul{color:var(--text-soft); font-size:14px; margin:14px 0 0;}
+  details.faq ul{padding-left:20px;}
+
+  .cta-banner{text-align:center;}
+  .cta-banner h2{font-size:32px; max-width:700px; margin:0 auto;}
+  .cta-banner p{margin:14px 0 28px; font-size:15.5px;}
+  .cta-banner .cta-row{display:flex; gap:16px; justify-content:center; flex-wrap:wrap;}
+
+  footer{padding:48px 0; background:var(--navy); color:#cbd5e1;}
+  footer p{color:#94a3b8; font-size:14px; margin:0;}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,.1); padding-top:20px; margin-top:24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-size:13px; color:#94a3b8;}
+  footer a{color:#cbd5e1; text-decoration:none;}
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html">
+        <span class="word">Computers<span> Gold Coast</span></span>
+        <span class="tagline">Local Computer &amp; Laptop Repairs</span>
+      </a>
+      <nav>
+        <a href="index.html#about">About Us</a>
+        <a href="services.html">Services</a>
+        <a href="index.html#testimonials">Reviews</a>
+        <a href="index.html#quote">Contact</a>
+      </nav>
+      <div class="header-cta">
+        <a class="phone-link" href="tel:+61477319160">0477 319 160</a>
+        <a class="pill pill-dark" href="index.html#quote">Get Free Quote</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap">
+      <div class="badge">🎬 Home Media Server Specialists &middot; Gold Coast &amp; Surrounds</div>
+      <h1>Plex &amp; Media Server Setup Gold Coast. <span class="accent">Your Movies, On Every Screen.</span></h1>
+      <p class="lead">We set up and configure Plex and other media servers for seamless streaming of your movies, TV shows, music, photos and home videos across every device you own — installation, library organisation, remote access and network optimisation, handled end to end by local technicians.</p>
+      <div class="cta-row">
+        <a class="pill pill-primary" href="index.html#quote">Get a Free Quote</a>
+        <a class="pill pill-outline" href="tel:+61477319160">Call 0477 319 160</a>
+      </div>
+      <div class="trust-row">
+        <div>✓ Setup On PC, Mac, NAS &amp; More</div>
+        <div>✓ Library Organisation Done Right</div>
+        <div>✓ Stream At Home &amp; Away</div>
+        <div>✓ Buffering &amp; Transcoding Fixes</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="wrap">
+      <div class="grid grid-2" style="align-items:center;">
+        <div>
+          <span class="eyebrow">What Is A Media Server?</span>
+          <h2 style="font-size:30px;">Your Own Private Netflix, Built From Your Collection.</h2>
+          <p style="color:var(--text-soft); margin-top:16px; font-size:15.5px;">Plex Media Server organises your personal media collection — movies, TV shows, music, family photos and home videos — into a beautiful, Netflix-style library, complete with posters, descriptions and cast information fetched automatically. It then streams everything to the Plex app on your smart TV, phone, tablet, computer or game console, at home or anywhere in the world.</p>
+          <p style="color:var(--text-soft); margin-top:14px; font-size:15.5px;">It's the perfect home for a lifetime of ripped DVDs, digital purchases, camcorder footage and photo archives that are currently scattered across old drives and computers. If those memories only exist in one place, our <a href="data-backup-transfer-gold-coast.html" style="color:var(--accent); font-weight:600;">data backup service</a> pairs perfectly with a media server build.</p>
+        </div>
+        <div>
+          <span class="eyebrow">Why Professional Setup</span>
+          <h2 style="font-size:30px;">Plex Is Free To Start. Getting It Right Is The Hard Part.</h2>
+          <p style="color:var(--text-soft); margin-top:16px; font-size:15.5px;">Anyone can install Plex — but a great Plex setup depends on things the install wizard doesn't do for you: choosing hardware that can handle transcoding, naming and organising media files so every movie matches the right artwork, configuring remote access through your router, and tuning your network so 4K movies play without buffering. Those are exactly the jobs we do every week.</p>
+          <p style="color:var(--text-soft); margin-top:14px; font-size:15.5px;">We're IT technicians first, so the job doesn't stop at the app install — we make sure your server, storage, network and every TV in the house work together properly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-sky">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">What's Included</span>
+        <h2>Our Plex &amp; Media Server Setup Service.</h2>
+      </div>
+      <div class="grid grid-3">
+        <div class="feature"><div class="icon">🖥️</div><h3>Server Installation &amp; Configuration</h3><p>We install and configure Plex Media Server (or Jellyfin and other alternatives) on the right hardware for your needs, with all the important settings tuned properly from day one.</p></div>
+        <div class="feature"><div class="icon">🗂️</div><h3>Library Organisation &amp; Naming</h3><p>Correct file naming and folder structure is what makes Plex magic work — we organise your movies, TV shows, music and photos so every title matches the right poster, description and metadata.</p></div>
+        <div class="feature"><div class="icon">📺</div><h3>Apps On Every Screen</h3><p>We install and sign in the Plex app on your smart TVs, streaming boxes, phones, tablets and consoles, so the whole family can browse the library from any room.</p></div>
+        <div class="feature"><div class="icon">🌏</div><h3>Remote Access Setup</h3><p>Watch your library from the caravan, the office or overseas — we configure secure remote access through your router so streaming works away from home, not just on the couch.</p></div>
+        <div class="feature"><div class="icon">⚡</div><h3>Transcoding &amp; Direct Play Tuning</h3><p>Buffering usually means your server is transcoding when it shouldn't be. We match formats, settings and hardware so movies direct play smoothly — including 4K.</p></div>
+        <div class="feature"><div class="icon">📶</div><h3>Network Optimisation</h3><p>A media server is only as good as the network it runs on. We optimise your WiFi and wiring as part of the job — or pair the build with a <a href="network-optimisation-mesh-wifi-gold-coast.html" style="color:var(--accent); font-weight:600;">mesh WiFi setup</a> for stutter-free streaming in every room.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-gray">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Where Should Plex Live?</span>
+        <h2>We Build Media Servers On The Hardware That Suits You.</h2>
+        <p>There's no single best Plex server — it depends on your library size, how many people stream at once, and whether you want 4K. We'll recommend honestly, and we can often reuse hardware you already own.</p>
+      </div>
+      <div class="grid grid-4">
+        <div class="feature"><div class="icon">💻</div><h3>Your Existing PC or Mac</h3><p>The easiest starting point — great for trying Plex out. The catch: the computer has to stay on whenever anyone wants to stream.</p></div>
+        <div class="feature"><div class="icon">🗄️</div><h3>NAS (Synology / QNAP)</h3><p>The set-and-forget option — runs 24/7 at low power with huge storage, perfect for big libraries. Pairs naturally with our <a href="nas-file-server-setup-gold-coast.html" style="color:var(--accent); font-weight:600;">NAS setup service</a>.</p></div>
+        <div class="feature"><div class="icon">🎮</div><h3>NVIDIA Shield &amp; Streaming Boxes</h3><p>A compact, quiet server and player in one, sitting right under the TV — a favourite for households that want simple and powerful.</p></div>
+        <div class="feature"><div class="icon">🖥️</div><h3>Dedicated Mini PC</h3><p>For power users, big families and 4K-heavy libraries — a purpose-picked machine with the grunt to transcode multiple streams at once.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-navy">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Already Running Plex?</span>
+        <h2 style="color:#fff;">We Fix Existing Plex Setups Too.</h2>
+      </div>
+      <ul class="check-list" style="grid-template-columns:1fr 1fr;">
+        <li><b>Constant buffering</b> — movies stall and stutter, especially 4K files or when someone streams remotely.</li>
+        <li><b>Wrong artwork and titles</b> — movies matched to the wrong poster, TV episodes out of order, missing metadata.</li>
+        <li><b>Remote access won't connect</b> — works at home but "unable to connect securely" everywhere else.</li>
+        <li><b>Libraries not updating</b> — new files don't appear until you force a scan, or duplicates keep multiplying.</li>
+        <li><b>Old server, new house</b> — moving home, upgrading storage, or migrating a library to a new machine without losing watch history.</li>
+        <li><b>Family access chaos</b> — setting up managed users and parental controls so the kids see kid stuff only.</li>
+      </ul>
+      <div class="cta-row" style="margin-top:32px;">
+        <a class="pill pill-primary" href="index.html#quote">Get a Free Quote</a>
+        <a class="pill pill-outline" href="tel:+61477319160">Call 0477 319 160</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-sky">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Frequently Asked Questions</span>
+        <h2>Plex &amp; Media Server Questions, Answered.</h2>
+      </div>
+      <details class="faq">
+        <summary>Is Plex Media Server free?</summary>
+        <p>Yes — the core of Plex is free: the server software, the apps, and streaming your own media around your home. Plex also offers a paid subscription (Plex Pass) that unlocks extras like hardware-accelerated transcoding, live TV and DVR features, and offline downloads. We'll tell you honestly whether the free tier covers what you want before you spend anything.</p>
+      </details>
+      <details class="faq">
+        <summary>Why does Plex keep buffering or transcoding?</summary>
+        <p>Buffering almost always means the server is transcoding — converting video on the fly because the file format, the player device or your network can't handle the original. The fix is matching the pieces properly: the right server hardware, the right playback settings on each device, and a network fast enough for the bitrate. This is the single most common problem we're called to fix, and it's very fixable.</p>
+      </details>
+      <details class="faq">
+        <summary>What's the best device to run a Plex server on?</summary>
+        <p>For most Gold Coast homes: a NAS (Synology or QNAP) if you want an always-on server with serious storage, an NVIDIA Shield if you want simple and compact, or your existing computer if you're just getting started. The honest answer depends on your library size, how many people stream at once, and whether 4K matters to you — which is exactly what we work out in the assessment.</p>
+      </details>
+      <details class="faq">
+        <summary>Can I watch my Plex library away from home?</summary>
+        <p>Yes — with remote access configured, your library streams securely to your phone, laptop or hotel TV anywhere with internet. Getting it working reliably involves router port forwarding and upload-speed tuning, which is where DIY setups usually get stuck. We set it up and test it from outside your network before we leave.</p>
+      </details>
+      <details class="faq">
+        <summary>Is a media server legal?</summary>
+        <p>Yes — Plex and other media server software is completely legal, and streaming your own legitimately owned media (DVD rips of discs you own, home videos, photos, purchased digital files) is what it's designed for. We set up servers for personal media collections; sourcing pirated content is not something we assist with.</p>
+      </details>
+      <details class="faq">
+        <summary>What happens to my collection if a hard drive dies?</summary>
+        <p>Without a backup, it's gone — media libraries are usually far too big to re-create. We strongly recommend pairing any media server with redundant storage (RAID on a NAS) and a proper <a href="cloud-backup-storage-gold-coast.html" style="color:var(--accent); font-weight:600;">backup strategy</a> for the irreplaceable parts like family photos and home videos. If a drive has already failed, ask us about <a href="data-recovery-gold-coast.html" style="color:var(--accent); font-weight:600;">data recovery</a> before you do anything else with it.</p>
+      </details>
+      <details class="faq">
+        <summary>Do you set up alternatives like Jellyfin or Emby?</summary>
+        <p>Yes. Plex is the most popular and polished option, but Jellyfin (fully free and open source) and Emby suit some households better. We'll recommend the platform that fits how your family actually watches.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Related Services</span>
+        <h2>Complete The Home Entertainment Picture.</h2>
+      </div>
+      <div class="grid grid-2">
+        <ul class="check-list">
+          <li>Want Netflix, Disney+ and your Plex library side by side on the big screen? Our <a href="smart-tv-streaming-setup-gold-coast.html" style="color:var(--accent); font-weight:600;">Smart TV and streaming setup</a> gets every app working.</li>
+          <li>Serious storage for a serious library — our <a href="nas-file-server-setup-gold-coast.html" style="color:var(--accent); font-weight:600;">NAS and file server setup</a> builds the foundation your media server runs on.</li>
+        </ul>
+        <ul class="check-list">
+          <li>Old family videos still on VHS tapes and slides? Our <a href="photo-document-organisation-gold-coast.html" style="color:var(--accent); font-weight:600;">photo organisation and VHS restoration service</a> digitises them so they can join your library.</li>
+          <li>Streaming only works near the router? A <a href="network-optimisation-mesh-wifi-gold-coast.html" style="color:var(--accent); font-weight:600;">mesh WiFi network</a> carries 4K to every room.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-accent cta-banner">
+    <div class="wrap">
+      <h2>Ready To Put Your Whole Collection On Every Screen?</h2>
+      <p>Get a free, no-obligation quote for Plex or media server setup anywhere on the Gold Coast.</p>
+      <div class="cta-row">
+        <a class="pill pill-dark" href="index.html#quote">Get Free Quote</a>
+        <a class="pill" style="background:#fff;color:var(--navy);" href="tel:+61477319160">Call 0477 319 160</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Where We Work</span>
+        <h2>Service Areas.</h2>
+        <p>We build and repair media servers across the Gold Coast.</p>
+      </div>
+      <div class="grid grid-4">
+        <div class="area-chip">Surfers Paradise</div>
+        <div class="area-chip">Broadbeach</div>
+        <div class="area-chip">Southport</div>
+        <div class="area-chip">Robina</div>
+        <div class="area-chip">Burleigh Heads</div>
+        <div class="area-chip">Nerang</div>
+        <div class="area-chip">Varsity Lakes</div>
+        <div class="area-chip">Coolangatta</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <p>Computers Gold Coast — family-owned technicians serving the Gold Coast.</p>
+      <div class="footer-bottom">
+        <span>© 2026 Computers Gold Coast. All rights reserved.</span>
+        <span><a href="tel:+61477319160">0477 319 160</a></span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

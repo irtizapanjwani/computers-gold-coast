@@ -1,0 +1,342 @@
+<!-- ============================================================
+  Computers Gold Coast — Business IT Support and Services page.
+  Adapted from https://www.zoorepairs.com.au/computer-services/business-it-support-and-services/
+  reusing the same real service description, in the same navy/sky-blue
+  design system as index.html, services.html and the other service pages.
+
+  WHAT I CHANGED FROM THE SOURCE:
+  - Brand references (Zoo Computer Repairs) changed to Computers Gold Coast.
+  - Service area references changed to this site's actual Gold Coast suburb
+    list (same as index.html).
+  - The source page's FAQ section is a large generic "tech advice hub" block
+    (consumer troubleshooting Q&As like "why does my NBN modem drop out" and
+    "Zoom audio echo fix") that's reused verbatim across many unrelated pages
+    on the Brisbane site — it isn't actually specific to business IT support.
+    I did not reproduce that generic block. Instead I wrote a shorter FAQ set
+    drawn directly from the real content on this page (pay-as-you-go pricing,
+    response times, one-tech-for-everything, add-on bundles).
+  - No firm price is quoted on the source page for this service (it's
+    pay-as-you-go / hourly), so this page doesn't invent one either — same
+    free-quote approach as the Starlink page.
+
+  TO GO LIVE: upload alongside the other pages to your cPanel public_html
+  folder, or it's already pushed to GitHub so Cloudflare Pages will serve it
+  automatically once live.
+============================================================= -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business IT Support Gold Coast | Computers Gold Coast</title>
+<meta name="description" content="Pay-as-you-go IT support for Gold Coast small businesses and home offices. One tech for PCs, Macs, Wi-Fi, printers, backups and security. Free quote.">
+<link rel="canonical" href="https://computersgoldcoast.com.au/business-it-support-gold-coast.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Business IT Support Gold Coast | Computers Gold Coast">
+<meta property="og:description" content="Pay-as-you-go IT support for Gold Coast small businesses and home offices. One tech for PCs, Macs, Wi-Fi, printers, backups and security. Free quote.">
+<meta property="og:url" content="https://computersgoldcoast.com.au/business-it-support-gold-coast.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Business IT Support Gold Coast | Computers Gold Coast">
+<meta name="twitter:description" content="Pay-as-you-go IT support for Gold Coast small businesses and home offices. One tech for PCs, Macs, Wi-Fi, printers, backups and security. Free quote.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "Small Business IT Support",
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Computers Gold Coast",
+    "telephone": "+61477319160",
+    "url": "https://computersgoldcoast.com.au/"
+  },
+  "areaServed": ["Surfers Paradise","Broadbeach","Southport","Robina","Burleigh Heads","Nerang","Varsity Lakes","Coolangatta"]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#020617; --sky-50:#f0f9ff; --gray-50:#f9fafb; --gray-200:#e5e7eb;
+    --accent:#38bdf8; --text:#0f172a; --text-soft:#475569;
+  }
+  *{box-sizing:border-box;}
+  body{font-family:'Inter',ui-sans-serif,system-ui,sans-serif; color:var(--text); line-height:1.55; margin:0;}
+  h1,h2,h3{font-family:'Space Grotesk',ui-sans-serif,system-ui,sans-serif; font-weight:700; line-height:1.15; margin:0;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 24px;}
+  .eyebrow{font-size:13px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:12px; display:block;}
+  section{padding:88px 0;}
+  .pill{display:inline-flex; align-items:center; gap:8px; border-radius:999px; padding:14px 28px; font-weight:600; font-size:15px; text-decoration:none; border:2px solid transparent; cursor:pointer; transition:transform .15s ease;}
+  .pill:hover{transform:translateY(-2px);}
+  .pill-primary{background:var(--accent); color:var(--navy);}
+  .pill-outline{border-color:rgba(255,255,255,.4); color:#fff;}
+  .pill-dark{background:var(--navy); color:#fff;}
+
+  .site-header{position:sticky; top:0; z-index:40; background:rgba(255,255,255,.95); backdrop-filter:blur(8px); border-bottom:1px solid var(--gray-200);}
+  .site-header .wrap{display:flex; align-items:center; justify-content:space-between; padding:14px 24px;}
+  .brand{display:flex; flex-direction:column; text-decoration:none; color:var(--text); line-height:1.1;}
+  .brand .word{font-family:'Space Grotesk'; font-weight:700; font-size:19px;}
+  .brand .word span{color:var(--accent);}
+  .brand .tagline{font-size:11px; color:var(--text-soft); font-weight:500;}
+  nav{display:flex; gap:28px; align-items:center;}
+  nav a{color:var(--text); text-decoration:none; font-size:14px; font-weight:500;}
+  nav a:hover{color:var(--accent);}
+  .header-cta{display:flex; align-items:center; gap:18px;}
+  .phone-link{font-weight:600; color:var(--text); text-decoration:none; font-size:14px;}
+  @media (max-width:900px){ nav{display:none;} }
+
+  .hero{background:var(--navy); color:#fff; padding:96px 0 72px;}
+  .hero .badge{display:inline-flex; gap:8px; align-items:center; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); border-radius:999px; padding:8px 16px; font-size:13px; margin-bottom:24px;}
+  .hero h1{font-size:48px; color:#fff; max-width:820px;}
+  .hero h1 .accent{color:var(--accent);}
+  .hero p.lead{max-width:660px; font-size:17px; color:#cbd5e1; margin:22px 0 32px;}
+  .hero .cta-row{display:flex; gap:16px; flex-wrap:wrap; margin-bottom:44px;}
+  .trust-row{display:flex; gap:32px; flex-wrap:wrap; border-top:1px solid rgba(255,255,255,.15); padding-top:26px;}
+  .trust-row div{font-size:14px; color:#e2e8f0; font-weight:500;}
+
+  .bg-sky{background:var(--sky-50);}
+  .bg-white{background:#fff;}
+  .bg-gray{background:var(--gray-50); border-top:1px solid var(--gray-200); border-bottom:1px solid var(--gray-200);}
+  .bg-navy{background:var(--navy); color:#fff;}
+  .bg-accent{background:var(--accent);}
+
+  .section-head{max-width:680px; margin-bottom:48px;}
+  .section-head h2{font-size:32px;}
+  .section-head p{color:var(--text-soft); margin-top:14px; font-size:15.5px;}
+  .bg-navy .section-head p{color:#cbd5e1;}
+
+  .grid{display:grid; gap:24px;}
+  .grid-2{grid-template-columns:1fr 1fr;}
+  .grid-3{grid-template-columns:repeat(3,1fr);}
+  .grid-4{grid-template-columns:repeat(4,1fr);}
+  @media (max-width:900px){ .grid-2,.grid-3,.grid-4{grid-template-columns:1fr;} }
+
+  .feature{padding:4px;}
+  .feature .icon{font-size:28px; margin-bottom:14px;}
+  .feature h3{font-size:17px; margin-bottom:8px;}
+  .feature p{color:var(--text-soft); font-size:14px; margin:0;}
+
+  .area-chip{background:#fff; border:1px solid var(--gray-200); border-radius:12px; padding:16px; text-align:center; font-weight:600; font-size:14.5px;}
+
+  .price-card{background:#fff; border:1px solid var(--gray-200); border-radius:16px; padding:26px; display:flex; flex-direction:column;}
+  .price-card.featured{border-color:var(--accent); box-shadow:0 0 0 2px var(--accent) inset;}
+  .price-card .tag{font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); margin-bottom:10px;}
+  .price-card h3{font-size:17px; margin-bottom:6px;}
+  .price-card .price{font-family:'Space Grotesk'; font-size:22px; font-weight:700; color:var(--navy); margin:8px 0 16px;}
+  .price-card .price span{font-size:13px; font-weight:500; color:var(--text-soft);}
+  .price-card ul{margin:0; padding-left:18px; font-size:13.5px; color:var(--text-soft); flex-grow:1;}
+  .price-card ul li{margin-bottom:6px;}
+
+  .check-list{list-style:none; margin:0; padding:0; display:grid; gap:14px;}
+  .check-list li{display:flex; gap:10px; font-size:14.5px; color:var(--text-soft);}
+  .check-list li b{color:var(--text); font-weight:600;}
+  .check-list li::before{content:"\2713"; color:var(--accent); font-weight:700; flex-shrink:0;}
+  .bg-navy .check-list li{color:#cbd5e1;}
+  .bg-navy .check-list li b{color:#fff;}
+
+  details.faq{background:#fff; border:1px solid var(--gray-200); border-radius:12px; padding:18px 22px; margin-bottom:12px;}
+  details.faq summary{font-weight:600; font-size:15px; cursor:pointer; list-style:none;}
+  details.faq summary::-webkit-details-marker{display:none;}
+  details.faq summary::after{content:"+"; float:right; font-size:20px; color:var(--accent);}
+  details.faq[open] summary::after{content:"\2212";}
+  details.faq p, details.faq ul{color:var(--text-soft); font-size:14px; margin:14px 0 0;}
+  details.faq ul{padding-left:20px;}
+
+  .cta-banner{text-align:center;}
+  .cta-banner h2{font-size:32px; max-width:700px; margin:0 auto;}
+  .cta-banner p{margin:14px 0 28px; font-size:15.5px;}
+  .cta-banner .cta-row{display:flex; gap:16px; justify-content:center; flex-wrap:wrap;}
+
+  footer{padding:48px 0; background:var(--navy); color:#cbd5e1;}
+  footer p{color:#94a3b8; font-size:14px; margin:0;}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,.1); padding-top:20px; margin-top:24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-size:13px; color:#94a3b8;}
+  footer a{color:#cbd5e1; text-decoration:none;}
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html">
+        <span class="word">Computers<span> Gold Coast</span></span>
+        <span class="tagline">Local Computer &amp; Laptop Repairs</span>
+      </a>
+      <nav>
+        <a href="index.html#about">About Us</a>
+        <a href="services.html">Services</a>
+        <a href="index.html#testimonials">Reviews</a>
+        <a href="index.html#quote">Contact</a>
+      </nav>
+      <div class="header-cta">
+        <a class="phone-link" href="tel:+61477319160">0477 319 160</a>
+        <a class="pill pill-dark" href="index.html#quote">Get Free Quote</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap">
+      <div class="badge">🛠️ Small Business IT Support &middot; Gold Coast &amp; Surrounds</div>
+      <h1>Business IT Support Gold Coast. <span class="accent">One Tech For Everything In Your Office.</span></h1>
+      <p class="lead">Juggling invoices, client calls and family life is hard enough — tech headaches shouldn't be on the list. Computers Gold Coast gives sole traders and small teams an easy way to fix, maintain and improve every device in the office (or spare bedroom), without big-business contracts, SLAs or compliance red tape.</p>
+      <div class="cta-row">
+        <a class="pill pill-primary" href="index.html#quote">Get a Free Quote</a>
+        <a class="pill pill-outline" href="tel:+61477319160">Call 0477 319 160</a>
+      </div>
+      <div class="trust-row">
+        <div>&#10003; Pay-As-You-Go</div>
+        <div>&#10003; Plain-English Help</div>
+        <div>&#10003; Same/Next-Day Options</div>
+        <div>&#10003; One Tech For Everything</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="wrap">
+      <div class="grid grid-2" style="align-items:center;">
+        <div>
+          <span class="eyebrow">Why It Matters</span>
+          <h2 style="font-size:30px;">Tech Headaches Shouldn't Be On Your To-Do List.</h2>
+          <p style="color:var(--text-soft); margin-top:16px; font-size:15.5px;">Juggling invoices, client calls and the rest of running a small business is hard enough without your PCs, Wi-Fi or printer falling over. Most sole traders and small teams don't need a big-business IT contract with SLAs and compliance red tape — they need someone who picks up the phone and actually fixes the problem.</p>
+        </div>
+        <div>
+          <span class="eyebrow">Our Approach</span>
+          <h2 style="font-size:30px;">One Tech For Everything In Your Office.</h2>
+          <p style="color:var(--text-soft); margin-top:16px; font-size:15.5px;">Computers Gold Coast gives sole traders and small teams an easy way to fix, maintain and improve every device in the office (or spare bedroom) — PCs, Macs, Wi-Fi, printers, bookkeeping software, phones and smart gear — without needing five different suppliers.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-sky">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Why Our Service Fits Small &amp; Home Businesses</span>
+        <h2>Built Around How Small Businesses Actually Work.</h2>
+      </div>
+      <ul class="check-list" style="grid-template-columns:1fr 1fr; max-width:900px;">
+        <li><b>Affordability</b> — pay-as-you-go rates or simple hourly bundles, no retainer required.</li>
+        <li><b>Plain-English help</b> — zero jargon, explained in everyday language.</li>
+        <li><b>Same-day options</b> — remote fixes often within the hour, on-site visits usually same or next business day.</li>
+        <li><b>One tech for everything</b> — PCs, Macs, Wi-Fi, printers, bookkeeping software, phones, smart gear.</li>
+        <li><b>Flexible hours</b> — evening slots for home-office owners who work 9-to-5 elsewhere.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">What's Included</span>
+        <h2>Small Business IT Support, Covered End To End.</h2>
+      </div>
+      <div class="grid grid-3">
+        <div class="feature"><div class="icon">📡</div><h3>Reliable Network &amp; Wi-Fi</h3><p>NBN modem setup, speed testing and ISP liaison, secure guest Wi-Fi for clients, mesh Wi-Fi selection and installation, and Starlink installation for reliable backup internet.</p></div>
+        <div class="feature"><div class="icon">🖥️</div><h3>Device Tune-Ups &amp; Repairs</h3><p>All-in-one printer troubleshooting, laptop screen/keyboard/battery replacement, and Windows 11 &amp; macOS performance boosts and SSD upgrades.</p></div>
+        <div class="feature"><div class="icon">✉️</div><h3>Email &amp; Collaboration</h3><p>Shared calendars, Teams/Zoom camera &amp; mic setups, professional signature design, and migrating Gmail or Hotmail to Microsoft 365 Business Basic.</p></div>
+        <div class="feature"><div class="icon">💾</div><h3>Backup &amp; Peace-Of-Mind</h3><p>OneDrive / Google Drive cloud-sync configured properly, image backup to USB or NAS with a quarterly restore test, and external SSD rotation for grab-and-go safety.</p></div>
+        <div class="feature"><div class="icon">🔐</div><h3>Everyday Security Essentials</h3><p>Antivirus install &amp; yearly renewal reminders, automatic Windows &amp; Adobe patch scheduling, and practical tips to spot invoice-redirection scams.</p></div>
+        <div class="feature"><div class="icon">🛒</div><h3>Purchasing &amp; Upgrade Advice</h3><p>Basic VoIP handsets that plug straight into your NBN modem, monitor sizing for dual-screen bookkeeping or design work, and quick laptop shortlists with buy-links.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-navy">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Handy Extras</span>
+        <h2 style="color:#fff;">Beyond The Basics.</h2>
+      </div>
+      <ul class="check-list" style="grid-template-columns:1fr 1fr;">
+        <li><b>POS / EFTPOS reader setup</b> — Square, Tyro and similar systems configured and tested.</li>
+        <li><b>Small CCTV camera network</b> — running over your existing Wi-Fi. See our full <a href="cctv-security-cameras-gold-coast.html" style="color:#fff; text-decoration:underline;">CCTV installation service</a> for larger jobs.</li>
+        <li><b>Smart-speaker integrations</b> — practical setups like voice-triggered report printing.</li>
+        <li><b>Network security &amp; hardening</b> — see our dedicated <a href="computer-network-security-gold-coast.html" style="color:#fff; text-decoration:underline;">computer and network security service</a>.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="bg-sky">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Add-On Bundles</span>
+        <h2>Ongoing Support Bundles Home Offices Love.</h2>
+        <p>Pick a bundle if you'd rather set-and-forget than call us every time something needs attention.</p>
+      </div>
+      <div class="grid grid-3">
+        <div class="feature"><div class="icon">🔄</div><h3>Quarterly PC Refresher</h3><p>Dust clean, patch roll-up, malware scan and backup test — every three months.</p></div>
+        <div class="feature"><div class="icon">💼</div><h3>Device Starter Kit</h3><p>Laptop, monitor, dock and surge board delivered and configured, ready to go on day one.</p></div>
+        <div class="feature"><div class="icon">🌍</div><h3>"Work-From-Anywhere" Pack</h3><p>Lightweight VPN, cloud sync, webcam and headset setup for hybrid and remote staff.</p></div>
+        <div class="feature"><div class="icon">📸</div><h3>Family Photo Safeguard</h3><p>Auto-backup to NAS and Google Photos, plus a restore tutorial so you know it actually works.</p></div>
+        <div class="feature"><div class="icon">📱</div><h3>Friday-Night Check-In</h3><p>A 15-minute video call once a month for quick questions — no ticket, no fuss.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-gray">
+    <div class="wrap">
+      <div class="grid grid-2" style="align-items:center;">
+        <div>
+          <span class="eyebrow">Related Services</span>
+          <h2 style="font-size:28px;">Round Out Your Business Setup.</h2>
+        </div>
+        <div>
+          <p style="color:var(--text-soft); font-size:15px;">Setting up a shared drive or small office server? See our <a href="nas-file-server-setup-gold-coast.html" style="color:var(--navy); font-weight:600;">NAS / file server setup</a> service. Worried about power cuts taking down your point-of-sale or router? Add <a href="ups-surge-protection-gold-coast.html" style="color:var(--navy); font-weight:600;">UPS &amp; surge protection</a>. Want stronger office Wi-Fi coverage? Check out <a href="wireless-networks-setup-gold-coast.html" style="color:var(--navy); font-weight:600;">wireless network setups</a>. Already got a business website? Pair this with <a href="google-workspace-office-365-gold-coast.html" style="color:var(--navy); font-weight:600;">Google Workspace / Office 365 setup</a> for proper business email and file sharing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-gray">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Frequently Asked Questions</span>
+        <h2>Your Questions, Answered.</h2>
+      </div>
+      <details class="faq">
+        <summary>Do I need to sign a contract or retainer?</summary>
+        <p>No. Most clients use pay-as-you-go rates or a simple hourly bundle — there's no retainer required unless you want the ongoing bundles for regular peace of mind.</p>
+      </details>
+      <details class="faq">
+        <summary>How fast can you actually help?</summary>
+        <p>Remote fixes are often sorted within the hour. On-site visits are usually same or next business day, and we offer evening slots for home-office owners who work a regular 9-to-5 elsewhere.</p>
+      </details>
+      <details class="faq">
+        <summary>Do you support both Windows PCs and Macs?</summary>
+        <p>Yes — one technician for everything: PCs, Macs, Wi-Fi, printers, bookkeeping software, phones and smart gear, so you're not juggling multiple suppliers.</p>
+      </details>
+      <details class="faq">
+        <summary>Can you help with EFTPOS or point-of-sale setup?</summary>
+        <p>Yes, we set up and test POS/EFTPOS readers including Square and Tyro, and can run a small CCTV camera network over your existing Wi-Fi as well.</p>
+      </details>
+      <details class="faq">
+        <summary>What if I only need occasional help, not full-time IT support?</summary>
+        <p>That's what most of our small business clients want. Call as needed, or set up a Friday-Night Check-In — a short monthly video call to handle quick questions before they become problems.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="bg-white cta-banner">
+    <div class="wrap">
+      <h2>Ready For IT Support That Fits A Small Business?</h2>
+      <p>Call Computers Gold Coast or get in touch online for a free, no-obligation chat about your setup.</p>
+      <div class="cta-row">
+        <a class="pill pill-primary" href="index.html#quote">Get a Free Quote</a>
+        <a class="pill pill-outline" style="border-color:var(--navy); color:var(--navy);" href="tel:+61477319160">Call 0477 319 160</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <p>Computers Gold Coast — family-owned technicians serving the Gold Coast.</p>
+      <div class="footer-bottom">
+        <span>© 2026 Computers Gold Coast. All rights reserved.</span>
+        <span><a href="tel:+61477319160">0477 319 160</a></span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

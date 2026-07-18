@@ -1,0 +1,363 @@
+<!-- ============================================================
+  Computers Gold Coast — Help You Get Better Deals on Your ISP page.
+  Adapted from https://www.zoorepairs.com.au/computer-services/help-you-get-better-deals-on-your-isp/
+  reusing the same real service description, in the same navy/
+  sky-blue design system as index.html, services.html and the other
+  service pages on this site.
+
+  WHAT I CHANGED FROM THE SOURCE:
+  - Brand references (Zoo Computer Repairs) changed to Computers Gold
+    Coast. The source page isn't Brisbane-specific — it's a nationwide
+    ISP/NBN comparison service — so there were no place names to
+    localize beyond adding a Gold Coast service-area section.
+  - Kept genuine Australia-wide references (ACCC Measuring Broadband
+    Performance, NBN Technology Choice Program, WhistleOut) as-is —
+    these are real, verifiable national data sources, not invented or
+    Brisbane-specific stats.
+  - The specific "$15–$25/month" senior savings figure and other
+    savings estimates from the source are presented there as typical
+    / approximate examples, not firm guarantees, so I kept the same
+    "typical savings" framing rather than dropping it, since it isn't
+    a Brisbane-specific claim.
+  - No firm price is quoted for the service itself on the source page
+    (it mentions "a flat optimisation charge" without a number), so
+    this page doesn't invent one.
+  - Trimmed the source's very long 20-question FAQ down to a
+    representative set of about 8, to match this site's typical FAQ
+    length.
+
+  TO GO LIVE: upload alongside the other pages to your cPanel
+  public_html folder, or it's already pushed to GitHub so Cloudflare
+  Pages will serve it automatically once live.
+============================================================= -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ISP &amp; NBN Plan Help Gold Coast | Computers Gold Coast</title>
+<meta name="description" content="Independent NBN and internet plan comparison for the Gold Coast. We audit your bill, compare every major Aussie provider, and handle the switch-over — with zero commission bias.">
+<link rel="canonical" href="https://computersgoldcoast.com.au/isp-deals-help-gold-coast.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ISP &amp; NBN Plan Help Gold Coast | Computers Gold Coast">
+<meta property="og:description" content="Independent NBN and internet plan comparison for the Gold Coast. We audit your bill, compare providers, and handle the switch-over.">
+<meta property="og:url" content="https://computersgoldcoast.com.au/isp-deals-help-gold-coast.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ISP &amp; NBN Plan Help Gold Coast | Computers Gold Coast">
+<meta name="twitter:description" content="Independent NBN and internet plan comparison for the Gold Coast, with zero commission bias.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "Internet Plan Comparison and Switching",
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Computers Gold Coast",
+    "telephone": "+61477319160",
+    "url": "https://computersgoldcoast.com.au/"
+  },
+  "areaServed": ["Surfers Paradise","Broadbeach","Southport","Robina","Burleigh Heads","Nerang","Varsity Lakes","Coolangatta"]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#020617; --sky-50:#f0f9ff; --gray-50:#f9fafb; --gray-200:#e5e7eb;
+    --accent:#38bdf8; --text:#0f172a; --text-soft:#475569;
+  }
+  *{box-sizing:border-box;}
+  body{font-family:'Inter',ui-sans-serif,system-ui,sans-serif; color:var(--text); line-height:1.55; margin:0;}
+  h1,h2,h3{font-family:'Space Grotesk',ui-sans-serif,system-ui,sans-serif; font-weight:700; line-height:1.15; margin:0;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 24px;}
+  .eyebrow{font-size:13px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:12px; display:block;}
+  section{padding:88px 0;}
+  .pill{display:inline-flex; align-items:center; gap:8px; border-radius:999px; padding:14px 28px; font-weight:600; font-size:15px; text-decoration:none; border:2px solid transparent; cursor:pointer; transition:transform .15s ease;}
+  .pill:hover{transform:translateY(-2px);}
+  .pill-primary{background:var(--accent); color:var(--navy);}
+  .pill-outline{border-color:rgba(255,255,255,.4); color:#fff;}
+  .pill-dark{background:var(--navy); color:#fff;}
+
+  .site-header{position:sticky; top:0; z-index:40; background:rgba(255,255,255,.95); backdrop-filter:blur(8px); border-bottom:1px solid var(--gray-200);}
+  .site-header .wrap{display:flex; align-items:center; justify-content:space-between; padding:14px 24px;}
+  .brand{display:flex; flex-direction:column; text-decoration:none; color:var(--text); line-height:1.1;}
+  .brand .word{font-family:'Space Grotesk'; font-weight:700; font-size:19px;}
+  .brand .word span{color:var(--accent);}
+  .brand .tagline{font-size:11px; color:var(--text-soft); font-weight:500;}
+  nav{display:flex; gap:28px; align-items:center;}
+  nav a{color:var(--text); text-decoration:none; font-size:14px; font-weight:500;}
+  nav a:hover{color:var(--accent);}
+  .header-cta{display:flex; align-items:center; gap:18px;}
+  .phone-link{font-weight:600; color:var(--text); text-decoration:none; font-size:14px;}
+  @media (max-width:900px){ nav{display:none;} }
+
+  .hero{background:var(--navy); color:#fff; padding:96px 0 72px;}
+  .hero .badge{display:inline-flex; gap:8px; align-items:center; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); border-radius:999px; padding:8px 16px; font-size:13px; margin-bottom:24px;}
+  .hero h1{font-size:48px; color:#fff; max-width:820px;}
+  .hero h1 .accent{color:var(--accent);}
+  .hero p.lead{max-width:660px; font-size:17px; color:#cbd5e1; margin:22px 0 32px;}
+  .hero .cta-row{display:flex; gap:16px; flex-wrap:wrap; margin-bottom:44px;}
+  .trust-row{display:flex; gap:32px; flex-wrap:wrap; border-top:1px solid rgba(255,255,255,.15); padding-top:26px;}
+  .trust-row div{font-size:14px; color:#e2e8f0; font-weight:500;}
+
+  .bg-sky{background:var(--sky-50);}
+  .bg-white{background:#fff;}
+  .bg-gray{background:var(--gray-50); border-top:1px solid var(--gray-200); border-bottom:1px solid var(--gray-200);}
+  .bg-navy{background:var(--navy); color:#fff;}
+  .bg-accent{background:var(--accent);}
+
+  .section-head{max-width:680px; margin-bottom:48px;}
+  .section-head h2{font-size:32px;}
+  .section-head p{color:var(--text-soft); margin-top:14px; font-size:15.5px;}
+  .bg-navy .section-head p{color:#cbd5e1;}
+
+  .grid{display:grid; gap:24px;}
+  .grid-2{grid-template-columns:1fr 1fr;}
+  .grid-3{grid-template-columns:repeat(3,1fr);}
+  .grid-4{grid-template-columns:repeat(4,1fr);}
+  @media (max-width:900px){ .grid-2,.grid-3,.grid-4{grid-template-columns:1fr;} }
+
+  .feature{padding:4px;}
+  .feature .icon{font-size:28px; margin-bottom:14px;}
+  .feature h3{font-size:17px; margin-bottom:8px;}
+  .feature p{color:var(--text-soft); font-size:14px; margin:0;}
+
+  .area-chip{background:#fff; border:1px solid var(--gray-200); border-radius:12px; padding:16px; text-align:center; font-weight:600; font-size:14.5px;}
+
+  .check-list{list-style:none; margin:0; padding:0; display:grid; gap:14px;}
+  .check-list li{display:flex; gap:10px; font-size:14.5px; color:var(--text-soft);}
+  .check-list li b{color:var(--text); font-weight:600;}
+  .check-list li::before{content:"✓"; color:var(--accent); font-weight:700; flex-shrink:0;}
+  .bg-navy .check-list li{color:#cbd5e1;}
+  .bg-navy .check-list li b{color:#fff;}
+
+  details.faq{background:#fff; border:1px solid var(--gray-200); border-radius:12px; padding:18px 22px; margin-bottom:12px;}
+  details.faq summary{font-weight:600; font-size:15px; cursor:pointer; list-style:none;}
+  details.faq summary::-webkit-details-marker{display:none;}
+  details.faq summary::after{content:"+"; float:right; font-size:20px; color:var(--accent);}
+  details.faq[open] summary::after{content:"−";}
+  details.faq p, details.faq ul{color:var(--text-soft); font-size:14px; margin:14px 0 0;}
+  details.faq ul{padding-left:20px;}
+
+  .cta-banner{text-align:center;}
+  .cta-banner h2{font-size:32px; max-width:700px; margin:0 auto;}
+  .cta-banner p{margin:14px 0 28px; font-size:15.5px;}
+  .cta-banner .cta-row{display:flex; gap:16px; justify-content:center; flex-wrap:wrap;}
+
+  footer{padding:48px 0; background:var(--navy); color:#cbd5e1;}
+  footer p{color:#94a3b8; font-size:14px; margin:0;}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,.1); padding-top:20px; margin-top:24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-size:13px; color:#94a3b8;}
+  footer a{color:#cbd5e1; text-decoration:none;}
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html">
+        <span class="word">Computers<span> Gold Coast</span></span>
+        <span class="tagline">Local Computer &amp; Laptop Repairs</span>
+      </a>
+      <nav>
+        <a href="index.html#about">About Us</a>
+        <a href="services.html">Services</a>
+        <a href="index.html#testimonials">Reviews</a>
+        <a href="index.html#quote">Contact</a>
+      </nav>
+      <div class="header-cta">
+        <a class="phone-link" href="tel:+61477319160">0477 319 160</a>
+        <a class="pill pill-dark" href="index.html#quote">Get Free Quote</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap">
+      <div class="badge">🌐 Independent Internet Plan Comparison &middot; Gold Coast &amp; Surrounds</div>
+      <h1>Help You Get Better Deals On Your ISP. <span class="accent">Gold Coast Internet Plan Optimiser.</span></h1>
+      <p class="lead">Tired of paying premium prices for mediocre speeds? Let Computers Gold Coast audit your current NBN or mobile broadband bill, compare every major Aussie provider, and switch you to a better-value plan — without the call-centre headaches.</p>
+      <div class="cta-row">
+        <a class="pill pill-primary" href="index.html#quote">Upload My Bill</a>
+        <a class="pill pill-outline" href="tel:+61477319160">Call 0477 319 160</a>
+      </div>
+      <div class="trust-row">
+        <div>✓ Nationwide Plan Database</div>
+        <div>✓ Impartial Advice</div>
+        <div>✓ Bill-Shock Prevention</div>
+        <div>✓ All Paperwork Sorted</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Why Use An Internet Deal-Finder Service</span>
+        <h2>We Compare Everyone. We're Not Paid By Anyone.</h2>
+      </div>
+      <div class="grid grid-3">
+        <div class="feature"><div class="icon">📊</div><h3>Nationwide Plan Database</h3><p>We track Telstra, Optus, TPG, Aussie Broadband, Vodafone, Superloop, Tangerine and more.</p></div>
+        <div class="feature"><div class="icon">⚖️</div><h3>Impartial Advice</h3><p>No ISP commissions — recommendations are 100% in your best interest.</p></div>
+        <div class="feature"><div class="icon">⚠️</div><h3>Bill-Shock Prevention</h3><p>We spot hidden price rises, introductory-rate traps and excess-data fees.</p></div>
+        <div class="feature"><div class="icon">📝</div><h3>All The Paperwork Sorted</h3><p>From cancellation calls to new NBN connection forms — we handle it.</p></div>
+        <div class="feature"><div class="icon">📶</div><h3>Speed &amp; Reliability Check</h3><p>We run address-level NBN tech-type and congestion checks before suggesting a plan.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-sky">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">What's Included</span>
+        <h2>What's In The "Better Deal" Package.</h2>
+      </div>
+      <div class="grid grid-4">
+        <div class="feature"><div class="icon">📄</div><h3>Bill &amp; Speed Audit</h3><p>We analyse your current invoice for excess-data fees, and run an address-level NBN technology lookup plus a speed test.</p></div>
+        <div class="feature"><div class="icon">🔍</div><h3>Market Comparison</h3><p>We crunch 40+ plans across NBN, 5G fixed wireless and mobile broadband, filtered by contract length, typical evening speed and modem cost.</p></div>
+        <div class="feature"><div class="icon">📨</div><h3>Seamless Switch-Over</h3><p>We cancel your old provider, lodge the churn request, schedule NBN technicians if needed, and set up your new modem and WiFi.</p></div>
+        <div class="feature"><div class="icon">🔄</div><h3>Thirty-Day Follow-Up</h3><p>We verify your invoice matches the promo rate and retest evening speeds, escalating to your ISP if targets aren't met.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-navy">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">NBN Speed Tiers</span>
+        <h2 style="color:#fff;">Which NBN Speed Actually Suits You?</h2>
+      </div>
+      <ul class="check-list" style="grid-template-columns:1fr 1fr;">
+        <li><b>NBN 25</b> — good for light use and small households.</li>
+        <li><b>NBN 50</b> — great for HD streaming, gaming and video calls.</li>
+        <li><b>NBN 100</b> — ideal for larger families or home businesses.</li>
+        <li><b>NBN 250 / 1000</b> — superfast speeds for heavy downloaders and tech enthusiasts (available in select areas).</li>
+      </ul>
+      <div class="cta-row" style="margin-top:28px;">
+        <a class="pill pill-primary" href="index.html#quote">Start My Speed &amp; Price Check</a>
+        <a class="pill pill-outline" href="tel:+61477319160">Call 0477 319 160</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Helpful Reference Library</span>
+        <h2>Data We Rely On To Give Honest Advice.</h2>
+        <p>We benchmark providers against official, independent sources rather than marketing claims.</p>
+      </div>
+      <div class="grid grid-4">
+        <div class="feature"><div class="icon">📈</div><h3>ACCC Measuring Broadband</h3><p>Official speed data used to benchmark providers.</p></div>
+        <div class="feature"><div class="icon">🏗️</div><h3>NBN Technology Choice</h3><p>See if your street can upgrade to full fibre (FTTP).</p></div>
+        <div class="feature"><div class="icon">💷</div><h3>WhistleOut Comparison</h3><p>Live pricing across all major Aussie ISPs.</p></div>
+        <div class="feature"><div class="icon">🕗</div><h3>Typical Evening Speeds</h3><p>Transparency on real peak-hour performance, not just advertised speeds.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-gray">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Related Services</span>
+        <h2>Get The Rest Of Your Network Sorted.</h2>
+      </div>
+      <div class="grid grid-2">
+        <p style="color:var(--text-soft); font-size:15.5px;">Switched to a faster plan but still getting dead spots around the house? See <a href="wireless-networks-setup-gold-coast.html" style="color:var(--navy); font-weight:600;">wireless networks &amp; network setups</a> or a full <a href="network-optimisation-mesh-wifi-gold-coast.html" style="color:var(--navy); font-weight:600;">network optimisation &amp; mesh WiFi</a> job.</p>
+        <p style="color:var(--text-soft); font-size:15.5px;">Need the actual NBN connection organised first? Start with <a href="nbn-setup-installation-gold-coast.html" style="color:var(--navy); font-weight:600;">NBN setup and installation</a>. In an NBN dead zone? <a href="starlink-installation-gold-coast.html" style="color:var(--navy); font-weight:600;">Starlink installation</a> might be the better option.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-accent cta-banner">
+    <div class="wrap">
+      <h2>Paying Too Much For Mediocre Internet?</h2>
+      <p>Send us a photo of your latest bill and get a free side-by-side comparison.</p>
+      <div class="cta-row">
+        <a class="pill pill-dark" href="index.html#quote">Get Free Quote</a>
+        <a class="pill" style="background:#fff;color:var(--navy);" href="tel:+61477319160">Call 0477 319 160</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Where We Work</span>
+        <h2>Service Areas.</h2>
+        <p>We help Gold Coast households and businesses find a better internet deal.</p>
+      </div>
+      <div class="grid grid-4">
+        <div class="area-chip">Surfers Paradise</div>
+        <div class="area-chip">Broadbeach</div>
+        <div class="area-chip">Southport</div>
+        <div class="area-chip">Robina</div>
+        <div class="area-chip">Burleigh Heads</div>
+        <div class="area-chip">Nerang</div>
+        <div class="area-chip">Varsity Lakes</div>
+        <div class="area-chip">Coolangatta</div>
+      </div>
+      <p style="margin-top:24px; font-size:15px; color:var(--text-soft);">Not sure if we cover your area? Call <a href="tel:+61477319160" style="color:var(--navy); font-weight:600;">0477 319 160</a> and ask.</p>
+    </div>
+  </section>
+
+  <section class="bg-gray">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Frequently Asked Questions</span>
+        <h2>ISP &amp; NBN Plan Questions, Answered.</h2>
+      </div>
+      <details class="faq">
+        <summary>Is your comparison truly independent of all ISPs?</summary>
+        <p>Yes. We accept zero commissions. Our only fee is the flat optimisation charge you pay, which is usually offset by the first month's savings.</p>
+      </details>
+      <details class="faq">
+        <summary>Will I experience downtime during an NBN churn?</summary>
+        <p>Most transfers complete in under 30 minutes. We schedule out-of-hours cut-overs for mission-critical offices.</p>
+      </details>
+      <details class="faq">
+        <summary>Do you supply or configure new modems?</summary>
+        <p>Yes — BYO-friendly Asus, TP-Link, or ISP-supplied hardware. We pre-flash the latest firmware and harden your WiFi passwords.</p>
+      </details>
+      <details class="faq">
+        <summary>Am I eligible for a free fibre-to-the-premises (FTTP) upgrade?</summary>
+        <p>We check your address against the latest NBN Technology Choice FTTP list. If you're on qualifying FTTN speeds and order 100 Mbps or above, you may upgrade at no cost.</p>
+      </details>
+      <details class="faq">
+        <summary>I'm renting — can I still change NBN plans?</summary>
+        <p>Yes, provided no new cabling is required. We supply a modem that plugs into the existing socket and get landlord approval if extra hardware mounts are needed.</p>
+      </details>
+      <details class="faq">
+        <summary>What's the cheapest NBN plan for seniors?</summary>
+        <p>We source discounted lower-speed "senior value" tiers plus any available concession-card rebates — typical savings run around $15 to $25 per month depending on your current plan.</p>
+      </details>
+      <details class="faq">
+        <summary>How do you protect my privacy when reviewing my bill?</summary>
+        <p>Invoices are stored in an encrypted vault, deleted after 30 days, and never shared with third parties.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="bg-white cta-banner">
+    <div class="wrap">
+      <h2>Ready To Stop Overpaying For Internet?</h2>
+      <p>Call Computers Gold Coast or upload your bill for a free comparison.</p>
+      <div class="cta-row">
+        <a class="pill pill-primary" href="index.html#quote">Get a Free Quote</a>
+        <a class="pill pill-outline" style="border-color:var(--navy); color:var(--navy);" href="tel:+61477319160">Call 0477 319 160</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <p>Computers Gold Coast — family-owned technicians serving the Gold Coast.</p>
+      <div class="footer-bottom">
+        <span>© 2026 Computers Gold Coast. All rights reserved.</span>
+        <span><a href="tel:+61477319160">0477 319 160</a></span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

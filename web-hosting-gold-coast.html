@@ -1,0 +1,322 @@
+<!-- ============================================================
+  Computers Gold Coast — Website Hosting page.
+  Adapted from https://www.zoorepairs.com.au/computer-services/website-hosting/
+  reusing the same real service description, in the same navy/sky-blue
+  design system as index.html and services.html.
+
+  WHAT I CHANGED FROM THE SOURCE:
+  - Brand references (Zoo Computer Repairs) changed to Computers Gold Coast,
+    service area references changed to this site's Gold Coast suburb list.
+  - No Brisbane-specific place names or stats appeared on this source page.
+  - The source describes this as "onsite hosting" (a local/on-premise server
+    at the client's business), which is what's actually on the page — kept
+    that framing rather than reinterpreting it as generic cloud hosting,
+    per the instruction to trust the real fetched content.
+  - The source's 20-question FAQ block was trimmed to a representative
+    subset, consistent with FAQ length elsewhere on this site.
+  - No firm price is quoted on the source page, so this page doesn't invent
+    one — same free-quote approach as the source.
+
+  TO GO LIVE: upload alongside the other pages to your cPanel public_html
+  folder, or it's already pushed to GitHub so Cloudflare Pages will serve it
+  automatically once live.
+============================================================= -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web Hosting Gold Coast | Computers Gold Coast</title>
+<meta name="description" content="Onsite website hosting for Gold Coast small businesses. Fast local access, full data control, managed security and backups. Free hosting review.">
+<link rel="canonical" href="https://computersgoldcoast.com.au/web-hosting-gold-coast.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Web Hosting Gold Coast | Computers Gold Coast">
+<meta property="og:description" content="Onsite website hosting for Gold Coast small businesses. Fast local access, full data control, managed security and backups. Free hosting review.">
+<meta property="og:url" content="https://computersgoldcoast.com.au/web-hosting-gold-coast.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Web Hosting Gold Coast | Computers Gold Coast">
+<meta name="twitter:description" content="Onsite website hosting for Gold Coast small businesses. Fast local access, full data control, managed security and backups. Free hosting review.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "Website Hosting",
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Computers Gold Coast",
+    "telephone": "+61477319160",
+    "url": "https://computersgoldcoast.com.au/"
+  },
+  "areaServed": ["Surfers Paradise","Broadbeach","Southport","Robina","Burleigh Heads","Nerang","Varsity Lakes","Coolangatta"]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#020617; --sky-50:#f0f9ff; --gray-50:#f9fafb; --gray-200:#e5e7eb;
+    --accent:#38bdf8; --text:#0f172a; --text-soft:#475569;
+  }
+  *{box-sizing:border-box;}
+  body{font-family:'Inter',ui-sans-serif,system-ui,sans-serif; color:var(--text); line-height:1.55; margin:0;}
+  h1,h2,h3{font-family:'Space Grotesk',ui-sans-serif,system-ui,sans-serif; font-weight:700; line-height:1.15; margin:0;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 24px;}
+  .eyebrow{font-size:13px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:12px; display:block;}
+  section{padding:88px 0;}
+  .pill{display:inline-flex; align-items:center; gap:8px; border-radius:999px; padding:14px 28px; font-weight:600; font-size:15px; text-decoration:none; border:2px solid transparent; cursor:pointer; transition:transform .15s ease;}
+  .pill:hover{transform:translateY(-2px);}
+  .pill-primary{background:var(--accent); color:var(--navy);}
+  .pill-outline{border-color:rgba(255,255,255,.4); color:#fff;}
+  .pill-dark{background:var(--navy); color:#fff;}
+
+  .site-header{position:sticky; top:0; z-index:40; background:rgba(255,255,255,.95); backdrop-filter:blur(8px); border-bottom:1px solid var(--gray-200);}
+  .site-header .wrap{display:flex; align-items:center; justify-content:space-between; padding:14px 24px;}
+  .brand{display:flex; flex-direction:column; text-decoration:none; color:var(--text); line-height:1.1;}
+  .brand .word{font-family:'Space Grotesk'; font-weight:700; font-size:19px;}
+  .brand .word span{color:var(--accent);}
+  .brand .tagline{font-size:11px; color:var(--text-soft); font-weight:500;}
+  nav{display:flex; gap:28px; align-items:center;}
+  nav a{color:var(--text); text-decoration:none; font-size:14px; font-weight:500;}
+  nav a:hover{color:var(--accent);}
+  .header-cta{display:flex; align-items:center; gap:18px;}
+  .phone-link{font-weight:600; color:var(--text); text-decoration:none; font-size:14px;}
+  @media (max-width:900px){ nav{display:none;} }
+
+  .hero{background:var(--navy); color:#fff; padding:96px 0 72px;}
+  .hero .badge{display:inline-flex; gap:8px; align-items:center; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); border-radius:999px; padding:8px 16px; font-size:13px; margin-bottom:24px;}
+  .hero h1{font-size:48px; color:#fff; max-width:820px;}
+  .hero h1 .accent{color:var(--accent);}
+  .hero p.lead{max-width:660px; font-size:17px; color:#cbd5e1; margin:22px 0 32px;}
+  .hero .cta-row{display:flex; gap:16px; flex-wrap:wrap; margin-bottom:44px;}
+  .trust-row{display:flex; gap:32px; flex-wrap:wrap; border-top:1px solid rgba(255,255,255,.15); padding-top:26px;}
+  .trust-row div{font-size:14px; color:#e2e8f0; font-weight:500;}
+
+  .bg-sky{background:var(--sky-50);}
+  .bg-white{background:#fff;}
+  .bg-gray{background:var(--gray-50); border-top:1px solid var(--gray-200); border-bottom:1px solid var(--gray-200);}
+  .bg-navy{background:var(--navy); color:#fff;}
+  .bg-accent{background:var(--accent);}
+
+  .section-head{max-width:680px; margin-bottom:48px;}
+  .section-head h2{font-size:32px;}
+  .section-head p{color:var(--text-soft); margin-top:14px; font-size:15.5px;}
+  .bg-navy .section-head p{color:#cbd5e1;}
+
+  .grid{display:grid; gap:24px;}
+  .grid-2{grid-template-columns:1fr 1fr;}
+  .grid-3{grid-template-columns:repeat(3,1fr);}
+  .grid-4{grid-template-columns:repeat(4,1fr);}
+  @media (max-width:900px){ .grid-2,.grid-3,.grid-4{grid-template-columns:1fr;} }
+
+  .feature{padding:4px;}
+  .feature .icon{font-size:28px; margin-bottom:14px;}
+  .feature h3{font-size:17px; margin-bottom:8px;}
+  .feature p{color:var(--text-soft); font-size:14px; margin:0;}
+
+  .area-chip{background:#fff; border:1px solid var(--gray-200); border-radius:12px; padding:16px; text-align:center; font-weight:600; font-size:14.5px;}
+
+  .price-card{background:#fff; border:1px solid var(--gray-200); border-radius:16px; padding:26px; display:flex; flex-direction:column;}
+  .price-card.featured{border-color:var(--accent); box-shadow:0 0 0 2px var(--accent) inset;}
+  .price-card .tag{font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); margin-bottom:10px;}
+  .price-card h3{font-size:17px; margin-bottom:6px;}
+  .price-card .price{font-family:'Space Grotesk'; font-size:22px; font-weight:700; color:var(--navy); margin:8px 0 16px;}
+  .price-card .price span{font-size:13px; font-weight:500; color:var(--text-soft);}
+  .price-card ul{margin:0; padding-left:18px; font-size:13.5px; color:var(--text-soft); flex-grow:1;}
+  .price-card ul li{margin-bottom:6px;}
+
+  .check-list{list-style:none; margin:0; padding:0; display:grid; gap:14px;}
+  .check-list li{display:flex; gap:10px; font-size:14.5px; color:var(--text-soft);}
+  .check-list li b{color:var(--text); font-weight:600;}
+  .check-list li::before{content:"\2713"; color:var(--accent); font-weight:700; flex-shrink:0;}
+  .bg-navy .check-list li{color:#cbd5e1;}
+  .bg-navy .check-list li b{color:#fff;}
+
+  details.faq{background:#fff; border:1px solid var(--gray-200); border-radius:12px; padding:18px 22px; margin-bottom:12px;}
+  details.faq summary{font-weight:600; font-size:15px; cursor:pointer; list-style:none;}
+  details.faq summary::-webkit-details-marker{display:none;}
+  details.faq summary::after{content:"+"; float:right; font-size:20px; color:var(--accent);}
+  details.faq[open] summary::after{content:"\2212";}
+  details.faq p, details.faq ul{color:var(--text-soft); font-size:14px; margin:14px 0 0;}
+  details.faq ul{padding-left:20px;}
+
+  .cta-banner{text-align:center;}
+  .cta-banner h2{font-size:32px; max-width:700px; margin:0 auto;}
+  .cta-banner p{margin:14px 0 28px; font-size:15.5px;}
+  .cta-banner .cta-row{display:flex; gap:16px; justify-content:center; flex-wrap:wrap;}
+
+  footer{padding:48px 0; background:var(--navy); color:#cbd5e1;}
+  footer p{color:#94a3b8; font-size:14px; margin:0;}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,.1); padding-top:20px; margin-top:24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-size:13px; color:#94a3b8;}
+  footer a{color:#cbd5e1; text-decoration:none;}
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html">
+        <span class="word">Computers<span> Gold Coast</span></span>
+        <span class="tagline">Local Computer &amp; Laptop Repairs</span>
+      </a>
+      <nav>
+        <a href="index.html#about">About Us</a>
+        <a href="services.html">Services</a>
+        <a href="index.html#testimonials">Reviews</a>
+        <a href="index.html#quote">Contact</a>
+      </nav>
+      <div class="header-cta">
+        <a class="phone-link" href="tel:+61477319160">0477 319 160</a>
+        <a class="pill pill-dark" href="index.html#quote">Get Free Quote</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap">
+      <div class="badge">🖥️ Onsite Website Hosting &middot; Gold Coast &amp; Surrounds</div>
+      <h1>Web Hosting Gold Coast. <span class="accent">Your Business. Your Data. Your Server.</span></h1>
+      <p class="lead">If your website hosting is slow, unreliable, or outside your control, it's time to switch to something more secure and tailored. Computers Gold Coast offers onsite website hosting solutions that put your business in control — boosting speed, security and performance while giving you peace of mind.</p>
+      <div class="cta-row">
+        <a class="pill pill-primary" href="index.html#quote">Get a Free Quote</a>
+        <a class="pill pill-outline" href="tel:+61477319160">Call 0477 319 160</a>
+      </div>
+      <div class="trust-row">
+        <div>&#10003; Local Server Access</div>
+        <div>&#10003; Managed Security &amp; Backups</div>
+        <div>&#10003; Real-Time Monitoring</div>
+        <div>&#10003; Honest Pricing</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="wrap">
+      <div class="grid grid-2" style="align-items:center;">
+        <div>
+          <span class="eyebrow">Why It Matters</span>
+          <h2 style="font-size:30px;">Slow, Unreliable Hosting Costs You Customers.</h2>
+          <p style="color:var(--text-soft); margin-top:16px; font-size:15.5px;">If your website hosting is slow, unreliable, or outside your control, it's time to switch to something more secure and tailored. Forget risky overseas servers or crowded cloud platforms competing for the same resources.</p>
+        </div>
+        <div>
+          <span class="eyebrow">Our Approach</span>
+          <h2 style="font-size:30px;">Local Hosting, Local Support.</h2>
+          <p style="color:var(--text-soft); margin-top:16px; font-size:15.5px;">Computers Gold Coast offers onsite website hosting solutions that put your business in control — boosting speed, security and performance while giving you peace of mind. Your website lives close to home, with fast local access and real technical support when you need it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-sky">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">What We Offer</span>
+        <h2>Reliable Onsite Hosting Setup &amp; Support.</h2>
+      </div>
+      <div class="grid grid-4">
+        <div class="feature"><div class="icon">🔧</div><h3>Server Setup &amp; Installation</h3><p>A custom hosting environment configured to suit your business, with local server installation tailored to your site size and traffic.</p></div>
+        <div class="feature"><div class="icon">🔒</div><h3>Data Security &amp; Backup</h3><p>Regular backups with fast recovery options, plus physical and digital security layers for business-grade protection.</p></div>
+        <div class="feature"><div class="icon">⚙️</div><h3>Performance &amp; Monitoring</h3><p>Optimised server configuration for fast page speeds, with real-time monitoring to catch issues before they become problems.</p></div>
+        <div class="feature"><div class="icon">🤝</div><h3>Onsite Technical Support</h3><p>We come to you to set up and maintain your hosting environment — personalised assistance without lengthy support tickets.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Benefits</span>
+        <h2>Why Small Businesses Choose Onsite Hosting.</h2>
+      </div>
+      <ul class="check-list" style="grid-template-columns:1fr 1fr; max-width:900px;">
+        <li><b>Faster local access</b> — your site loads quicker for local users.</li>
+        <li><b>Stronger data protection</b> — with physical access to your servers, you're less vulnerable to breaches.</li>
+        <li><b>Greater flexibility</b> — you decide how your hosting works, what it runs, and how it's scaled.</li>
+        <li><b>Better compliance</b> — easier to align with data sovereignty and privacy rules.</li>
+        <li><b>Consistent uptime</b> — with local management, uptime and recovery are in your hands, not a remote provider's.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="bg-navy">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Why Choose Computers Gold Coast</span>
+        <h2 style="color:#fff;">Personalised, Not Set-And-Forget.</h2>
+      </div>
+      <ul class="check-list" style="grid-template-columns:1fr 1fr;">
+        <li><b>Personalised service</b> — we assess your exact requirements and set up hosting that fits, not more, not less.</li>
+        <li><b>Total control &amp; data sovereignty</b> — your hosting data stays under your roof, no risky offshore storage.</li>
+        <li><b>Proactive maintenance</b> — we check, test and update your hosting environment regularly.</li>
+        <li><b>Honest pricing</b> — no hidden upsells or confusing packages.</li>
+      </ul>
+      <p style="color:#cbd5e1; margin-top:24px; max-width:680px; font-size:15px;">A power outage shouldn't take your site offline — see our <a href="ups-surge-protection-gold-coast.html" style="color:#fff; text-decoration:underline;">UPS &amp; surge protection</a> service for keeping hosting hardware running through blackouts.</p>
+    </div>
+  </section>
+
+  <section class="bg-gray">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Related Services</span>
+        <h2>Round Out Your Website Setup.</h2>
+      </div>
+      <p style="color:var(--text-soft); font-size:15.5px; max-width:800px;">Need the site itself built first? See our <a href="new-website-design-gold-coast.html" style="color:var(--navy); font-weight:600;">new website design</a> service. Need a domain and matching business email? Check <a href="domain-custom-emails-gold-coast.html" style="color:var(--navy); font-weight:600;">domain &amp; custom email setup</a>. Once you're hosted and live, our <a href="seo-services-gold-coast.html" style="color:var(--navy); font-weight:600;">SEO services</a> help people actually find you.</p>
+    </div>
+  </section>
+
+  <section class="bg-gray">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Frequently Asked Questions</span>
+        <h2>Your Questions, Answered.</h2>
+      </div>
+      <details class="faq">
+        <summary>What is onsite website hosting, and how does it differ from cloud hosting?</summary>
+        <p>Onsite hosting stores your website data on physical servers within your premises. Unlike cloud hosting, which relies on third-party data centres, onsite hosting offers full control, stronger security, and easier compliance with Australian data regulations.</p>
+      </details>
+      <details class="faq">
+        <summary>Is onsite hosting suitable for a small business with limited IT resources?</summary>
+        <p>Yes. Our service is fully managed — from installation to maintenance — so even businesses without an IT team can enjoy fast, reliable hosting without the hassle.</p>
+      </details>
+      <details class="faq">
+        <summary>What security measures are included?</summary>
+        <p>Firewalls, secure access controls, encrypted backups, and intrusion detection to protect your business data both physically and digitally.</p>
+      </details>
+      <details class="faq">
+        <summary>Will you migrate my current website to the onsite server?</summary>
+        <p>Yes — we handle full migration, testing and configuration to move your site seamlessly without downtime.</p>
+      </details>
+      <details class="faq">
+        <summary>Do you include SSL certificates?</summary>
+        <p>Yes — we install and manage SSL certificates so your site uses HTTPS for secure browsing and SEO benefits.</p>
+      </details>
+      <details class="faq">
+        <summary>What happens during a power outage?</summary>
+        <p>We can install UPS (uninterruptible power supply) systems and advise on generator support to keep your site online during blackouts.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="bg-white cta-banner">
+    <div class="wrap">
+      <h2>Ready To Take Back Control Of Your Website?</h2>
+      <p>Talk to a real technician about switching to reliable, local hosting.</p>
+      <div class="cta-row">
+        <a class="pill pill-primary" href="index.html#quote">Get a Free Quote</a>
+        <a class="pill pill-outline" style="border-color:var(--navy); color:var(--navy);" href="tel:+61477319160">Call 0477 319 160</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <p>Computers Gold Coast — family-owned technicians serving the Gold Coast.</p>
+      <div class="footer-bottom">
+        <span>© 2026 Computers Gold Coast. All rights reserved.</span>
+        <span><a href="tel:+61477319160">0477 319 160</a></span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

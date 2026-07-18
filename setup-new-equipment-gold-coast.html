@@ -1,0 +1,336 @@
+<!-- ============================================================
+  Computers Gold Coast — Setup New Equipment page.
+  Adapted from https://www.zoorepairs.com.au/computer-services/setup-new-equipment/
+  reusing the same real service description, in the same navy/
+  sky-blue design system as index.html, services.html and the other
+  Gold Coast service pages.
+
+  WHAT I CHANGED FROM THE SOURCE:
+  - Brisbane references replaced with Gold Coast; Service Areas uses
+    this site's standard Gold Coast suburb chip list.
+  - Brand references (Zoo Computer Repairs) changed to Computers Gold
+    Coast.
+  - The source page had a very long 20-question FAQ list. I kept the
+    most distinct/useful questions and trimmed near-duplicates to match
+    the FAQ length used elsewhere on this site, rather than reproducing
+    all 20 (no content was altered, just trimmed for length/redundancy).
+  - No fixed setup price is quoted on the source page — this page also
+    doesn't invent one, offering a free quote instead.
+
+  TO GO LIVE: upload alongside the other pages to your cPanel
+  public_html folder, or it's already pushed to GitHub so Cloudflare
+  Pages will serve it automatically once live.
+============================================================= -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Setup New Equipment Gold Coast | Computers Gold Coast</title>
+<meta name="description" content="Onsite setup for printers, webcams, streaming devices and smart home gadgets across the Gold Coast. Professional configuration, tested and explained in plain English. Free phone quote.">
+<link rel="canonical" href="https://computersgoldcoast.com.au/setup-new-equipment-gold-coast.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Setup New Equipment Gold Coast | Computers Gold Coast">
+<meta property="og:description" content="Onsite setup for printers, webcams, streaming devices and smart home gadgets across the Gold Coast. Professional configuration, tested and explained in plain English.">
+<meta property="og:url" content="https://computersgoldcoast.com.au/setup-new-equipment-gold-coast.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Setup New Equipment Gold Coast | Computers Gold Coast">
+<meta name="twitter:description" content="Onsite setup for printers, webcams, streaming devices and smart home gadgets across the Gold Coast.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "New Equipment Setup and Installation",
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Computers Gold Coast",
+    "telephone": "+61477319160",
+    "url": "https://computersgoldcoast.com.au/"
+  },
+  "areaServed": ["Surfers Paradise","Broadbeach","Southport","Robina","Burleigh Heads","Nerang","Varsity Lakes","Coolangatta"]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#020617; --sky-50:#f0f9ff; --gray-50:#f9fafb; --gray-200:#e5e7eb;
+    --accent:#38bdf8; --text:#0f172a; --text-soft:#475569;
+  }
+  *{box-sizing:border-box;}
+  body{font-family:'Inter',ui-sans-serif,system-ui,sans-serif; color:var(--text); line-height:1.55; margin:0;}
+  h1,h2,h3{font-family:'Space Grotesk',ui-sans-serif,system-ui,sans-serif; font-weight:700; line-height:1.15; margin:0;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 24px;}
+  .eyebrow{font-size:13px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:12px; display:block;}
+  section{padding:88px 0;}
+  .pill{display:inline-flex; align-items:center; gap:8px; border-radius:999px; padding:14px 28px; font-weight:600; font-size:15px; text-decoration:none; border:2px solid transparent; cursor:pointer; transition:transform .15s ease;}
+  .pill:hover{transform:translateY(-2px);}
+  .pill-primary{background:var(--accent); color:var(--navy);}
+  .pill-outline{border-color:rgba(255,255,255,.4); color:#fff;}
+  .pill-dark{background:var(--navy); color:#fff;}
+
+  .site-header{position:sticky; top:0; z-index:40; background:rgba(255,255,255,.95); backdrop-filter:blur(8px); border-bottom:1px solid var(--gray-200);}
+  .site-header .wrap{display:flex; align-items:center; justify-content:space-between; padding:14px 24px;}
+  .brand{display:flex; flex-direction:column; text-decoration:none; color:var(--text); line-height:1.1;}
+  .brand .word{font-family:'Space Grotesk'; font-weight:700; font-size:19px;}
+  .brand .word span{color:var(--accent);}
+  .brand .tagline{font-size:11px; color:var(--text-soft); font-weight:500;}
+  nav{display:flex; gap:28px; align-items:center;}
+  nav a{color:var(--text); text-decoration:none; font-size:14px; font-weight:500;}
+  nav a:hover{color:var(--accent);}
+  .header-cta{display:flex; align-items:center; gap:18px;}
+  .phone-link{font-weight:600; color:var(--text); text-decoration:none; font-size:14px;}
+  @media (max-width:900px){ nav{display:none;} }
+
+  .hero{background:var(--navy); color:#fff; padding:96px 0 72px;}
+  .hero .badge{display:inline-flex; gap:8px; align-items:center; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); border-radius:999px; padding:8px 16px; font-size:13px; margin-bottom:24px;}
+  .hero h1{font-size:48px; color:#fff; max-width:820px;}
+  .hero h1 .accent{color:var(--accent);}
+  .hero p.lead{max-width:660px; font-size:17px; color:#cbd5e1; margin:22px 0 32px;}
+  .hero .cta-row{display:flex; gap:16px; flex-wrap:wrap; margin-bottom:44px;}
+  .trust-row{display:flex; gap:32px; flex-wrap:wrap; border-top:1px solid rgba(255,255,255,.15); padding-top:26px;}
+  .trust-row div{font-size:14px; color:#e2e8f0; font-weight:500;}
+
+  .bg-sky{background:var(--sky-50);}
+  .bg-white{background:#fff;}
+  .bg-gray{background:var(--gray-50); border-top:1px solid var(--gray-200); border-bottom:1px solid var(--gray-200);}
+  .bg-navy{background:var(--navy); color:#fff;}
+  .bg-accent{background:var(--accent);}
+
+  .section-head{max-width:680px; margin-bottom:48px;}
+  .section-head h2{font-size:32px;}
+  .section-head p{color:var(--text-soft); margin-top:14px; font-size:15.5px;}
+  .bg-navy .section-head p{color:#cbd5e1;}
+
+  .grid{display:grid; gap:24px;}
+  .grid-2{grid-template-columns:1fr 1fr;}
+  .grid-3{grid-template-columns:repeat(3,1fr);}
+  .grid-4{grid-template-columns:repeat(4,1fr);}
+  @media (max-width:900px){ .grid-2,.grid-3,.grid-4{grid-template-columns:1fr;} }
+
+  .feature{padding:4px;}
+  .feature .icon{font-size:28px; margin-bottom:14px;}
+  .feature h3{font-size:17px; margin-bottom:8px;}
+  .feature p{color:var(--text-soft); font-size:14px; margin:0;}
+
+  .area-chip{background:#fff; border:1px solid var(--gray-200); border-radius:12px; padding:16px; text-align:center; font-weight:600; font-size:14.5px;}
+
+  .check-list{list-style:none; margin:0; padding:0; display:grid; gap:14px;}
+  .check-list li{display:flex; gap:10px; font-size:14.5px; color:var(--text-soft);}
+  .check-list li b{color:var(--text); font-weight:600;}
+  .check-list li::before{content:"✓"; color:var(--accent); font-weight:700; flex-shrink:0;}
+  .bg-navy .check-list li{color:#cbd5e1;}
+  .bg-navy .check-list li b{color:#fff;}
+
+  details.faq{background:#fff; border:1px solid var(--gray-200); border-radius:12px; padding:18px 22px; margin-bottom:12px;}
+  details.faq summary{font-weight:600; font-size:15px; cursor:pointer; list-style:none;}
+  details.faq summary::-webkit-details-marker{display:none;}
+  details.faq summary::after{content:"+"; float:right; font-size:20px; color:var(--accent);}
+  details.faq[open] summary::after{content:"−";}
+  details.faq p, details.faq ul{color:var(--text-soft); font-size:14px; margin:14px 0 0;}
+  details.faq ul{padding-left:20px;}
+
+  .cta-banner{text-align:center;}
+  .cta-banner h2{font-size:32px; max-width:700px; margin:0 auto;}
+  .cta-banner p{margin:14px 0 28px; font-size:15.5px;}
+  .cta-banner .cta-row{display:flex; gap:16px; justify-content:center; flex-wrap:wrap;}
+
+  footer{padding:48px 0; background:var(--navy); color:#cbd5e1;}
+  footer p{color:#94a3b8; font-size:14px; margin:0;}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,.1); padding-top:20px; margin-top:24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-size:13px; color:#94a3b8;}
+  footer a{color:#cbd5e1; text-decoration:none;}
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html">
+        <span class="word">Computers<span> Gold Coast</span></span>
+        <span class="tagline">Local Computer &amp; Laptop Repairs</span>
+      </a>
+      <nav>
+        <a href="index.html#about">About Us</a>
+        <a href="services.html">Services</a>
+        <a href="index.html#testimonials">Reviews</a>
+        <a href="index.html#quote">Contact</a>
+      </nav>
+      <div class="header-cta">
+        <a class="phone-link" href="tel:+61477319160">0477 319 160</a>
+        <a class="pill pill-dark" href="index.html#quote">Get Free Quote</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap">
+      <div class="badge">🔌 Onsite Tech Setup &middot; Gold Coast &amp; Surrounds</div>
+      <h1>Setup New Equipment Gold Coast. <span class="accent">Get Your New Gadgets Working, Without The Stress.</span></h1>
+      <p class="lead">Setting up your new printer, scanner, webcam, or streaming device can quickly become frustrating. We come to your location and set everything up so it just works — whether it's a new streaming device, upgraded peripherals, or smart gadgets to integrate into your home or office.</p>
+      <div class="cta-row">
+        <a class="pill pill-primary" href="index.html#quote">Get a Free Quote</a>
+        <a class="pill pill-outline" href="tel:+61477319160">Call 0477 319 160</a>
+      </div>
+      <div class="trust-row">
+        <div>✓ Printers &amp; Scanners</div>
+        <div>✓ Webcams</div>
+        <div>✓ Streaming Devices</div>
+        <div>✓ Smart Home Gadgets</div>
+        <div>✓ Peripherals</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">What We Can Set Up For You</span>
+        <h2>From A Single Webcam To A Full Smart Home.</h2>
+      </div>
+      <div class="grid grid-3">
+        <div class="feature"><div class="icon">🎥</div><h3>Webcam Setup &amp; Video Calls</h3><p>Mounting and USB setup, software and driver installation, app configuration for Zoom, Teams and Skype, plus lighting and resolution optimisation.</p></div>
+        <div class="feature"><div class="icon">🖨️</div><h3>Printers &amp; Scanners</h3><p>Hardware assembly and placement, WiFi and driver setup, testing and troubleshooting. Scanner software integration, scan-to-cloud/email setup, and OCR accuracy checks.</p></div>
+        <div class="feature"><div class="icon">📺</div><h3>Streaming Device Setup</h3><p>Connection to your TV and network, setup of Netflix, Disney+, Stan and more, audio/video tuning, and remote syncing or smart assistant pairing. See our full <a href="smart-tv-streaming-setup-gold-coast.html">Smart TV &amp; streaming setup service</a>.</p></div>
+        <div class="feature"><div class="icon">🏠</div><h3>Smart Home &amp; Gadget Integration</h3><p>App and WiFi integration, routine and voice command setup, and configuration of smart plugs, lights, thermostats and cameras with Google Home, Alexa or Apple HomeKit. If you're adding cameras, see our dedicated <a href="cctv-security-cameras-gold-coast.html">CCTV &amp; security camera installation service</a>.</p></div>
+        <div class="feature"><div class="icon">🔗</div><h3>Peripheral &amp; Accessory Setup</h3><p>External monitors, hubs and drives, Bluetooth audio systems, USB docking stations, and wireless keyboards, mice and trackpads.</p></div>
+        <div class="feature"><div class="icon">🌐</div><h3>Network Integration</h3><p>Secure WiFi connection for every gadget — to your existing network or a newly configured one. See our <a href="wireless-networks-setup-gold-coast.html">wireless network setup service</a>.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-sky">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">How It Works</span>
+        <h2>From Booking To Full Confidence.</h2>
+      </div>
+      <div class="grid grid-4">
+        <div class="feature"><div class="icon">1️⃣</div><h3>Book An Appointment</h3><p>Choose a time that fits your schedule — same-day service is often available.</p></div>
+        <div class="feature"><div class="icon">2️⃣</div><h3>Technician Visit</h3><p>We arrive at your location, ready to work.</p></div>
+        <div class="feature"><div class="icon">3️⃣</div><h3>Full Setup &amp; Testing</h3><p>Devices are installed, configured and fully tested.</p></div>
+        <div class="feature"><div class="icon">4️⃣</div><h3>Walkthrough &amp; Demo</h3><p>We show you how to use your tech in plain English — no jargon.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-navy">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Why Use Our Onsite Setup Service</span>
+        <h2 style="color:#fff;">We Don't Just Set Things Up — We Explain How To Use Them.</h2>
+      </div>
+      <ul class="check-list" style="grid-template-columns:1fr 1fr;">
+        <li><b>Save time</b> — no more guesswork or wasted hours. We handle it all, fast and efficiently.</li>
+        <li><b>Professional setup</b> — devices configured by trained experts to function flawlessly from day one.</li>
+        <li><b>Security &amp; privacy</b> — we respect your space and data, with privacy best practices in every configuration.</li>
+        <li><b>We show you how</b> — we explain how to use your new tech in plain English, no tech talk needed.</li>
+        <li><b>Trusted, experienced technicians</b> — fast, onsite service with zero hassle.</li>
+        <li><b>Affordable, upfront pricing</b> — no hidden fees.</li>
+      </ul>
+      <div class="cta-row" style="margin-top:28px;">
+        <a class="pill pill-primary" href="index.html#quote">Get a Free Quote</a>
+        <a class="pill pill-outline" href="tel:+61477319160">Call 0477 319 160</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-gray">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Related Services</span>
+        <h2>Setting Up More Than One Thing?</h2>
+      </div>
+      <p style="font-size:15.5px; color:var(--text-soft); max-width:820px;">Bundling a new TV or streaming box with your other gadgets? Check out our dedicated <a href="smart-tv-streaming-setup-gold-coast.html">Smart TV &amp; streaming setup service</a>. Adding cameras to your smart home devices? See <a href="cctv-security-cameras-gold-coast.html">CCTV &amp; security camera installation</a>. Want faster, more reliable WiFi to support all your new gadgets? Take a look at <a href="network-optimisation-mesh-wifi-gold-coast.html">network optimisation &amp; WiFi mesh design</a>. Setting up a new computer at the same time? See <a href="new-computer-setup-gold-coast.html">new computer setup</a>.</p>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Frequently Asked Questions</span>
+        <h2>Equipment Setup Questions, Answered.</h2>
+      </div>
+      <details class="faq">
+        <summary>What kinds of devices do you set up?</summary>
+        <p>We set up printers, scanners, webcams, smart gadgets, streaming devices like Apple TV and Chromecast, as well as accessories like external hard drives and smart speakers.</p>
+      </details>
+      <details class="faq">
+        <summary>Can you help with devices I bought online?</summary>
+        <p>Absolutely. Whether you purchased from Amazon, eBay or a local retailer, our team is familiar with a wide variety of brands and models.</p>
+      </details>
+      <details class="faq">
+        <summary>Do I need to prepare anything beforehand?</summary>
+        <p>Yes — please have the device unpacked and nearby with all included accessories, cables and instruction manuals.</p>
+      </details>
+      <details class="faq">
+        <summary>How long does an onsite tech setup take?</summary>
+        <p>Most appointments take between 30 and 90 minutes, depending on the number of gadgets and setup complexity.</p>
+      </details>
+      <details class="faq">
+        <summary>Can you connect everything to my wireless network?</summary>
+        <p>Yes. We specialise in secure WiFi setup and can connect all your gadgets to your existing network, or help configure a new one.</p>
+      </details>
+      <details class="faq">
+        <summary>What if I already started the setup and got stuck?</summary>
+        <p>No worries — our technicians can pick up where you left off, troubleshoot any issues, and complete the process properly.</p>
+      </details>
+      <details class="faq">
+        <summary>Can you help with smart home automation routines?</summary>
+        <p>Definitely. We can create voice-controlled routines, schedule device actions, and integrate them with platforms like Google Home or Alexa.</p>
+      </details>
+      <details class="faq">
+        <summary>Do you offer packages for setting up multiple devices?</summary>
+        <p>Yes, we offer bundled installation services that save you time and money when setting up multiple gadgets in one session.</p>
+      </details>
+      <details class="faq">
+        <summary>Is this service available for businesses as well as homes?</summary>
+        <p>Absolutely. We assist small businesses, home offices and professionals with setting up their workplace technology too.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="bg-accent cta-banner">
+    <div class="wrap">
+      <h2>Tired Of Fiddling With Cables And Settings?</h2>
+      <p>Book now and get your devices working perfectly — fast, and explained in plain English.</p>
+      <div class="cta-row">
+        <a class="pill pill-dark" href="index.html#quote">Get Free Quote</a>
+        <a class="pill" style="background:#fff;color:var(--navy);" href="tel:+61477319160">Call 0477 319 160</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Where We Work</span>
+        <h2>Service Areas.</h2>
+        <p>Flexible onsite appointments across the Gold Coast, including same-day service when available.</p>
+      </div>
+      <div class="grid grid-4">
+        <div class="area-chip">Surfers Paradise</div>
+        <div class="area-chip">Broadbeach</div>
+        <div class="area-chip">Southport</div>
+        <div class="area-chip">Robina</div>
+        <div class="area-chip">Burleigh Heads</div>
+        <div class="area-chip">Nerang</div>
+        <div class="area-chip">Varsity Lakes</div>
+        <div class="area-chip">Coolangatta</div>
+      </div>
+      <p style="margin-top:24px; font-size:15px; color:var(--text-soft);">Not sure if we cover your area? Call <a href="tel:+61477319160" style="color:var(--navy); font-weight:600;">0477 319 160</a> — we dispatch technicians widely across South East Queensland.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <p>Computers Gold Coast — family-owned technicians serving the Gold Coast.</p>
+      <div class="footer-bottom">
+        <span>© 2026 Computers Gold Coast. All rights reserved.</span>
+        <span><a href="tel:+61477319160">0477 319 160</a></span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
