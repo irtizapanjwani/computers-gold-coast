@@ -1,0 +1,331 @@
+<!-- ============================================================
+  Computers Gold Coast — Smart Home Automation page.
+  New page (no Brisbane source; not a clone). First-person voice,
+  original copy, avoid-ai-writing rules applied. Replaces the retired
+  "Setup New Equipment" service. No invented prices or stats; product
+  names (Google Home, Alexa, Apple Home, Philips Hue, etc.) are real,
+  widely-known platforms.
+============================================================= -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Home Automation Gold Coast | Computers Gold Coast</title>
+<meta name="description" content="Smart home automation setup on the Gold Coast. Smart lighting, locks, video doorbells, voice assistants and automated routines, set up to work together reliably and tie in with your cameras and alarm. Local, in-home, jargon-free.">
+<link rel="canonical" href="https://computersgoldcoast.com.au/smart-home-automation-gold-coast.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Smart Home Automation Gold Coast | Computers Gold Coast">
+<meta property="og:description" content="Smart lighting, locks, video doorbells, voice assistants and automated routines, set up to work together reliably. Local, in-home, jargon-free.">
+<meta property="og:url" content="https://computersgoldcoast.com.au/smart-home-automation-gold-coast.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Smart Home Automation Gold Coast | Computers Gold Coast">
+<meta name="twitter:description" content="Smart lighting, locks, video doorbells, voice assistants and automated routines, set up to work together reliably on the Gold Coast.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "Smart Home Automation Setup",
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Computers Gold Coast",
+    "telephone": "+61477319160",
+    "url": "https://computersgoldcoast.com.au/"
+  },
+  "areaServed": ["Surfers Paradise","Broadbeach","Southport","Robina","Burleigh Heads","Nerang","Varsity Lakes","Coolangatta"]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#020617; --sky-50:#f0f9ff; --gray-50:#f9fafb; --gray-200:#e5e7eb;
+    --accent:#38bdf8; --text:#0f172a; --text-soft:#475569;
+  }
+  *{box-sizing:border-box;}
+  body{font-family:'Inter',ui-sans-serif,system-ui,sans-serif; color:var(--text); line-height:1.55; margin:0;}
+  h1,h2,h3{font-family:'Space Grotesk',ui-sans-serif,system-ui,sans-serif; font-weight:700; line-height:1.15; margin:0;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 24px;}
+  .eyebrow{font-size:13px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:12px; display:block;}
+  section{padding:88px 0;}
+  .pill{display:inline-flex; align-items:center; gap:8px; border-radius:999px; padding:14px 28px; font-weight:600; font-size:15px; text-decoration:none; border:2px solid transparent; cursor:pointer; transition:transform .15s ease;}
+  .pill:hover{transform:translateY(-2px);}
+  .pill-primary{background:var(--accent); color:var(--navy);}
+  .pill-outline{border-color:rgba(255,255,255,.4); color:#fff;}
+  .pill-dark{background:var(--navy); color:#fff;}
+
+  .site-header{position:sticky; top:0; z-index:40; background:rgba(255,255,255,.95); backdrop-filter:blur(8px); border-bottom:1px solid var(--gray-200);}
+  .site-header .wrap{display:flex; align-items:center; justify-content:space-between; padding:14px 24px;}
+  .brand{display:flex; flex-direction:column; text-decoration:none; color:var(--text); line-height:1.1;}
+  .brand .word{font-family:'Space Grotesk'; font-weight:700; font-size:19px;}
+  .brand .word span{color:var(--accent);}
+  .brand .tagline{font-size:11px; color:var(--text-soft); font-weight:500;}
+  nav{display:flex; gap:28px; align-items:center;}
+  nav a{color:var(--text); text-decoration:none; font-size:14px; font-weight:500;}
+  nav a:hover{color:var(--accent);}
+  .header-cta{display:flex; align-items:center; gap:18px;}
+  .phone-link{font-weight:600; color:var(--text); text-decoration:none; font-size:14px;}
+  @media (max-width:900px){ nav{display:none;} }
+
+  .hero{background:var(--navy); color:#fff; padding:96px 0 72px;}
+  .hero .badge{display:inline-flex; gap:8px; align-items:center; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); border-radius:999px; padding:8px 16px; font-size:13px; margin-bottom:24px;}
+  .hero h1{font-size:48px; color:#fff; max-width:820px;}
+  .hero h1 .accent{color:var(--accent);}
+  .hero p.lead{max-width:660px; font-size:17px; color:#cbd5e1; margin:22px 0 32px;}
+  .hero .cta-row{display:flex; gap:16px; flex-wrap:wrap; margin-bottom:44px;}
+  .trust-row{display:flex; gap:32px; flex-wrap:wrap; border-top:1px solid rgba(255,255,255,.15); padding-top:26px;}
+  .trust-row div{font-size:14px; color:#e2e8f0; font-weight:500;}
+
+  .bg-sky{background:var(--sky-50);}
+  .bg-white{background:#fff;}
+  .bg-gray{background:var(--gray-50); border-top:1px solid var(--gray-200); border-bottom:1px solid var(--gray-200);}
+  .bg-navy{background:var(--navy); color:#fff;}
+  .bg-accent{background:var(--accent);}
+
+  .section-head{max-width:680px; margin-bottom:48px;}
+  .section-head h2{font-size:32px;}
+  .section-head p{color:var(--text-soft); margin-top:14px; font-size:15.5px;}
+  .bg-navy .section-head p{color:#cbd5e1;}
+
+  .grid{display:grid; gap:24px;}
+  .grid-2{grid-template-columns:1fr 1fr;}
+  .grid-3{grid-template-columns:repeat(3,1fr);}
+  .grid-4{grid-template-columns:repeat(4,1fr);}
+  @media (max-width:900px){ .grid-2,.grid-3,.grid-4{grid-template-columns:1fr;} }
+
+  .feature{padding:4px;}
+  .feature .icon{font-size:28px; margin-bottom:14px;}
+  .feature h3{font-size:17px; margin-bottom:8px;}
+  .feature p{color:var(--text-soft); font-size:14px; margin:0;}
+
+  .area-chip{background:#fff; border:1px solid var(--gray-200); border-radius:12px; padding:16px; text-align:center; font-weight:600; font-size:14.5px;}
+
+  .check-list{list-style:none; margin:0; padding:0; display:grid; gap:14px;}
+  .check-list li{display:flex; gap:10px; font-size:14.5px; color:var(--text-soft);}
+  .check-list li b{color:var(--text); font-weight:600;}
+  .check-list li::before{content:"✓"; color:var(--accent); font-weight:700; flex-shrink:0;}
+  .bg-navy .check-list li{color:#cbd5e1;}
+  .bg-navy .check-list li b{color:#fff;}
+
+  details.faq{background:#fff; border:1px solid var(--gray-200); border-radius:12px; padding:18px 22px; margin-bottom:12px;}
+  details.faq summary{font-weight:600; font-size:15px; cursor:pointer; list-style:none;}
+  details.faq summary::-webkit-details-marker{display:none;}
+  details.faq summary::after{content:"+"; float:right; font-size:20px; color:var(--accent);}
+  details.faq[open] summary::after{content:"−";}
+  details.faq p, details.faq ul{color:var(--text-soft); font-size:14px; margin:14px 0 0;}
+  details.faq ul{padding-left:20px;}
+
+  .cta-banner{text-align:center;}
+  .cta-banner h2{font-size:32px; max-width:700px; margin:0 auto;}
+  .cta-banner p{margin:14px 0 28px; font-size:15.5px;}
+  .cta-banner .cta-row{display:flex; gap:16px; justify-content:center; flex-wrap:wrap;}
+
+  footer{padding:48px 0; background:var(--navy); color:#cbd5e1;}
+  footer p{color:#94a3b8; font-size:14px; margin:0;}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,.1); padding-top:20px; margin-top:24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-size:13px; color:#94a3b8;}
+  footer a{color:#cbd5e1; text-decoration:none;}
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html">
+        <span class="word">Computers<span> Gold Coast</span></span>
+        <span class="tagline">Local Computer &amp; Laptop Repairs</span>
+      </a>
+      <nav>
+        <a href="index.html#about">About Us</a>
+        <a href="services.html">Services</a>
+        <a href="index.html#testimonials">Reviews</a>
+        <a href="index.html#quote">Contact</a>
+      </nav>
+      <div class="header-cta">
+        <a class="phone-link" href="tel:+61477319160">0477 319 160</a>
+        <a class="pill pill-dark" href="index.html#quote">Get Free Quote</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap">
+      <div class="badge">🏠 One Home, Working Together &middot; Gold Coast &amp; Surrounds</div>
+      <h1>Smart Home Automation Gold Coast. <span class="accent">A Home That Just Does It For You.</span></h1>
+      <p class="lead">Lights that come on as you pull in the drive, a front door you can unlock from your phone, and a single "goodnight" that locks up and turns everything off. I set up smart home automation across the Gold Coast and make the pieces actually work together, so it feels effortless instead of a drawer full of half-working gadgets.</p>
+      <div class="cta-row">
+        <a class="pill pill-primary" href="index.html#quote">Get a Free Quote</a>
+        <a class="pill pill-outline" href="tel:+61477319160">Call 0477 319 160</a>
+      </div>
+      <div class="trust-row">
+        <div>✓ Lighting, Locks &amp; Doorbells</div>
+        <div>✓ Voice Control</div>
+        <div>✓ Works With Your Security</div>
+        <div>✓ In-Home, Jargon-Free</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="wrap">
+      <div class="grid grid-2" style="align-items:center;">
+        <div>
+          <span class="eyebrow">Why It's Worth Doing Right</span>
+          <h2 style="font-size:30px;">Smart Gadgets Are Easy To Buy And Hard To Make Work.</h2>
+          <p style="color:var(--text-soft); margin-top:16px; font-size:15.5px;">Most people's smart home is a light here, a plug there, three different apps, and half of it forgotten because it kept dropping offline. The devices are the easy part. Getting them onto a reliable network, into one app, and set up so they trigger each other automatically is where it comes good, and where most DIY setups fall down.</p>
+          <p style="color:var(--text-soft); margin-top:14px; font-size:15.5px;">That's the part I sort out. I'm an IT technician first, so the network underneath it all is solid before a single automation goes on top.</p>
+        </div>
+        <div>
+          <span class="eyebrow">Pick Your Assistant</span>
+          <h2 style="font-size:30px;">Google, Alexa Or Apple. One System, Your Way.</h2>
+          <p style="color:var(--text-soft); margin-top:16px; font-size:15.5px;">If you already talk to Google, Alexa or Siri, I'll build your smart home around that one and get your devices playing nicely with it. No more three apps for three brands. You get one place to control everything and a voice assistant that actually does what you ask.</p>
+          <p style="color:var(--text-soft); margin-top:14px; font-size:15.5px;">Already started and hit a wall? Fixing half-finished smart homes is one of my most common jobs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-sky">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">What I Set Up</span>
+        <h2>The Building Blocks Of A Smart Home.</h2>
+      </div>
+      <div class="grid grid-3">
+        <div class="feature"><div class="icon">💡</div><h3>Smart Lighting</h3><p>Lights that dim, schedule, and come on with sunset or your arrival. Set a scene for movie night or dinner with one tap or one word.</p></div>
+        <div class="feature"><div class="icon">🔑</div><h3>Smart Locks &amp; Doorbells</h3><p>Unlock the door from your phone, give guests a temporary code, and see and talk to whoever's at the door from anywhere.</p></div>
+        <div class="feature"><div class="icon">🎙️</div><h3>Voice Control</h3><p>Run lights, music, timers, blinds and more by voice with Google Assistant, Alexa or Siri, set up so it responds the way you expect.</p></div>
+        <div class="feature"><div class="icon">🌡️</div><h3>Climate &amp; Comfort</h3><p>Control air-con and fans from your phone or a schedule, so the house is comfortable when you get home and off when nobody's there.</p></div>
+        <div class="feature"><div class="icon">🔌</div><h3>Smart Plugs &amp; Power</h3><p>Turn anything into a smart device, schedule the pool pump or heater, and see what's quietly running up your power bill.</p></div>
+        <div class="feature"><div class="icon">⚙️</div><h3>Automations &amp; Routines</h3><p>The good part: one "goodnight" that locks up and kills the lights, or a leaving routine that arms the alarm and shuts everything down.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-navy">
+    <div class="wrap">
+      <div class="grid grid-2" style="align-items:center;">
+        <div>
+          <span class="eyebrow">Ties Into Your Security</span>
+          <h2 style="font-size:30px; color:#fff;">Your Whole Home On One Team.</h2>
+          <p style="color:#cbd5e1; margin-top:16px; font-size:15.5px;">Smart home really pays off when it works with your security. Your <a href="cctv-security-cameras-gold-coast.html" style="color:var(--accent); font-weight:600;">cameras</a> and <a href="alarm-system-installation-gold-coast.html" style="color:var(--accent); font-weight:600;">alarm</a> can trigger lights when motion is detected at night, your leaving routine can arm the system as you walk out, and a tap on your phone can check the doors, the cameras and the alarm all at once.</p>
+          <p style="color:#cbd5e1; margin-top:14px; font-size:15.5px;">Because I install the cameras and alarms too, it all comes from one licensed installer who makes sure the pieces actually talk to each other.</p>
+        </div>
+        <div>
+          <ul class="check-list">
+            <li><b>Motion-triggered lighting</b> that makes the house look lived-in and scares off prowlers.</li>
+            <li><b>One leaving routine</b> that arms the alarm and shuts everything down.</li>
+            <li><b>Check everything at once</b> from a single app, wherever you are.</li>
+            <li><b>Kids and family</b> covered too, with <a href="family-safety-screen-time-gold-coast.html" style="color:var(--accent); font-weight:600;">screen-time and safety controls</a> in the mix.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">The Foundation</span>
+        <h2>None Of It Works Without A Solid Network.</h2>
+        <p>A smart home lives or dies on its WiFi. Devices that keep dropping offline are almost always a network problem, not a device problem, which is why I sort the network first.</p>
+      </div>
+      <div class="grid grid-3">
+        <div class="feature"><div class="icon">📶</div><h3>Strong WiFi Everywhere</h3><p>A <a href="network-optimisation-mesh-wifi-gold-coast.html" style="color:var(--accent); font-weight:600;">mesh WiFi network</a> so devices in every room and the yard stay connected and responsive.</p></div>
+        <div class="feature"><div class="icon">🔌</div><h3>Wired Where It Counts</h3><p>Hard-wired <a href="data-cabling-gold-coast.html" style="color:var(--accent); font-weight:600;">data cabling</a> for hubs, cameras and anything that's better off a cable.</p></div>
+        <div class="feature"><div class="icon">🔒</div><h3>Set Up Securely</h3><p>Smart devices done right, on a network that's locked down, so convenience doesn't become a way in.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-sky">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Frequently Asked Questions</span>
+        <h2>Smart Home Questions, Answered.</h2>
+      </div>
+      <details class="faq">
+        <summary>Which system should I use, Google, Alexa or Apple?</summary>
+        <p>Whichever you already lean towards. If your phone's an iPhone and you like Siri, Apple Home is a natural fit. If you've got a Google or Amazon speaker already, I'll build around that. The main thing is picking one and setting your devices up to work with it properly, rather than ending up with a mix that half-works. I'll help you choose based on what you already own.</p>
+      </details>
+      <details class="faq">
+        <summary>Do I have to replace everything at once?</summary>
+        <p>Not at all, and I'd usually talk you out of it. Most people start with one or two things that annoy them, like the front door or the outdoor lights, then add more over time. I'll set up a foundation that's easy to build on, so each new piece just slots in rather than starting over.</p>
+      </details>
+      <details class="faq">
+        <summary>My smart devices keep dropping offline. Can you fix that?</summary>
+        <p>Yes, and it's one of the most common jobs I get called for. Devices dropping out is nearly always a WiFi coverage or setup problem rather than a fault with the gadget. Sorting the network, usually with a mesh setup, and getting everything onto it correctly is what makes a smart home reliable instead of frustrating.</p>
+      </details>
+      <details class="faq">
+        <summary>Is a smart home secure? I don't want to be hacked.</summary>
+        <p>A fair concern, and setup is what makes the difference. I put smart devices on a properly secured network, change default passwords, and keep the important things sensibly separated. Done right, the convenience doesn't come at the cost of your security, and a smart lock or camera is a lot harder to get past than a hidden key under the mat.</p>
+      </details>
+      <details class="faq">
+        <summary>Will it still work if my internet goes down?</summary>
+        <p>The core things mostly keep working on your local network, so lights and switches still respond. What you lose during an outage is remote access and voice control that rely on the internet. If reliable connection matters to you, I can look at your setup as a whole, including options like a <a href="starlink-installation-gold-coast.html" style="color:var(--accent); font-weight:600;">Starlink</a> backup, so you're not left in the dark.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Related Services</span>
+        <h2>Build Out The Rest.</h2>
+      </div>
+      <div class="grid grid-2">
+        <ul class="check-list">
+          <li>See and record what matters with <a href="cctv-security-cameras-gold-coast.html" style="color:var(--accent); font-weight:600;">CCTV camera installation</a>.</li>
+          <li>Protect the house and tie it into your routines with an <a href="alarm-system-installation-gold-coast.html" style="color:var(--accent); font-weight:600;">alarm system</a>.</li>
+        </ul>
+        <ul class="check-list">
+          <li>Give every device rock-solid signal with a <a href="network-optimisation-mesh-wifi-gold-coast.html" style="color:var(--accent); font-weight:600;">mesh WiFi network</a>.</li>
+          <li>Make tech easier for everyone at home with <a href="assistive-tech-setup-gold-coast.html" style="color:var(--accent); font-weight:600;">accessibility and assistive tech setup</a>.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-accent cta-banner">
+    <div class="wrap">
+      <h2>Ready For A Home That Runs Itself?</h2>
+      <p>Get a free, no-obligation quote for smart home automation anywhere on the Gold Coast.</p>
+      <div class="cta-row">
+        <a class="pill pill-dark" href="index.html#quote">Get Free Quote</a>
+        <a class="pill" style="background:#fff;color:var(--navy);" href="tel:+61477319160">Call 0477 319 160</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Where I Work</span>
+        <h2>Service Areas.</h2>
+        <p>Smart home automation setup across the Gold Coast.</p>
+      </div>
+      <div class="grid grid-4">
+        <div class="area-chip">Surfers Paradise</div>
+        <div class="area-chip">Broadbeach</div>
+        <div class="area-chip">Southport</div>
+        <div class="area-chip">Robina</div>
+        <div class="area-chip">Burleigh Heads</div>
+        <div class="area-chip">Nerang</div>
+        <div class="area-chip">Varsity Lakes</div>
+        <div class="area-chip">Coolangatta</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <p>Computers Gold Coast — family-owned technicians serving the Gold Coast.</p>
+      <div class="footer-bottom">
+        <span>© 2026 Computers Gold Coast. All rights reserved.</span>
+        <span><a href="tel:+61477319160">0477 319 160</a></span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
