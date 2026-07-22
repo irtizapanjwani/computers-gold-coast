@@ -1,0 +1,12 @@
+# Cloudflare Pages redirects.
+#
+# NOTE: Old URLs that kept the same slug are already redirected automatically by
+# Cloudflare Pages -- both /slug/ and /slug.html send a 308 to the clean /slug.
+# So only pages whose slug CHANGED or was REMOVED need an entry here.
+#
+# Retired pages (folded into another page):
+/setup-new-equipment-gold-coast       /new-computer-setup-gold-coast   301
+/setup-new-equipment-gold-coast.html  /new-computer-setup-gold-coast   301
+
+# Add more below once the old indexed URLs are known (Search Console -> Indexing
+# -> Pages). Format:  /old-path   /new-path   301
