@@ -137,11 +137,32 @@
   footer p{color:#94a3b8; font-size:14px; margin:0;}
   .footer-bottom{border-top:1px solid rgba(255,255,255,.1); padding-top:20px; margin-top:24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-size:13px; color:#94a3b8;}
   footer a{color:#cbd5e1; text-decoration:none;}
+  .topbar{background:var(--navy);}
+  .topbar-inner{max-width:1120px; margin:0 auto; padding:7px 24px; display:flex; align-items:center; justify-content:center; font-size:13px;}
+  .open-status{display:inline-flex; align-items:center; gap:9px; font-weight:600; color:#fff;}
+  .os-dot{width:9px; height:9px; border-radius:50%; background:#4ade80; flex:none;}
+  .open-status.is-open .os-dot{animation:ospulse 1.5s ease-out infinite;}
+  .open-status.is-closed .os-dot{background:#94a3b8;}
+  .os-text{font-weight:700; color:#4ade80;}
+  .open-status.is-closed .os-text{color:#cbd5e1;}
+  .os-sep{color:#64748b;}
+  .os-clock{color:var(--accent); font-variant-numeric:tabular-nums; font-weight:600; letter-spacing:.02em;}
+  @keyframes ospulse{0%{box-shadow:0 0 0 0 rgba(74,222,128,.7);} 70%{box-shadow:0 0 0 6px rgba(74,222,128,0);} 100%{box-shadow:0 0 0 0 rgba(74,222,128,0);}}
 </style>
 </head>
 <body>
 
   <header class="site-header">
+    <div class="topbar">
+      <div class="topbar-inner">
+        <div class="open-status" data-open-status>
+          <span class="os-dot"></span>
+          <strong class="os-text">Open Now</strong>
+          <span class="os-sep">&middot;</span>
+          <span class="os-clock"></span>
+        </div>
+      </div>
+    </div>
     <div class="wrap">
       <a class="brand" href="/">
         <span class="word">Computers<span> Gold Coast</span></span>
@@ -292,5 +313,6 @@
   </footer>
 
   <script>document.querySelectorAll('.nav-toggle').forEach(function(b){b.addEventListener('click',function(){var h=b.closest('.site-header');var o=h.classList.toggle('nav-open');b.setAttribute('aria-expanded',o);});});</script>
+<script>(function(){var el=document.querySelector('[data-open-status]');if(!el)return;var t=el.querySelector('.os-text'),c=el.querySelector('.os-clock');function tick(){var now=new Date();var time=new Intl.DateTimeFormat('en-AU',{timeZone:'Australia/Brisbane',hour:'numeric',minute:'2-digit',second:'2-digit',hour12:true}).format(now).toUpperCase();var h=parseInt(new Intl.DateTimeFormat('en-GB',{timeZone:'Australia/Brisbane',hour:'2-digit',hour12:false}).format(now),10);if(h>=7&&h<22){el.classList.add('is-open');el.classList.remove('is-closed');t.textContent='Open Now';c.textContent=time;}else{el.classList.add('is-closed');el.classList.remove('is-open');t.textContent='Closed';c.textContent='Opens 7 AM';}}tick();setInterval(tick,1000);})();</script>
 </body>
 </html>
