@@ -1,0 +1,29 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import bodyScripts from '../data/body-scripts.html?raw';
+
+interface Props {
+  headHtml: string;
+  bodyHtml: string;
+  footerHtml?: string | null;
+  bare?: boolean;
+}
+const { headHtml, bodyHtml, footerHtml = null, bare = false } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+<head set:html={headHtml}></head>
+<body>
+{bare ? (
+  <Fragment set:html={bodyHtml} />
+) : (
+  <Fragment>
+    <Header />
+    <Fragment set:html={bodyHtml} />
+    {footerHtml ? <Fragment set:html={footerHtml} /> : <Footer />}
+    <Fragment set:html={bodyScripts} />
+  </Fragment>
+)}
+</body>
+</html>
