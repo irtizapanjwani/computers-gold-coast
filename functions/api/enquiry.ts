@@ -26,6 +26,16 @@ interface Context {
 export async function onRequestPost({ request, env }: Context): Promise<Response> {
   const acceptsJson = (request.headers.get('accept') ?? '').includes('application/json');
 
+  try {
+    return await handle(request, env, acceptsJson);
+  } catch (err) {
+    // TEMPORARY: surface the real exception instead of letting it become an
+    // opaque Cloudflare-edge 502. Remove once the cause is confirmed fixed.
+    return json({ success: false, message: 'DEBUG: ' + String(err && (err as Error).stack || err) }, 500);
+  }
+}
+
+async function handle(request: Request, env: Env, acceptsJson: boolean): Promise<Response> {
   let data: FormData;
   try {
     data = await request.formData();
