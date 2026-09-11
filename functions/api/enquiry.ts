@@ -78,19 +78,12 @@ async function handle(request: Request, env: Env, acceptsJson: boolean): Promise
   }
   forward.set('_captcha', 'false');
 
-  // FormSubmit rejects requests with no Referer ("Make sure you open this
-  // page through a web server...") since it uses that header to identify
-  // which site is submitting. `Referer` is a forbidden header name per the
-  // Fetch spec — setting it via `headers` is silently dropped — so it has
-  // to go through fetch's dedicated `referrer` option instead, which is
-  // exactly what that option exists for.
-  const referer = request.headers.get('referer') ?? new URL(request.url).origin;
-
+  // DEBUG: referrer option temporarily removed to isolate a raw Cloudflare
+  // origin_bad_gateway crash — testing whether that option is the cause.
   const deliveryRes = await fetch(env.FORM_ENDPOINT, {
     method: 'POST',
     body: forward,
     headers: { accept: 'application/json' },
-    referrer: referer,
   });
   const deliveryBody: { success?: string } = await deliveryRes.json().catch(() => ({}));
 
