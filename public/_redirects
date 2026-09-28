@@ -10,6 +10,9 @@
 
 /apple-mac-repairs-gold-coast /mac-repairs-gold-coast 301
 
+/cctv-security-cameras-gold-coast       /services/cctv-security-cameras-gold-coast   301
+/cctv-security-cameras-gold-coast.html  /services/cctv-security-cameras-gold-coast   301
+
 # Old WordPress URLs reported as 404 in Search Console, July 2026.
 # Each target verified live before adding.
 /network-setup-gold-coast            /wireless-networks-setup-gold-coast   301
