@@ -1,6 +1,6 @@
 ---
 // Component: QuoteForm.astro for Computers Gold Coast
-// Web3Forms API Direct Backend Integration (Zero Heavy Plugins / 100% Native Vanilla JS)
+// SplitForms API Direct Backend Integration (Zero Heavy Plugins / 100% Native Vanilla JS)
 ---
 <section id="quote" class="py-20 relative overflow-hidden scroll-mt-24">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -49,13 +49,13 @@
         <div class="lg:col-span-7">
           
           <form 
-            action="https://api.web3forms.com/submit" 
+            action="https://splitforms.com/api/submit"
             method="POST" 
             id="cctv-quote-form" 
             class="space-y-4 transition-opacity duration-300"
           >
-            <!-- Web3Forms Access Key -->
-            <input type="hidden" name="access_key" value="cd39c6a4-dde5-42ea-88e7-8b438916b485" />
+            <!-- SplitForms Access Key -->
+            <input type="hidden" name="access_key" value="b31703ea3cae42b5aa3d3746ce9cfa2c" />
             <input type="hidden" name="subject" value="New CCTV Quote Request - Computers Gold Coast" />
             <input type="hidden" name="from_name" value="Computers Gold Coast Web Leads" />
             <input type="checkbox" name="botcheck" class="hidden" style="display: none;" />
@@ -234,9 +234,10 @@
 
         const formData = new FormData(form);
 
-        fetch('https://api.web3forms.com/submit', {
+        fetch('https://splitforms.com/api/submit', {
           method: 'POST',
-          body: formData
+          body: formData,
+          headers: { Accept: 'application/json' }
         })
         .then(async function(response) {
           const json = await response.json();
