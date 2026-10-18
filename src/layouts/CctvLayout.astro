@@ -1,4 +1,7 @@
 ---
+import GtmHead from '../components/GtmHead.astro';
+import GtmBody from '../components/GtmBody.astro';
+
 interface Props {
   title?: string;
   description?: string;
@@ -14,6 +17,7 @@ const {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <GtmHead />
   <title>{title}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href="https://computersgoldcoast.com.au/services/cctv-security-cameras-gold-coast" />
@@ -223,6 +227,7 @@ const {
   </script>
 </head>
 <body class="selection:bg-blue-500/30 selection:text-blue-800 dark:selection:text-blue-200">
+  <GtmBody />
   <slot />
 
   <!-- STANDALONE PURE JAVASCRIPT LOGIC -->

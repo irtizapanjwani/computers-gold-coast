@@ -1,6 +1,8 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import GtmHead from '../components/GtmHead.astro';
+import GtmBody from '../components/GtmBody.astro';
 import bodyScripts from '../data/body-scripts.html?raw';
 
 interface Props {
@@ -13,8 +15,12 @@ const { headHtml, bodyHtml, footerHtml = null, bare = false } = Astro.props;
 ---
 <!doctype html>
 <html lang="en">
-<head set:html={headHtml}></head>
+<head>
+<Fragment set:html={headHtml} />
+<GtmHead />
+</head>
 <body>
+<GtmBody />
 {bare ? (
   <Fragment set:html={bodyHtml} />
 ) : (

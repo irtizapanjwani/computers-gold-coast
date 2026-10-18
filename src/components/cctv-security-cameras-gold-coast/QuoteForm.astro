@@ -243,6 +243,8 @@
           const json = await response.json();
           if (response.status === 200 && json.success) {
             form.classList.add('hidden');
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({ event: 'form_submit_success', form_name: 'cctv_quote' });
             if (successBox) {
               successBox.classList.remove('hidden');
               successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
