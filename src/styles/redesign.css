@@ -333,6 +333,63 @@ textarea.field{min-height:96px; resize:vertical;}
 @keyframes symIn{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;}}
 @media (prefers-reduced-motion:reduce){ .sym-panel:not([hidden]){animation:none;} }
 
+/* ---------- How it works: step timeline + phone thread (homepage) ---------- */
+/* Base styles = the complete, static state (no JS / reduced motion). `.is-js` adds the playback states. */
+.rt-grid{display:grid; grid-template-columns:minmax(0,1fr) minmax(300px,400px); gap:96px; align-items:center;}
+.rt-left .lede{margin-top:14px;}
+.rt-steps{list-style:none; margin:40px 0 0; padding:0;}
+.rt-step{position:relative;}
+.rt-step:not(:last-child)::before,
+.rt-step:not(:last-child)::after{content:""; position:absolute; left:23px; top:56px; bottom:-4px; width:2px; border-radius:2px;}
+.rt-step:not(:last-child)::before{background:#d6dee8;}
+.rt-step:not(:last-child)::after{background:var(--accent); transform-origin:top; transition:transform .5s ease;}
+.rt-step-btn{display:grid; grid-template-columns:48px 1fr; gap:20px; width:100%; padding:4px 12px 28px 0; border:0; border-radius:12px; background:none; color:inherit; font:inherit; text-align:left; cursor:pointer;}
+.rt-step-btn:focus-visible{outline:2px solid var(--accent); outline-offset:4px;}
+.rt-dot{display:grid; place-items:center; width:48px; height:48px; border-radius:50%; border:2px solid var(--accent); background:var(--accent); color:var(--navy); font-size:17px; font-weight:800; transition:background-color .3s ease, border-color .3s ease, color .3s ease, box-shadow .3s ease;}
+.rt-step-body{display:flex; flex-direction:column; gap:6px; padding-top:10px; transition:opacity .3s ease;}
+.rt-step-title{font-size:1.125rem; font-weight:700; letter-spacing:-.01em; color:var(--ink);}
+.rt-step-text{font-size:15px; line-height:1.6; color:var(--soft);}
+/* playback states */
+.rt.is-js .rt-step:not(.is-done)::after{transform:scaleY(0);}
+.rt.is-js .rt-step:not(.is-reached) .rt-dot{background:#fff; border-color:#cbd5e1; color:#94a3b8;}
+.rt.is-js .rt-step:not(.is-reached) .rt-step-body{opacity:.45;}
+.rt.is-js .rt-step:not(.is-reached) .rt-step-btn:hover .rt-step-body{opacity:.75;}
+.rt.is-js .rt-step-btn[aria-current="step"] .rt-dot{box-shadow:0 0 0 6px rgba(56,189,248,.18);}
+
+/* Phone mockup (CSS only) */
+.rt-right{position:relative; isolation:isolate; margin:0; display:flex; flex-direction:column; align-items:center;}
+/* 3. soft sky-blue glow behind the phone (decorative) */
+.rt-glow{position:absolute; z-index:-1; top:50%; left:50%; width:130%; aspect-ratio:1; transform:translate(-50%,-54%); border-radius:50%; background:radial-gradient(closest-side, rgba(56,189,248,.32), rgba(56,189,248,.12) 55%, transparent 100%); filter:blur(28px); pointer-events:none;}
+.rt-phone{width:100%; max-width:300px; padding:10px; border-radius:42px; background:var(--hero); box-shadow:0 50px 90px -40px rgba(2,6,23,.55), 0 18px 36px -24px rgba(2,6,23,.35), inset 0 0 0 1px rgba(255,255,255,.06);}
+.rt-screen{position:relative; display:flex; flex-direction:column; height:510px; border-radius:33px; background:#eef2f7; overflow:hidden;}
+.rt-head{position:relative; display:flex; align-items:center; gap:10px; padding:36px 14px 10px; background:#fff; border-bottom:1px solid #e2e8f0;}
+.rt-notch{position:absolute; top:9px; left:50%; width:84px; height:20px; margin-left:-42px; border-radius:999px; background:var(--hero);}
+.rt-avatar{display:grid; place-items:center; width:32px; height:32px; flex:none; border-radius:50%; background:var(--accent); color:var(--navy); font-size:12px; font-weight:800; letter-spacing:.02em;}
+.rt-who{display:flex; flex-direction:column; line-height:1.25;}
+.rt-who strong{font-size:14px; font-weight:800; color:var(--ink);}
+.rt-who span{font-size:11.5px; color:var(--muted);}
+.rt-chat{flex:1; min-height:0; overflow:hidden; list-style:none; margin:0; padding:8px 12px 20px; display:flex; flex-direction:column; justify-content:flex-end; gap:7px;}
+.rt-msg{display:flex; flex-direction:column; max-width:90%;}
+.rt-customer{align-self:flex-end; align-items:flex-end;}
+.rt-tech{align-self:flex-start; align-items:flex-start;}
+.rt-bubble{margin:0; padding:8px 12px; border-radius:17px; font-size:14px; line-height:1.38;}
+.rt-customer .rt-bubble{background:var(--accent); color:var(--navy); border-bottom-right-radius:6px;}
+.rt-tech .rt-bubble{background:#fff; color:var(--ink); border-bottom-left-radius:6px; box-shadow:0 1px 2px rgba(15,23,42,.08);}
+.rt-time{display:inline-flex; align-items:center; gap:4px; margin-top:3px; padding:0 4px; font-size:11px; line-height:1.2; color:var(--muted);}
+/* 4. "Delivered" double tick under customer bubbles */
+.rt-ticks{width:15px; height:10px; fill:none; stroke:var(--accent-ink); stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round;}
+.rt-typing{display:none; align-self:flex-start; gap:4px; padding:12px 14px; border-radius:18px; border-bottom-left-radius:6px; background:#fff; box-shadow:0 1px 2px rgba(15,23,42,.08);}
+.rt-typing span{width:6px; height:6px; border-radius:50%; background:#94a3b8; animation:rtDot 1s ease-in-out infinite;}
+.rt-typing span:nth-child(2){animation-delay:.15s;}
+.rt-typing span:nth-child(3){animation-delay:.3s;}
+.rt-typing.is-on{display:flex;}
+.rt.is-js .rt-msg:not(.is-shown){display:none;}
+.rt.is-js .rt-msg.is-shown{animation:rtIn .35s ease both;}
+.rt-home{position:absolute; bottom:8px; left:50%; width:110px; height:4px; margin-left:-55px; border-radius:4px; background:rgba(15,23,42,.25);}
+.rt-right figcaption{margin-top:16px; font-size:13px; color:var(--muted); text-align:center;}
+@keyframes rtIn{from{opacity:0; transform:translateY(8px) scale(.98);} to{opacity:1; transform:none;}}
+@keyframes rtDot{0%,60%,100%{transform:translateY(0); opacity:.5;} 30%{transform:translateY(-4px); opacity:1;}}
+
 /* ---------- Responsive ---------- */
 @media (max-width:960px){
   .sec{padding:72px 0;}
@@ -347,6 +404,8 @@ textarea.field{min-height:96px; resize:vertical;}
   .hero-skyline{width:80%; bottom:0;}
   .hero-wave{height:52px;}
   .split-intro{position:static;}
+  .rt-grid{grid-template-columns:1fr; gap:48px;}
+  .rt-phone{max-width:300px;}
   /* symptom picker becomes an accordion: each panel sits under its own button */
   .sym-picker{display:flex; flex-direction:column;}
   .sym-intro{margin-bottom:24px;}

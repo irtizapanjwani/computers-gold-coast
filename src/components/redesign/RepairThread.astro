@@ -1,0 +1,125 @@
+---
+// Homepage "how it works": vertical step timeline + a CSS phone showing an example text thread.
+// Everything is server-rendered (crawlable, and complete without JS). With JS, the thread plays
+// once when scrolled into view and the matching step lights up; clicking a step jumps to it.
+import { repairThread } from '../../data/site';
+
+interface Props { steps: { title: string; text: string }[] }
+const { steps } = Astro.props;
+---
+<section class="sec sec-alt rt" aria-labelledby="rt-title" data-rt>
+  <div class="wrap rt-grid">
+    <div class="rt-left">
+      <h2 id="rt-title">How our Gold Coast computer repairs work</h2>
+      <p class="lede">No dropping your laptop at a big-box counter and waiting weeks for an answer. Three steps and you’re back up and running.</p>
+      <ol class="rt-steps">
+        {steps.map((s, i) => (
+          <li class="rt-step is-reached">
+            <button type="button" class="rt-step-btn" data-step={i} aria-controls="rt-phone">
+              <span class="rt-dot" aria-hidden="true">{i + 1}</span>
+              <span class="rt-step-body">
+                <span class="rt-step-title">{s.title}</span>
+                <span class="rt-step-text">{s.text}</span>
+              </span>
+            </button>
+          </li>
+        ))}
+      </ol>
+    </div>
+
+    <figure class="rt-right">
+      <span class="rt-glow" aria-hidden="true"></span>
+      <div class="rt-phone" id="rt-phone">
+        <div class="rt-screen">
+          <div class="rt-head">
+            <span class="rt-notch" aria-hidden="true"></span>
+            <span class="rt-avatar" aria-hidden="true">CG</span>
+            <span class="rt-who"><strong>Computers Gold Coast</strong><span>Your local technician</span></span>
+          </div>
+          <ol class="rt-chat" aria-label="Example text conversation with a technician">
+            {repairThread.map((m) => (
+              <li class:list={['rt-msg', `rt-${m.from}`]} data-step={m.step} data-from={m.from}>
+                <span class="sr-only">{m.from === 'customer' ? 'Customer:' : 'Technician:'}</span>
+                <p class="rt-bubble">{m.text}</p>
+                {m.from === 'customer' ? (
+                  <span class="rt-time">
+                    {m.time && `${m.time} · `}Delivered
+                    <svg class="rt-ticks" viewBox="0 0 18 12" aria-hidden="true"><path d="M1 6.5 4.5 10 11 2.5M7.5 10 14 2.5" /></svg>
+                  </span>
+                ) : m.time && <span class="rt-time">{m.time}</span>}
+              </li>
+            ))}
+            <li class="rt-typing" aria-hidden="true"><span></span><span></span><span></span></li>
+          </ol>
+          <span class="rt-home" aria-hidden="true"></span>
+        </div>
+      </div>
+      <figcaption>Example job. Every repair starts with the cause and the price.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-rt]');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Reduced motion (or no JS): the static markup already shows every message and step.
+  if (root && !reduce) {
+    const steps = [...root.querySelectorAll<HTMLElement>('.rt-step')];
+    const buttons = [...root.querySelectorAll<HTMLButtonElement>('.rt-step-btn')];
+    const msgs = [...root.querySelectorAll<HTMLElement>('.rt-msg')];
+    const typing = root.querySelector<HTMLElement>('.rt-typing');
+    let timers: number[] = [];
+
+    const setStep = (k: number) => {
+      steps.forEach((s, i) => {
+        s.classList.toggle('is-reached', i <= k);
+        s.classList.toggle('is-done', i < k);
+        buttons[i].setAttribute('aria-current', i === k ? 'step' : 'false');
+      });
+    };
+    const setTyping = (on: boolean) => typing?.classList.toggle('is-on', on);
+    const showUpTo = (k: number) => msgs.forEach((m) => m.classList.toggle('is-shown', Number(m.dataset.step) <= k));
+    const stop = () => { timers.forEach(clearTimeout); timers = []; setTyping(false); };
+
+    root.classList.add('is-js');
+    setStep(-1);
+    showUpTo(-1);
+
+    // Roughly 9 seconds end to end.
+    const play = () => {
+      let t = 400;
+      const at = (fn: () => void) => timers.push(window.setTimeout(fn, t));
+      msgs.forEach((m, i) => {
+        const step = Number(m.dataset.step);
+        if (i === 0 || step !== Number(msgs[i - 1].dataset.step)) {
+          at(() => setStep(step));
+          t += 500;
+        }
+        if (m.dataset.from === 'tech') {
+          at(() => setTyping(true));
+          t += 1100;
+        } else {
+          t += 500;
+        }
+        at(() => { setTyping(false); m.classList.add('is-shown'); });
+        t += 800;
+      });
+    };
+
+    const io = new IntersectionObserver((entries) => {
+      if (!entries.some((e) => e.isIntersecting)) return;
+      io.disconnect();
+      play();
+    }, { threshold: 0.35 });
+    io.observe(root.querySelector('.rt-phone') ?? root);
+
+    buttons.forEach((btn) => btn.addEventListener('click', () => {
+      io.disconnect();
+      stop();
+      const k = Number(btn.dataset.step);
+      setStep(k);
+      showUpTo(k);
+    }));
+  }
+</script>

@@ -3,7 +3,7 @@ import PageLayout from '../layouts/PageLayout.astro';
 import Icon from '../components/redesign/Icon.astro';
 import QuoteForm from '../components/redesign/QuoteForm.astro';
 import SymptomPicker from '../components/redesign/SymptomPicker.astro';
-import Steps from '../components/redesign/Steps.astro';
+import RepairThread from '../components/redesign/RepairThread.astro';
 import Areas from '../components/redesign/Areas.astro';
 import ReviewFeature from '../components/redesign/ReviewFeature.astro';
 import Faq from '../components/redesign/Faq.astro';
@@ -91,15 +91,7 @@ const schema = [
 
   <SymptomPicker />
 
-  <section class="sec sec-alt">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2>How our Gold Coast computer repairs work</h2>
-        <p class="lede">No dropping your laptop at a big-box counter and waiting weeks for an answer. Three steps and you're back up and running.</p>
-      </div>
-      <Steps steps={steps} />
-    </div>
-  </section>
+  <RepairThread steps={steps} />
 
   <section class="sec" id="about">
     <div class="wrap why">

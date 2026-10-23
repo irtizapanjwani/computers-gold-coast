@@ -156,6 +156,18 @@ export const symptoms: Symptom[] = [
   },
 ];
 
+// Illustrative text thread for the homepage "how it works" phone mockup. `step` is the index of
+// the matching step (0-2) on the left. No prices. Times are illustrative and optional.
+// TODO(client): "a tech there this afternoon" implies same-day onsite visits; confirm that's usual.
+export type ThreadMessage = { step: number; from: 'customer' | 'tech'; text: string; time?: string };
+export const repairThread: ThreadMessage[] = [
+  { step: 0, from: 'customer', text: 'Hi, my laptop won’t turn on since last night', time: '9:12 am' },
+  { step: 0, from: 'tech', text: 'No worries, we can have a tech there this afternoon. No call-out fee.', time: '9:14 am' },
+  { step: 1, from: 'tech', text: 'Found it: a worn charging port. Here’s the cause and the price before we start.', time: '1:38 pm' },
+  { step: 2, from: 'customer', text: 'Yes please, go ahead' },
+  { step: 2, from: 'tech', text: 'All fixed and charging. You’re good to go ✓', time: '2:21 pm' },
+];
+
 // TODO: fill in from the client's Google Business Profile. The rating line under the
 // homepage quote form stays hidden until both values are set. Never estimate these.
 export const googleReviews: { rating: number | null; count: number | null } = { rating: null, count: null };
