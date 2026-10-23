@@ -2,11 +2,19 @@
 import { regions, brands } from '../../data/site';
 interface Props { showBrands?: boolean }
 const { showBrands = false } = Astro.props;
+
+const postcodeRange = (suburbs: readonly (readonly [string, string])[]) => {
+  const codes = suburbs.map(([, code]) => code).sort();
+  return codes[0] === codes.at(-1) ? codes[0] : `${codes[0]}–${codes.at(-1)}`;
+};
 ---
 <div class="areas">
   {regions.map((r) => (
     <div class="region">
-      <h3>{r.name}</h3>
+      <div class="region-head">
+        <h3>{r.name}</h3>
+        <p class="region-meta">{r.suburbs.length} suburbs · {postcodeRange(r.suburbs)}</p>
+      </div>
       <ul>{r.suburbs.map(([name, postcode]) => <li>{name} <span>{postcode}</span></li>)}</ul>
     </div>
   ))}

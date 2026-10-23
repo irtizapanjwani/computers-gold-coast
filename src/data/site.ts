@@ -168,6 +168,69 @@ export const repairThread: ThreadMessage[] = [
   { step: 2, from: 'tech', text: 'All fixed and charging. You’re good to go ✓', time: '2:21 pm' },
 ];
 
+// Bento grid in the homepage technician section. `area` places the tile in the grid
+// (see .bento in redesign.css). Copy reuses claims already on the site.
+export type BentoTile =
+  | { area: 'quote'; quote: string; linkText: string; href: string }
+  | { area: 'years' | 'fee'; value: string; caption: string }
+  | { area: 'makes'; title: string; brands: string[]; note: string }
+  | { area: 'honest'; title: string; text: string }
+  | { area: 'plain'; title: string; jargon: string; plain: string };
+export const bentoTiles: BentoTile[] = [
+  { area: 'quote', quote: 'You deal with one local technician, from the first phone call to the finished repair.', linkText: 'More about us', href: '/about' },
+  // TODO(client): confirm "20 years".
+  { area: 'years', value: '20', caption: 'years fixing PCs, laptops and Macs' },
+  { area: 'fee', value: '$0', caption: 'call-out fee. You only pay for the repair, quoted before we start.' },
+  { area: 'honest', title: 'Honest, no-upsell advice', text: 'We recommend free, reputable software wherever it does the job, so a repair doesn’t cost more than it should.' },
+  // Illustrative example of how a diagnosis gets explained, not a quote from a real job.
+  { area: 'plain', title: 'Explained in plain English', jargon: 'The drive’s SMART data shows reallocated sectors.', plain: 'Your hard drive is wearing out. Back up your files today.' },
+  { area: 'makes', title: 'Every make and model', brands: ['Acer', 'Lenovo', 'HP', 'Dell', 'Samsung', 'Toshiba', 'Sony', 'Apple'], note: 'Windows and Mac, old or new.' },
+];
+
+// "Computer problems we see across the Gold Coast" field guide. `pin` is the marker position on
+// the stylised coastline map (viewBox 0 0 240 520, not to scale). Fixes restate existing site claims;
+// tips are general, practical advice rather than promises.
+export const coastJobs = [
+  {
+    where: 'Surfers Paradise & Broadbeach',
+    title: 'High-rise WiFi dead zones',
+    why: 'Concrete floors and walls in apartment towers block WiFi, so one router rarely reaches every room.',
+    fix: 'We set up mesh WiFi so every room gets proper coverage.',
+    tip: 'Keep the router out in the open and central, not in a cupboard or behind the TV.',
+    href: '/network-optimisation-mesh-wifi-gold-coast',
+    linkText: 'Mesh WiFi',
+    pin: { x: 158, y: 196, label: 'Surfers Paradise' },
+  },
+  {
+    where: 'Café strips, all over the Coast',
+    title: 'Coffee-spilled laptops',
+    why: 'Liquid shorts the logic board, and corrosion can keep doing damage hours after the spill.',
+    fix: 'We repair liquid-damaged logic boards and recover your files, often when others say “replace”.',
+    tip: 'Turn it off and unplug it straight away. Don’t keep using it to “see if it works”.',
+    href: '/data-recovery-gold-coast',
+    linkText: 'Data recovery',
+    pin: { x: 168, y: 318, label: 'Burleigh Heads' },
+  },
+  {
+    where: 'Every storm season',
+    title: 'Power surge damage',
+    why: 'Summer storms send surges through power and phone lines that can kill power supplies, modems and motherboards.',
+    fix: 'We provide Beyond Economical Repair (BER) reports to support your insurance claim.',
+    tip: 'Unplug computers and modems when a storm is coming, or use a surge protector.',
+    href: '/insurance-reports-gold-coast',
+    linkText: 'Insurance reports',
+    pin: { x: 46, y: 372, label: 'Storm season' },
+  },
+];
+
+// Homepage review cards. `review` is an index into `reviews` (the three Google reviews); the title
+// and highlights only paraphrase what that customer actually wrote. `featured` is the dark middle card.
+export const reviewCards = [
+  { review: 0, label: 'Google review', title: 'Fixed every single time', highlights: ['Very affordable', 'Fixes the problem every time', 'Already recommended to friends'] },
+  { review: 1, label: 'Google review', title: 'Someone you can trust', highlights: ['Punctual and on time', 'Explained everything in depth', 'Recommending to friends and family'], featured: true },
+  { review: 2, label: 'Google review', title: 'Cheapest rate found', highlights: ['Fixed PC issues easily', 'Tips to prevent future problems', 'Lowest hourly rate they found'] },
+];
+
 // TODO: fill in from the client's Google Business Profile. The rating line under the
 // homepage quote form stays hidden until both values are set. Never estimate these.
 export const googleReviews: { rating: number | null; count: number | null } = { rating: null, count: null };

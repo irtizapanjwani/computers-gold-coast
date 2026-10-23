@@ -4,12 +4,13 @@ import Icon from '../components/redesign/Icon.astro';
 import QuoteForm from '../components/redesign/QuoteForm.astro';
 import SymptomPicker from '../components/redesign/SymptomPicker.astro';
 import RepairThread from '../components/redesign/RepairThread.astro';
+import CoastGuide from '../components/redesign/CoastGuide.astro';
 import Areas from '../components/redesign/Areas.astro';
-import ReviewFeature from '../components/redesign/ReviewFeature.astro';
+import ReviewCards from '../components/redesign/ReviewCards.astro';
 import Faq from '../components/redesign/Faq.astro';
 import CtaBand from '../components/redesign/CtaBand.astro';
 import BrandMarquee from '../components/redesign/BrandMarquee.astro';
-import { businessSchema, faqSchema, quickFixes, SITE } from '../data/site';
+import { bentoTiles, businessSchema, faqSchema, quickFixes, SITE } from '../data/site';
 
 // Decorative high-rise skyline behind the quote form: [x, width, height] in a 620x400 box.
 // Pairs that share an x range are towers with a setback on top.
@@ -93,48 +94,53 @@ const schema = [
 
   <RepairThread steps={steps} />
 
-  <section class="sec" id="about">
-    <div class="wrap why">
-      <div>
-        <h2>Local, certified computer repair technicians</h2>
+  <section class="sec sec-compact" id="about" aria-labelledby="tech-title">
+    <div class="wrap">
+      <div class="bento-head">
+        <h2 id="tech-title">Local, certified computer repair technicians</h2>
         <p class="lede">Computers Gold Coast has been fixing PCs, laptops and Macs for 20 years. We repair every make and model, old or new, and explain everything in plain English.</p>
-        <p class="statement">"You deal with one local technician, from the first phone call to the finished repair."</p>
-        <div class="hero-actions"><a class="link" href="/about">More about us <Icon name="arrow" /></a></div>
       </div>
-      <ul class="points">
-        <li class="point"><span class="point-ico"><Icon name="dollar" /></span><div><h3>Affordable, honest pricing</h3><p>We recommend free, reputable software wherever it does the job, so a repair doesn't cost more than it should.</p></div></li>
-        <li class="point"><span class="point-ico"><Icon name="award" /></span><div><h3>Experience counts</h3><p>Led by a Microsoft Certified Professional who knows Windows, Mac, and the "silent" viruses that quietly steal your data.</p></div></li>
-        <li class="point"><span class="point-ico"><Icon name="clock" /></span><div><h3>Available 7 days a week</h3><p>Repairs, upgrades and replacements every day of the year, including weekends and public holidays.</p></div></li>
-        <li class="point"><span class="point-ico"><Icon name="wrench" /></span><div><h3>Every make and model</h3><p>Acer, Lenovo, HP, Dell, Samsung, Toshiba, Sony and more. If it's old and tired, we can usually bring it back to life.</p></div></li>
-      </ul>
+      <div class="bento">
+        {bentoTiles.map((t) => (
+          <div class:list={['tile', `tile-${t.area}`]}>
+            {t.area === 'quote' && (
+              <>
+                <blockquote>“{t.quote}”</blockquote>
+                <a class="link" href={t.href}>{t.linkText} →</a>
+              </>
+            )}
+            {(t.area === 'years' || t.area === 'fee') && (
+              <p class="tile-stat"><strong>{t.value}</strong><span>{t.caption}</span></p>
+            )}
+            {t.area === 'honest' && (
+              <>
+                <h3>{t.title}</h3>
+                <p>{t.text}</p>
+              </>
+            )}
+            {t.area === 'plain' && (
+              <>
+                <h3>{t.title}</h3>
+                <dl class="tile-compare">
+                  <div class="is-jargon"><dt>Jargon</dt><dd>“{t.jargon}”</dd></div>
+                  <div class="is-plain"><dt>What you hear</dt><dd>“{t.plain}”</dd></div>
+                </dl>
+              </>
+            )}
+            {t.area === 'makes' && (
+              <>
+                <h3>{t.title}</h3>
+                <p class="tile-brands">{t.brands.join(' · ')}</p>
+                <p class="tile-note">{t.note}</p>
+              </>
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   </section>
 
-  <section class="sec sec-alt">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2>Computer problems we see across the Gold Coast</h2>
-        <p class="lede">Coastal living brings its own tech problems. These are some of the jobs we're called out for most.</p>
-      </div>
-      <div class="jobs">
-        <div class="job">
-          <span class="job-where"><Icon name="pin" />Surfers Paradise &amp; Broadbeach</span>
-          <div><h3>High-rise WiFi dead zones</h3><p>Concrete apartment towers block WiFi signal between rooms. We set up mesh WiFi so every room gets proper coverage.</p></div>
-          <a class="link" href="/network-optimisation-mesh-wifi-gold-coast">Mesh WiFi <Icon name="arrow" /></a>
-        </div>
-        <div class="job">
-          <span class="job-where"><Icon name="pin" />All over the Coast</span>
-          <div><h3>Coffee-spilled laptops</h3><p>Coffee and laptops don't mix. We repair liquid-damaged logic boards and recover your files, often when others say "replace".</p></div>
-          <a class="link" href="/data-recovery-gold-coast">Data recovery <Icon name="arrow" /></a>
-        </div>
-        <div class="job">
-          <span class="job-where"><Icon name="pin" />Every storm season</span>
-          <div><h3>Power surge damage</h3><p>Summer storms damage computers every year. We provide Beyond Economical Repair (BER) reports to support your insurance claim.</p></div>
-          <a class="link" href="/insurance-reports-gold-coast">Insurance reports <Icon name="arrow" /></a>
-        </div>
-      </div>
-    </div>
-  </section>
+  <CoastGuide />
 
   <section class="sec" id="areas">
     <div class="wrap">
@@ -148,10 +154,11 @@ const schema = [
 
   <section class="sec sec-alt" id="testimonials">
     <div class="wrap">
-      <div class="sec-head">
+      <div class="rcards-head">
         <h2>What Gold Coast customers say</h2>
+        <a class="link" href="/reviews">Read all reviews →</a>
       </div>
-      <ReviewFeature />
+      <ReviewCards />
     </div>
   </section>
 
@@ -161,5 +168,5 @@ const schema = [
     </div>
   </section>
 
-  <CtaBand title="Computer acting up? Get it sorted before it gets worse." text="Slow, crashing or infected? The sooner we look at it, the cheaper and faster the fix usually is." />
+  <CtaBand title="Computer acting up? Don’t wait for it to get worse." text="Slow, crashing or infected? The sooner we look at it, the cheaper and faster the fix usually is." />
 </PageLayout>

@@ -1,5 +1,171 @@
 ---
-// Shared site footer (used by all pages except the homepage and 404, which override it).
-import html from '../data/footer.html?raw';
+// Shared site footer (every page except CCTV and 404). Single source of truth.
+// The line-art Gold Coast scene is decorative and drawn in SVG (no images).
+// Styles are scoped so the older pages' inline CSS (which styles bare `footer` etc.) can't reach it.
+import { brands } from '../data/site';
+
+const year = new Date().getFullYear();
+
+const services = [
+  ['Computer Repairs', '/computer-repairs-gold-coast'],
+  ['Laptop Repairs', '/laptop-repairs-gold-coast'],
+  ['Mac Repairs', '/mac-repairs-gold-coast'],
+  ['Virus & Malware Removal', '/virus-spyware-removal-gold-coast'],
+  ['Data Recovery', '/data-recovery-gold-coast'],
+  ['Data Backup & Transfer', '/data-backup-transfer-gold-coast'],
+];
+const areas = ['Coomera', 'Southport', 'Surfers Paradise', 'Broadbeach', 'Robina', 'Burleigh Heads', 'Nerang', 'Coolangatta'];
+
+// Surfers Paradise skyline: [x, width, top y]; the ground line is y = 200.
+const towers = [
+  [430, 44, 128], [480, 36, 96], [522, 50, 112], [580, 38, 66], [626, 52, 86],
+  [796, 40, 58], [842, 52, 100], [900, 38, 76], [944, 50, 120],
+];
+const windows = (x: number, w: number, top: number) =>
+  [x + w / 3, x + (2 * w) / 3].map((wx) => `M${wx} ${top + 12}V194`).join('');
+
+// Three rolling wave lines across the full width.
+const wave = (y: number, phase: number) =>
+  `M${-phase} ${y}` + ' q12 -7 24 0 t24 0'.repeat(Math.ceil((1440 + phase) / 48) + 1);
 ---
-<Fragment set:html={html} />
+<footer class="gf">
+  <svg class="gf-art" viewBox="0 0 1440 260" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+    <defs>
+      <linearGradient id="gf-line" x1="0" y1="0" x2="1440" y2="0" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#38bdf8" />
+        <stop offset=".55" stop-color="#7dd3fc" />
+        <stop offset="1" stop-color="#2563eb" />
+      </linearGradient>
+    </defs>
+    <g class="gf-draw">
+      <!-- palm trees -->
+      <path d="M110 200C114 160 118 125 128 95M128 95C100 80 80 85 66 100M128 95C110 70 90 66 78 70M128 95C132 66 150 58 168 62M128 95C150 82 172 88 184 104M128 95C126 76 131 62 140 52" />
+      <circle cx="125" cy="101" r="3" /><circle cx="132" cy="102" r="3" />
+      <path d="M200 200C198 170 193 146 186 124M186 124C166 112 152 116 142 126M186 124C176 104 162 100 152 102M186 124C192 104 206 98 220 102M186 124C202 116 214 122 222 134" />
+      <!-- surf lifesaving tower -->
+      <path d="M264 200 272 142M318 200 310 142M268 172H314M266 186 312 158M258 110H322V142H258ZM252 110 290 92 328 110M270 118H310V132H270ZM290 92V64M290 64 314 70 290 76" />
+      <!-- Surfers Paradise skyline -->
+      {towers.map(([x, w, top]) => <><rect x={x} y={top} width={w} height={200 - top} /><path class="gf-win" d={windows(x, w, top)} /></>)}
+      <!-- curved-top tower -->
+      <path d="M690 200V74Q712 56 734 74V200" /><path class="gf-win" d="M705 86V194M719 86V194" />
+      <!-- Q1-style spired tower -->
+      <path d="M742 200V52H788V200M742 52 752 30H778L788 52M765 30V4" /><path class="gf-win" d="M757 64V194M773 64V194" />
+      <!-- beach: surfboards, umbrella, sun, gull -->
+      <ellipse cx="1112" cy="164" rx="10" ry="38" transform="rotate(-12 1112 164)" />
+      <path d="M1104 128 1120 200" />
+      <ellipse cx="1146" cy="168" rx="9" ry="34" transform="rotate(9 1146 168)" />
+      <path d="M1180 140Q1220 104 1260 140M1180 140Q1190 134 1200 140Q1210 134 1220 140Q1230 134 1240 140Q1250 134 1260 140M1220 112 1228 200" />
+      <circle cx="1350" cy="88" r="26" />
+      <path d="M1350 46V36M1350 140V130M1308 88H1298M1402 88H1392M1320 58 1313 51M1380 118 1387 125M1380 58 1387 51M1320 118 1313 125" />
+      <path d="M1268 62q8 -8 16 0q8 -8 16 0M1236 84q6 -6 12 0q6 -6 12 0" />
+      <!-- shoreline + waves -->
+      <path class="gf-ground" d="M40 200H1400" />
+      <path class="gf-wave" d={wave(216, 0)} />
+      <path class="gf-wave" d={wave(232, 24)} />
+      <path class="gf-wave" d={wave(248, 12)} />
+    </g>
+  </svg>
+
+  <div class="gf-wrap">
+    <div class="gf-grid">
+      <div class="gf-brand">
+        <a class="gf-word" href="/" aria-label="Computers Gold Coast, home"><span>Computers</span><span class="gf-sub">Gold Coast</span></a>
+        <p class="gf-desc">Family-owned computer, Mac and laptop repairs across the Gold Coast. Onsite, remote or drop-off, with no call-out fee.</p>
+        <a class="gf-phone" href="tel:+61447266455">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          0447 266 455
+        </a>
+        <div class="gf-hours">
+          <p class="gf-h">Opening hours</p>
+          <p><strong>Every day, 7AM–10PM</strong></p>
+          <p>Including weekends and public holidays.</p>
+        </div>
+      </div>
+
+      <nav class="gf-col" aria-label="Services">
+        <p class="gf-h">Services</p>
+        <ul>
+          {services.map(([name, href]) => <li><a href={href}>{name}</a></li>)}
+          <li><a class="gf-all" href="/services">All services →</a></li>
+        </ul>
+      </nav>
+
+      <nav class="gf-col" aria-label="Brands we repair">
+        <p class="gf-h">Brands we repair</p>
+        <ul class="gf-two">
+          {brands.map(([name, href]) => <li><a href={href}>{name}</a></li>)}
+        </ul>
+      </nav>
+
+      <div class="gf-col">
+        <p class="gf-h">Areas we service</p>
+        <ul class="gf-two">
+          {areas.map((a) => <li>{a}</li>)}
+        </ul>
+        <a class="gf-all" href="/#areas">All Gold Coast suburbs →</a>
+      </div>
+    </div>
+
+    <div class="gf-bottom">
+      <p>© {year} Computers Gold Coast. Gold Coast, Queensland.</p>
+      <nav aria-label="Footer">
+        <a href="/about">About Us</a>
+        <a href="/reviews">Reviews</a>
+        <a href="/contact">Contact</a>
+        <a href="/sitemap.xml">Sitemap</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .gf{margin:0; padding:48px 0 0; background:#0a1020; color:#94a3b8; font-size:15px; line-height:1.6;}
+  .gf-art{display:block; width:100%; max-width:1440px; height:auto; margin:0 auto;}
+  .gf-draw{fill:none; stroke:url(#gf-line); stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round;}
+  .gf-win{stroke-width:1; stroke-dasharray:3 7; opacity:.55;}
+  .gf-ground{opacity:.35;}
+  .gf-wave{stroke-width:1.3; opacity:.6;}
+  .gf-wave:nth-last-child(2){opacity:.4;}
+  .gf-wave:last-child{opacity:.25;}
+
+  .gf-wrap{max-width:1180px; margin:0 auto; padding:56px 24px 0; box-sizing:border-box;}
+  .gf-grid{display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr; gap:48px;}
+  .gf .gf-word{display:inline-flex; flex-direction:column; text-decoration:none; line-height:1;}
+  .gf-word span{font-family:'Space Grotesk',ui-sans-serif,system-ui,sans-serif; font-weight:700; font-size:24px; letter-spacing:.01em; text-transform:uppercase; color:#fff;}
+  .gf-word .gf-sub{margin-top:8px; font-size:11.5px; letter-spacing:.46em; color:#38bdf8;}
+  .gf .gf-desc{margin:20px 0 0; max-width:34ch; color:#94a3b8; font-size:15px;}
+  .gf .gf-phone{display:inline-flex; align-items:center; gap:10px; margin-top:20px; font-size:20px; font-weight:800; color:#fff; text-decoration:none;}
+  .gf-phone svg{width:20px; height:20px; fill:none; stroke:#38bdf8; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
+  .gf .gf-phone:hover{color:#38bdf8;}
+  .gf-hours{margin-top:24px;}
+  .gf-hours p{margin:0; font-size:14.5px; color:#94a3b8;}
+  .gf-hours strong{color:#fff; font-weight:700;}
+  .gf .gf-h{margin:0 0 16px; font-size:12px; font-weight:800; letter-spacing:.18em; text-transform:uppercase; color:#38bdf8;}
+  /* older pages style bare `nav` (flex row, hidden on mobile); keep footer navs block-level */
+  .gf .gf-col{display:block; padding:0; margin:0;}
+  .gf ul{list-style:none; margin:0; padding:0; display:grid; gap:10px;}
+  .gf .gf-two{grid-template-columns:1fr 1fr; gap:10px 20px;}
+  .gf li{color:#cbd5e1; font-size:15px;}
+  .gf .gf-col a{color:#cbd5e1; font-size:15px; font-weight:500; text-decoration:none; transition:color .15s ease;}
+  .gf .gf-col a:hover{color:#fff;}
+  .gf .gf-col .gf-all{display:inline-block; color:#38bdf8; font-weight:600;}
+  .gf .gf-col > .gf-all{margin-top:14px;}
+  .gf .gf-col .gf-all:hover{color:#7dd3fc;}
+  .gf a:focus-visible{outline:2px solid #38bdf8; outline-offset:3px; border-radius:4px;}
+
+  .gf-bottom{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px 24px; margin-top:56px; padding:24px 0 28px; border-top:1px solid rgba(255,255,255,.08); font-size:13.5px;}
+  .gf-bottom p{margin:0; color:#64748b;}
+  .gf .gf-bottom nav{display:flex; position:static; flex-wrap:wrap; gap:8px 22px; padding:0; background:none; border:0;}
+  .gf .gf-bottom a{color:#94a3b8; font-size:13.5px; text-decoration:none;}
+  .gf .gf-bottom a:hover{color:#fff;}
+
+  @media (max-width:960px){
+    .gf-grid{grid-template-columns:1fr 1fr; gap:40px 32px;}
+    .gf-brand{grid-column:1 / -1;}
+  }
+  @media (max-width:560px){
+    .gf{padding-top:32px;}
+    .gf-grid{grid-template-columns:1fr;}
+    .gf-bottom{flex-direction:column; align-items:flex-start;}
+  }
+</style>

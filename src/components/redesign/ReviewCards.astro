@@ -1,0 +1,20 @@
+---
+// Homepage reviews as three cards (middle one featured in navy). Real Google review text only.
+import { reviews, reviewCards } from '../../data/site';
+---
+<ul class="rcards">
+  {reviewCards.map((c) => (
+    <li class:list={['rcard', { 'is-featured': c.featured }]}>
+      <p class="rcard-label">{c.label}</p>
+      <h3>{c.title}</h3>
+      <p class="rcard-score"><strong>5.0</strong><span class="rcard-stars" aria-label="5 out of 5 stars">★★★★★</span></p>
+      <hr class="rcard-rule" />
+      <blockquote class="rcard-quote">“{reviews[c.review].quote}”</blockquote>
+      <p class="rcard-sub">What stood out</p>
+      <ul class="rcard-list">
+        {c.highlights.map((h) => <li>{h}</li>)}
+      </ul>
+      <a class="rcard-btn" href="/#quote">Get a quote</a>
+    </li>
+  ))}
+</ul>

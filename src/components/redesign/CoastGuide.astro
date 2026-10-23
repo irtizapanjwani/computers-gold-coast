@@ -1,0 +1,63 @@
+---
+// Homepage "Computer problems we see across the Gold Coast": dark field-guide section.
+// Left: heading + a stylised coastline map (decorative, not to scale) with numbered pins.
+// Right: one card per problem. Hovering or focusing a card lights up its pin (CSS :has()).
+import { coastJobs } from '../../data/site';
+
+const towns = [
+  { name: 'Southport', y: 120 },
+  { name: 'Broadbeach', y: 252 },
+  { name: 'Currumbin', y: 418 },
+  { name: 'Coolangatta', y: 472 },
+];
+---
+<section class="coast" aria-labelledby="coast-title">
+  <div class="wrap coast-grid">
+    <div class="coast-side">
+      <h2 id="coast-title">Computer problems we see across the Gold Coast</h2>
+      <p class="coast-lede">Coastal living brings its own tech problems. Here’s where they happen, why, and what to do about them.</p>
+
+      <svg class="coast-map" viewBox="0 0 240 520" aria-hidden="true">
+        <defs>
+          <pattern id="coast-waves" width="22" height="14" patternUnits="userSpaceOnUse">
+            <path d="M2 7c3-3 6-3 9 0s6 3 9 0" />
+          </pattern>
+        </defs>
+        <rect class="coast-sea" x="0" y="0" width="240" height="520" />
+        <path class="coast-land" d="M0 0H140C146 40 150 70 146 100C142 118 150 130 156 140C160 175 158 205 160 240C162 280 164 300 172 318C176 330 166 338 164 350C162 380 166 410 172 440C178 462 186 472 176 486C168 498 156 506 150 520H0Z" />
+        <path class="coast-line" d="M140 0C146 40 150 70 146 100C142 118 150 130 156 140C160 175 158 205 160 240C162 280 164 300 172 318C176 330 166 338 164 350C162 380 166 410 172 440C178 462 186 472 176 486C168 498 156 506 150 520" />
+        {towns.map((t) => <text class="coast-town" x="128" y={t.y} text-anchor="end">{t.name}</text>)}
+        <text class="coast-north" x="18" y="28">N ↑</text>
+        {coastJobs.map((j, i) => (
+          <g class={`coast-pin coast-pin-${i + 1}`} transform={`translate(${j.pin.x} ${j.pin.y})`}>
+            <circle class="coast-pin-halo" r="17" />
+            <circle class="coast-pin-dot" r="11" />
+            <text class="coast-pin-num" y="4" text-anchor="middle">{i + 1}</text>
+            <text class="coast-pin-label" x={j.pin.x > 120 ? -18 : 18} y="4" text-anchor={j.pin.x > 120 ? 'end' : 'start'}>{j.pin.label}</text>
+          </g>
+        ))}
+      </svg>
+      <p class="coast-scale">Not to scale</p>
+    </div>
+
+    <ol class="coast-cards">
+      {coastJobs.map((j, i) => (
+        <li class={`coast-card coast-card-${i + 1}`}>
+          <div class="coast-card-top">
+            <span class="coast-num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="coast-where">{j.where}</span>
+          </div>
+          <h3>{j.title}</h3>
+          <div class="coast-cols">
+            <div><p class="coast-label">Why it happens</p><p>{j.why}</p></div>
+            <div><p class="coast-label">What we do</p><p>{j.fix}</p></div>
+          </div>
+          <div class="coast-foot">
+            <p class="coast-tip"><span>Quick tip</span>{j.tip}</p>
+            <a class="coast-link" href={j.href}>{j.linkText} →</a>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
