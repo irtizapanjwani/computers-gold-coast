@@ -1,9 +1,12 @@
 ---
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+// Layout for the original (not yet redesigned) pages. They keep the original header, footer and
+// scripts (src/data/legacy-*.html), styled by each page's own inline CSS. The redesigned Home,
+// About and Reviews pages use PageLayout.astro with the new Header/Footer components instead.
 import GtmHead from '../components/GtmHead.astro';
 import GtmBody from '../components/GtmBody.astro';
-import bodyScripts from '../data/body-scripts.html?raw';
+import legacyHeader from '../data/legacy-header.html?raw';
+import legacyFooter from '../data/legacy-footer.html?raw';
+import legacyScripts from '../data/legacy-body-scripts.html?raw';
 
 interface Props {
   headHtml: string;
@@ -25,10 +28,10 @@ const { headHtml, bodyHtml, footerHtml = null, bare = false } = Astro.props;
   <Fragment set:html={bodyHtml} />
 ) : (
   <Fragment>
-    <Header />
+    <Fragment set:html={legacyHeader} />
     <Fragment set:html={bodyHtml} />
-    {footerHtml ? <Fragment set:html={footerHtml} /> : <Footer />}
-    <Fragment set:html={bodyScripts} />
+    <Fragment set:html={footerHtml ?? legacyFooter} />
+    <Fragment set:html={legacyScripts} />
   </Fragment>
 )}
 </body>

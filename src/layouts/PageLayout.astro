@@ -19,6 +19,8 @@ interface Props {
 }
 const { title, description, path, shareDescription = description, schema } = Astro.props;
 const url = path === '/' ? `${SITE}/` : `${SITE}${path}`;
+// Loaded without blocking first paint (display=swap shows fallback text until it arrives).
+const FONTS = 'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@700&display=swap';
 ---
 <!doctype html>
 <html lang="en-AU">
@@ -41,7 +43,9 @@ const url = path === '/' ? `${SITE}/` : `${SITE}${path}`;
 {schema.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href={FONTS}>
+<link rel="stylesheet" href={FONTS} media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href={FONTS}></noscript>
 <GtmHead />
 </head>
 <body>

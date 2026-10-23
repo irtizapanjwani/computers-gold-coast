@@ -1,0 +1,52 @@
+---
+// /reviews: practical "how to choose a technician" guide. Gives the page useful, local content
+// beyond the reviews themselves. The review counts are computed from the reviews data.
+import { reviews } from '../../data/site';
+
+const total = reviews.length;
+const count = (theme: string) => reviews.filter((r) => (r.themes as readonly string[]).includes(theme)).length;
+const tips = [
+  {
+    title: 'Look for reviews that mention the price',
+    text: `The most useful reviews say whether the bill matched what was quoted. ${count('affordable')} of our ${total} reviews mention fair, affordable pricing.`,
+    href: '/computer-repairs-gold-coast', link: 'How our repairs are priced',
+  },
+  {
+    title: 'Check they explain the fault in plain English',
+    text: `A good technician tells you what went wrong and why, so you can decide. ${count('clear')} of our ${total} reviews mention clear explanations.`,
+    href: '/about', link: 'How we work',
+  },
+  {
+    title: 'Ask about call-out fees up front',
+    text: 'Some technicians charge just to visit. There’s no call-out fee anywhere on the Gold Coast with us, onsite or remote.',
+    href: '/contact', link: 'Get a quote',
+  },
+  {
+    title: 'Ask what happens to your files',
+    text: 'Before any repair, ask whether your data is at risk. We tell you before doing anything that could affect your files.',
+    href: '/data-recovery-gold-coast', link: 'Data recovery',
+  },
+  {
+    title: 'Choose someone local who comes to you',
+    text: 'A local technician comes to your home or office, so there’s no leaving your laptop at a big-box counter. We cover Coomera to Coolangatta.',
+    href: '/#areas', link: 'Areas we cover',
+  },
+];
+---
+<section class="sec" aria-labelledby="tips-title">
+  <div class="wrap tips-grid">
+    <div class="tips-intro">
+      <h2 id="tips-title">How to choose a computer repair technician on the Gold Coast</h2>
+      <p class="lede">Reviews help, but they’re not the whole story. Here’s what’s worth checking before you hand over your computer, whoever you choose.</p>
+    </div>
+    <ol class="tips">
+      {tips.map((t) => (
+        <li>
+          <h3>{t.title}</h3>
+          <p>{t.text}</p>
+          <a href={t.href}>{t.link} →</a>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>

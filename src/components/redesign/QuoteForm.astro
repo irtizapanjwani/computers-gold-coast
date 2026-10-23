@@ -32,8 +32,8 @@ const { rating, count } = googleReviews;
       </div>
     </div>
     <div>
-      <label class="qc-label" for="q-message">What's the problem?</label>
-      <textarea class="field" id="q-message" name="message" rows="3" placeholder="e.g. Laptop won't turn on after a drink spill" required></textarea>
+      <label class="qc-label" for="q-message">What’s the problem?</label>
+      <textarea class="field" id="q-message" name="message" rows="3" placeholder="e.g. Laptop won’t turn on after a drink spill" required></textarea>
     </div>
     <button type="submit" class="btn btn-primary">Get My Free Quote <Icon name="arrow" /></button>
     <p class="form-status" id="quote-status" role="status"></p>
@@ -44,7 +44,7 @@ const { rating, count } = googleReviews;
   )}
   <p class="qc-foot">
     <span class="qc-open">No call-out fee · Prefer to talk? <a href="tel:+61447266455">0447 266 455</a></span>
-    <span class="qc-closed">We'll call you back from 7AM</span>
+    <span class="qc-closed">We’ll call you back from 7AM</span>
   </p>
 </div>
 
@@ -52,7 +52,7 @@ const { rating, count } = googleReviews;
   var form=document.getElementById('quote-form');
   var status=document.getElementById('quote-status');
   if(!form||!status)return;
-  var ok="Thanks, we've got your request. We'll be in touch soon.";
+  var ok="Thanks, we’ve got your request. We’ll be in touch soon.";
   if(new URLSearchParams(location.search).get('sent')==='1'){
     status.style.color='#15803d';status.textContent=ok;
     history.replaceState(null,'',location.pathname);

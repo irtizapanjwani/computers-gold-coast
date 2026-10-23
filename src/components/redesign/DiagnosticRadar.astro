@@ -1,5 +1,5 @@
 ---
-// About page: "diagnostic scan" radar for the example symptom "laptop won't turn on".
+// About page: "diagnostic scan" radar for the example symptom "laptop won’t turn on".
 // One symptom, several possible causes; after the first sweep it locks onto the cause.
 // Illustrative only (matches the homepage example job). CSS animation, started when scrolled
 // into view; static with reduced motion. All text is real HTML.
@@ -15,7 +15,7 @@ const causes = [
     ...c,
     x: 50 + Math.sin(rad) * c.r * 50,
     y: 50 - Math.cos(rad) * c.r * 50,
-    // the sweep starts at 12 o'clock and turns clockwise, so it reaches this blip after:
+    // the sweep starts at 12 o’clock and turns clockwise, so it reaches this blip after:
     delay: (c.angle / 360) * SWEEP_SECONDS,
   };
 });

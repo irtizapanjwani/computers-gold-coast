@@ -382,6 +382,19 @@ textarea.field{min-height:96px; resize:vertical;}
 .rw-card.is-lead .rw-tag{color:var(--accent);}
 @media (prefers-reduced-motion:reduce){ .rw-card{animation:none;} }
 
+/* /reviews: "how to choose a technician" guide */
+.tips-grid{display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); gap:64px; align-items:start;}
+.tips-intro{position:sticky; top:120px;}
+.tips-intro .lede{margin-top:14px;}
+.tips{list-style:none; margin:0; padding:0; border:1px solid var(--line); border-radius:20px; background:#fff; overflow:hidden; counter-reset:tip;}
+.tips li{position:relative; padding:24px 30px 24px 74px; border-top:1px solid var(--line); counter-increment:tip;}
+.tips li:first-child{border-top:0;}
+.tips li::before{content:counter(tip); position:absolute; left:28px; top:24px; display:grid; place-items:center; width:30px; height:30px; border-radius:50%; background:var(--sky-50); color:var(--accent-deep); font-size:13px; font-weight:800;}
+.tips h3{font-size:1.05rem;}
+.tips p{margin-top:6px; font-size:15px; line-height:1.6; color:var(--soft);}
+.tips a{display:inline-block; margin-top:8px; font-size:14px; font-weight:700; color:var(--accent-ink); text-decoration:none;}
+.tips a:hover{text-decoration:underline; text-underline-offset:3px;}
+
 /* ---------- Story (About) ---------- */
 .story-grid{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr); gap:72px; align-items:start;}
 .story p{font-size:17px; line-height:1.8; color:var(--soft); margin-top:18px;}
@@ -662,7 +675,7 @@ textarea.field{min-height:96px; resize:vertical;}
 /* ---------- Responsive ---------- */
 @media (max-width:960px){
   .sec{padding:72px 0;}
-  .hero-page .wrap,.hero-grid,.about-hero-grid,.story-grid,.scan-grid,.prep,.split,.faq-split,.leave,.rev-feature{grid-template-columns:1fr; gap:40px;}
+  .hero-page .wrap,.hero-grid,.about-hero-grid,.story-grid,.scan-grid,.prep,.tips-grid,.split,.faq-split,.leave,.rev-feature{grid-template-columns:1fr; gap:40px;}
   .hero-shell{padding:12px 0 28px 12px;}
   .hero-card{border-radius:24px 0 0 0; padding:44px 0 80px;}
   .hero-grid{grid-template-areas:"intro" "form" "extra"; grid-template-rows:auto; row-gap:32px;}
@@ -673,6 +686,7 @@ textarea.field{min-height:96px; resize:vertical;}
   .hero-skyline{width:80%; bottom:0;}
   .hero-wave{height:52px;}
   .split-intro{position:static;}
+  .tips-intro{position:static;}
   .story-card{position:static;}
   .sec-compact{padding:64px 0;}
   .bento-head{grid-template-columns:1fr; gap:12px;}
@@ -704,6 +718,8 @@ textarea.field{min-height:96px; resize:vertical;}
   .cta-full{min-height:0; padding:88px 0;}
 }
 @media (max-width:560px){
+  .tips li{padding:20px 20px 20px 62px;}
+  .tips li::before{left:18px; top:20px;}
   .rw-grid{columns:1;}
   .rb{padding:22px;}
   .rb-total strong{font-size:52px;}

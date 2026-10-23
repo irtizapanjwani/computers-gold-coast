@@ -56,7 +56,7 @@ export const brandLogos: { name: string; src: string; href?: string }[] = [
 
 // Homepage symptom picker. `label` also prefills the hero quote form. The last entry has no
 // service page of its own and shows a pointer to /services instead. Badges only repeat claims
-// made in that symptom's copy or elsewhere on the site. Visible text uses typographic apostrophes (’).
+// made in that symptom’s copy or elsewhere on the site. Visible text uses typographic apostrophes (’).
 export type Symptom = {
   label: string;
   meaning: string;
@@ -143,7 +143,7 @@ export const symptoms: Symptom[] = [
   },
   {
     label: 'Something else',
-    // TODO(client): "40+ types of IT services" comes from the existing Computer Repairs page; confirm it's still accurate.
+    // TODO(client): "40+ types of IT services" comes from the existing Computer Repairs page; confirm it’s still accurate.
     meaning: 'Printers, email, new computer setup, backups, smart TVs, CCTV and more. We handle over 40 types of IT jobs for Gold Coast homes and businesses.',
     whatWeDo: '',
     badges: [
@@ -158,7 +158,7 @@ export const symptoms: Symptom[] = [
 
 // Illustrative text thread for the homepage "how it works" phone mockup. `step` is the index of
 // the matching step (0-2) on the left. No prices. Times are illustrative and optional.
-// TODO(client): "a tech there this afternoon" implies same-day onsite visits; confirm that's usual.
+// TODO(client): "a tech there this afternoon" implies same-day onsite visits; confirm that’s usual.
 export type ThreadMessage = { step: number; from: 'customer' | 'tech'; text: string; time?: string };
 export const repairThread: ThreadMessage[] = [
   { step: 0, from: 'customer', text: 'Hi, my laptop won’t turn on since last night', time: '9:12 am' },
@@ -231,12 +231,12 @@ export const reviewCards = [
   { review: 2, label: 'Google review', title: 'Cheapest rate found', highlights: ['Fixed PC issues easily', 'Tips to prevent future problems', 'Lowest hourly rate they found'] },
 ];
 
-// TODO: fill in from the client's Google Business Profile. The rating line under the
+// TODO: fill in from the client’s Google Business Profile. The rating line under the
 // homepage quote form stays hidden until both values are set. Never estimate these.
 export const googleReviews: { rating: number | null; count: number | null } = { rating: null, count: null };
 
 // Every review the site has. Only the first three were published as Google reviews.
-// `themes` and `highlight` are read straight from each customer's own words (used on /reviews);
+// `themes` and `highlight` are read straight from each customer’s own words (used on /reviews);
 // `highlight` must appear in `quote` exactly.
 export const reviewThemes = [
   { id: 'quick', label: 'Quick and reliable' },
@@ -245,8 +245,8 @@ export const reviewThemes = [
 ] as const;
 export const reviews = [
   { quote: 'Terrific service, very affordable, has fixed my problems every single time, have already recommended him to friends of mine.', google: true, tag: 'Computer Repairs', href: '/computer-repairs-gold-coast', themes: ['quick', 'affordable'], highlight: 'fixed my problems every single time' },
-  { quote: "Punctual, on time, explained in depth what he was doing, I felt that I could trust him and I'll be recommending him to friends and family.", google: true, tag: 'Onsite Service', href: '/computer-repairs-gold-coast', themes: ['quick', 'clear'], highlight: 'explained in depth what he was doing' },
-  { quote: "Fixed our PC issues easily and gave great explanations on how to prevent issues in the future. His hourly rate is the cheapest we've found.", google: true, tag: 'PC Repairs & Advice', href: '/preventative-maintenance-gold-coast', themes: ['affordable', 'clear'], highlight: "the cheapest we've found" },
+  { quote: "Punctual, on time, explained in depth what he was doing, I felt that I could trust him and I’ll be recommending him to friends and family.", google: true, tag: 'Onsite Service', href: '/computer-repairs-gold-coast', themes: ['quick', 'clear'], highlight: 'explained in depth what he was doing' },
+  { quote: "Fixed our PC issues easily and gave great explanations on how to prevent issues in the future. His hourly rate is the cheapest we’ve found.", google: true, tag: 'PC Repairs & Advice', href: '/preventative-maintenance-gold-coast', themes: ['affordable', 'clear'], highlight: "the cheapest we’ve found" },
   { quote: 'Having dealt with a number of questionable repair people, I was shocked at how quick, flexible and affordable these guys were.', google: false, tag: 'Computer Repairs', href: '/computer-repairs-gold-coast', themes: ['quick', 'affordable'], highlight: 'quick, flexible and affordable' },
   { quote: 'I felt the technician was really thorough, solved a lot of my issues remotely on the same day, and had patience with getting the remote session set up.', google: false, tag: 'Remote Support', href: '/general-troubleshooting-gold-coast', themes: ['quick'], highlight: 'remotely on the same day' },
   { quote: 'Really happy with the service. Unfortunately my PC had come to the end of its life. Got helpful advice on a replacement to meet my computing needs. Will use these guys again in the future.', google: false, tag: 'Replacement Advice', href: '/laptop-buying-service-gold-coast', themes: ['clear'], highlight: 'helpful advice on a replacement' },
@@ -288,6 +288,12 @@ export const businessSchema = {
   address: { '@type': 'PostalAddress', addressLocality: 'Gold Coast', addressRegion: 'QLD', addressCountry: 'AU' },
   areaServed: ['Gold Coast', ...suburbs],
   knowsAbout: ['Computer repairs', 'Laptop repairs', 'Mac repairs', 'Data recovery', 'Virus and spyware removal', 'WiFi and network setup', 'Business IT support', 'CCTV installation'],
+  contactPoint: { '@type': 'ContactPoint', telephone: '+61447266455', contactType: 'customer service', areaServed: 'AU', availableLanguage: 'English' },
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Computer repair and IT services',
+    itemListElement: services.map((s) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: s.name, url: `${SITE}${s.href}`, areaServed: 'Gold Coast' } })),
+  },
 };
 
 export function breadcrumbSchema(url: string, name: string) {

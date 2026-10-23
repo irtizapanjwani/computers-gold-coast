@@ -35,16 +35,16 @@ const rules = [
 const steps = [
   { title: 'Tell us the symptoms', text: 'Call or send a message with the make, model and what the computer is doing. A photo of any error message helps.' },
   { title: 'We find the cause', text: 'Onsite at your home or office, or remotely for software problems. We look for the cause, not just the symptom.' },
-  { title: 'You approve, we fix it', text: "You get a clear explanation and a price. Nothing starts until you're happy to go ahead." },
+  { title: 'You approve, we fix it', text: "You get a clear explanation and a price. Nothing starts until you’re happy to go ahead." },
 ];
 
 const brandLinks = brands.map(([name, href]) => `<a href="${href}">${name}</a>`);
 const faqs = [
   { q: 'Are you a franchise?', a: 'No. Computers Gold Coast is family-owned and run locally. When you call, you speak to the people who actually do the repairs.' },
-  { q: 'Do you charge a call-out fee?', a: "No. There's no call-out fee anywhere on the Gold Coast. You only pay for the work, and you'll know the price before we start." },
+  { q: 'Do you charge a call-out fee?', a: "No. There’s no call-out fee anywhere on the Gold Coast. You only pay for the work, and you’ll know the price before we start." },
   { q: 'Which areas do you cover?', a: 'The whole Gold Coast, from Coomera and Helensvale in the north to Coolangatta in the south, and out to Nerang, Mudgeeraba and the hinterland. Remote support is available anywhere with an internet connection.' },
   { q: 'Can you fix my computer remotely?', a: 'Often, yes. Virus removal, slow computers, email problems and software installs can usually be handled remotely. Hardware faults like broken screens or failed drives need hands-on work, either at your place or as a drop-off.' },
-  { q: 'What are your opening hours?', a: "We're open 7am to 10pm, 7 days a week, including weekends and public holidays." },
+  { q: 'What are your opening hours?', a: "We’re open 7am to 10pm, 7 days a week, including weekends and public holidays." },
   { q: 'Which brands do you repair?', a: `All the major brands, including ${brandLinks.slice(0, -1).join(', ')} and ${brandLinks.at(-1)}, plus custom-built PCs.` },
 ];
 
@@ -150,7 +150,7 @@ const schema = [
     <div class="wrap">
       <div class="sec-head">
         <h2>Computer repairs across the whole Gold Coast</h2>
-        <p class="lede">From the northern growth corridor down to the NSW border and out to the hinterland. If your suburb isn't listed, <a class="link" href="/contact">get in touch</a></p>
+        <p class="lede">From the northern growth corridor down to the NSW border and out to the hinterland. If your suburb isn’t listed, <a class="link" href="/contact">get in touch</a></p>
       </div>
       <Areas />
     </div>
@@ -165,9 +165,9 @@ const schema = [
 
   <section class="sec">
     <div class="wrap">
-      <Faq title="Common questions about us" intro="Anything else you'd like to know before booking? Call and ask. You'll speak to the technician, not a call centre." items={faqs} />
+      <Faq title="Common questions about us" intro="Anything else you’d like to know before booking? Call and ask. You’ll speak to the technician, not a call centre." items={faqs} />
     </div>
   </section>
 
-  <CtaBand title="Tell us what your computer is doing" text="Send us the make, model, your suburb and what's going wrong, and we'll come back to you with a straight answer." />
+  <CtaBand title="Tell us what your computer is doing" text="Send us the make, model, your suburb and what’s going wrong, and we’ll come back to you with a straight answer." />
 </PageLayout>

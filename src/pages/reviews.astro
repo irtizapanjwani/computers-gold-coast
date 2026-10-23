@@ -6,6 +6,7 @@ import Faq from '../components/redesign/Faq.astro';
 import CtaBand from '../components/redesign/CtaBand.astro';
 import ReviewBreakdown from '../components/redesign/ReviewBreakdown.astro';
 import ReviewWall from '../components/redesign/ReviewWall.astro';
+import ChoosingTips from '../components/redesign/ChoosingTips.astro';
 import { businessSchema, breadcrumbSchema, faqSchema, SITE } from '../data/site';
 
 const url = `${SITE}/reviews`;
@@ -14,7 +15,7 @@ const title = 'Customer Reviews | Computer Repairs Gold Coast';
 const faqs = [
   { q: 'Are these reviews from real customers?', a: 'Yes. Every review on this page comes from a real Computers Gold Coast customer, shared in their own words.' },
   { q: 'How can I leave a review?', a: 'Send us your feedback through our <a href="/contact">contact page</a>. Let us know what the job was, your suburb and how it went.' },
-  { q: 'Do you charge a call-out fee?', a: "No. There's no call-out fee anywhere on the Gold Coast. You'll know the price before any work starts." },
+  { q: 'Do you charge a call-out fee?', a: "No. There’s no call-out fee anywhere on the Gold Coast. You’ll know the price before any work starts." },
   { q: 'Which areas of the Gold Coast do you cover?', a: 'The whole Gold Coast, from Coomera and Helensvale in the north to Coolangatta in the south, and out to Nerang, Mudgeeraba and the hinterland. Remote support is available anywhere.' },
 ];
 
@@ -29,7 +30,7 @@ const schema = [
 ---
 <PageLayout
   title={title}
-  description="Read real reviews from Gold Coast customers. Honest, affordable computer and laptop repairs, onsite or remote, with no call-out fee."
+  description="Real reviews of Computers Gold Coast: honest, affordable computer and laptop repairs, onsite or remote, no call-out fee. Plus tips on choosing a technician."
   shareDescription="What Gold Coast customers say about our computer and laptop repairs. Onsite or remote, no call-out fee."
   path="/reviews"
   schema={schema}
@@ -65,17 +66,19 @@ const schema = [
     </div>
   </section>
 
+  <ChoosingTips />
+
   <section class="sec">
     <div class="wrap leave">
       <div>
-        <h2>Had a repair with us? We'd love to hear how it went.</h2>
-        <p class="lede">Reviews from real customers help other Gold Coast locals choose a technician they can trust. Good or bad, we want to know, because it's how we get better.</p>
+        <h2>Had a repair with us? We’d love to hear how it went.</h2>
+        <p class="lede">Reviews from real customers help other Gold Coast locals choose a technician they can trust. Good or bad, we want to know, because it’s how we get better.</p>
         <div class="hero-actions"><a class="btn btn-dark" href="/contact">Share your feedback <Icon name="arrow" /></a></div>
       </div>
       <ol class="leave-steps">
-        <li>Tell us honestly what went well and what didn't.</li>
+        <li>Tell us honestly what went well and what didn’t.</li>
         <li>Mention the job and your suburb. It helps people with the same problem.</li>
-        <li>Send it through our contact page and we'll take it from there.</li>
+        <li>Send it through our contact page and we’ll take it from there.</li>
       </ol>
     </div>
   </section>
@@ -96,5 +99,5 @@ const schema = [
     </div>
   </section>
 
-  <CtaBand title="Need help with a similar problem?" text="Tell us the make, model, your suburb and what's going wrong, and we'll come back to you with a straight answer." />
+  <CtaBand title="Need help with a similar problem?" text="Tell us the make, model, your suburb and what’s going wrong, and we’ll come back to you with a straight answer." />
 </PageLayout>

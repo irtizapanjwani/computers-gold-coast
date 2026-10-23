@@ -22,12 +22,12 @@ const skyline = [
 ];
 
 const faqs = [
-  { q: 'How much does a computer repair cost on the Gold Coast?', a: "It depends on the fault and the model, so we diagnose first and give you the price before any work starts. There's no call-out fee, and nothing goes ahead until you've said yes." },
+  { q: 'How much does a computer repair cost on the Gold Coast?', a: "It depends on the fault and the model, so we diagnose first and give you the price before any work starts. There’s no call-out fee, and nothing goes ahead until you’ve said yes." },
   { q: 'Do you come to my home or office?', a: 'Yes. We come to homes and offices anywhere on the Gold Coast with no call-out fee. Bigger hardware jobs can also be dropped off.' },
   { q: 'Can you fix my computer remotely?', a: 'Often, yes. Virus removal, slow computers, email problems and software installs can usually be fixed remotely. Hardware faults like broken screens or failed drives need hands-on work.' },
   { q: 'Do you repair Macs as well as Windows PCs?', a: 'Yes. We repair MacBooks, iMacs and Mac minis as well as Windows desktops and laptops from every major brand. See our <a href="/mac-repairs-gold-coast">Mac repairs</a> page for details.' },
-  { q: 'Will I lose my files?', a: "We take care to protect your data, and we'll tell you before doing anything that could affect your files. If a drive has already failed, our <a href=\"/data-recovery-gold-coast\">data recovery</a> service can often get your files back." },
-  { q: 'What hours are you open?', a: "We're open 7am to 10pm, 7 days a week, including weekends and public holidays." },
+  { q: 'Will I lose my files?', a: "We take care to protect your data, and we’ll tell you before doing anything that could affect your files. If a drive has already failed, our <a href=\"/data-recovery-gold-coast\">data recovery</a> service can often get your files back." },
+  { q: 'What hours are you open?', a: "We’re open 7am to 10pm, 7 days a week, including weekends and public holidays." },
 ];
 
 const steps = [
@@ -39,6 +39,7 @@ const steps = [
 const schema = [
   { '@context': 'https://schema.org', '@graph': [
     { '@type': 'WebSite', '@id': `${SITE}/#website`, url: `${SITE}/`, name: 'Computers Gold Coast', inLanguage: 'en-AU', publisher: { '@id': `${SITE}/#business` } },
+    { '@type': 'WebPage', '@id': `${SITE}/#webpage`, url: `${SITE}/`, name: 'Computer Repairs Gold Coast | PC, Laptop & Mac Repairs', isPartOf: { '@id': `${SITE}/#website` }, about: { '@id': `${SITE}/#business` }, inLanguage: 'en-AU' },
     businessSchema,
   ] },
   faqSchema(faqs, `${SITE}/`),
@@ -146,7 +147,7 @@ const schema = [
     <div class="wrap">
       <div class="sec-head">
         <h2>Computer repairs across the whole Gold Coast</h2>
-        <p class="lede">Our technicians cover the Coast from Coomera to Coolangatta and out to the hinterland, with no call-out fee. Don't see your suburb? <a class="link" href="/contact">Get in touch</a></p>
+        <p class="lede">Our technicians cover the Coast from Coomera to Coolangatta and out to the hinterland, with no call-out fee. Don’t see your suburb? <a class="link" href="/contact">Get in touch</a></p>
       </div>
       <Areas showBrands />
     </div>
@@ -164,7 +165,7 @@ const schema = [
 
   <section class="sec">
     <div class="wrap">
-      <Faq title="Computer repair questions from Gold Coast customers" intro="Can't see your question here? Give us a call. You'll talk to a technician, not a call centre." items={faqs} />
+      <Faq title="Computer repair questions from Gold Coast customers" intro="Can’t see your question here? Give us a call. You’ll talk to a technician, not a call centre." items={faqs} />
     </div>
   </section>
 

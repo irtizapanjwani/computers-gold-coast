@@ -1,7 +1,7 @@
 ---
 // About page "How we look after every customer": sticky navy intro card (with a counter and
 // progress bar) beside a stack of rule cards. On desktop the card nearest the middle of the
-// viewport becomes active and the counter follows it. Below 1024px it's a plain stack.
+// viewport becomes active and the counter follows it. Below 1024px it’s a plain stack.
 interface Props { rules: { rule: string; detail: string }[] }
 const { rules } = Astro.props;
 const total = String(rules.length).padStart(2, '0');

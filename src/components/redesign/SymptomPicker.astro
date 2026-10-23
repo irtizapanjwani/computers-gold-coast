@@ -125,7 +125,7 @@ import { symptoms } from '../../data/site';
         if (!quote || !message) return;
         e.preventDefault();
         const text = link.dataset.quote ?? '';
-        // Don't overwrite something the visitor typed themselves.
+        // Don’t overwrite something the visitor typed themselves.
         if (!message.value.trim() || message.value === message.dataset.prefill) {
           message.value = text;
           message.dataset.prefill = text;
