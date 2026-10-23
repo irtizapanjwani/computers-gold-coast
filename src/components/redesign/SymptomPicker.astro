@@ -1,0 +1,139 @@
+---
+// Homepage "symptom picker": vertical tabs on desktop, accordion on mobile (same markup).
+// Every panel is server-rendered so all symptom copy and service links are in the HTML;
+// inactive panels are only hidden with the `hidden` attribute.
+import Icon from './Icon.astro';
+import { symptoms } from '../../data/site';
+---
+<section class="sec sym" id="services" aria-labelledby="sym-title">
+  <div class="wrap sym-picker" data-sym>
+    <div class="sym-intro">
+      <h2 id="sym-title">Tell us what it’s doing. <span class="hl">We’ll know what to fix.</span></h2>
+      <p class="lede">Pick the closest match. Each one explains the usual cause and what we do about it.</p>
+    </div>
+
+    <div class="sym-tabs" role="tablist" aria-orientation="vertical" aria-labelledby="sym-title">
+      {symptoms.map((s, i) => (
+        <button type="button" class="sym-tab" role="tab" id={`sym-tab-${i}`} aria-controls={`sym-panel-${i}`}
+          aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} style={`--i:${i}`}>
+          <span class="sym-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <span class="sym-tab-text">{s.label}</span>
+          <Icon name="arrow" class="sym-tab-arrow" />
+        </button>
+      ))}
+    </div>
+
+    <div class="sym-panels">
+      {symptoms.map((s, i) => (
+        <div class="sym-panel" role="tabpanel" id={`sym-panel-${i}`} aria-labelledby={`sym-tab-${i}`} hidden={i !== 0} style={`--i:${i}`}>
+          <h3>{s.label}</h3>
+          {s.whatWeDo ? (
+            <>
+              <div class="sym-block">
+                <p class="sym-label">Usually this means</p>
+                <p>{s.meaning}</p>
+              </div>
+              <div class="sym-block">
+                <p class="sym-label">What we do</p>
+                <p>{s.whatWeDo}</p>
+              </div>
+              <ul class="sym-badges">
+                {s.badges.map((b) => <li><Icon name={b.icon} />{b.text}</li>)}
+              </ul>
+              <div class="sym-actions">
+                <a class="sym-related" href={s.serviceHref}><span>Related service</span><strong>{s.serviceLabel} <Icon name="arrow" /></strong></a>
+                <a class="btn btn-primary" href="#quote" data-quote={s.label}>Get a quote for this <Icon name="arrow" /></a>
+              </div>
+            </>
+          ) : (
+            <>
+              <p class="sym-other">{s.meaning}</p>
+              <ul class="sym-badges">
+                {s.badges.map((b) => <li><Icon name={b.icon} />{b.text}</li>)}
+              </ul>
+              <div class="sym-actions">
+                <a class="btn btn-primary" href={s.serviceHref}>{s.serviceLabel} <Icon name="arrow" /></a>
+              </div>
+            </>
+          )}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-sym]');
+  if (root) {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('.sym-tab')];
+    const panels = [...root.querySelectorAll<HTMLElement>('.sym-panel')];
+    const mobile = window.matchMedia('(max-width: 960px)');
+    let active = 0;
+
+    // Desktop: tabs (one always open). Mobile: accordion (tap the open item to close it).
+    const render = () => {
+      const accordion = mobile.matches;
+      root.querySelector('.sym-tabs')?.setAttribute('role', accordion ? 'presentation' : 'tablist');
+      tabs.forEach((tab, i) => {
+        const open = i === active;
+        if (accordion) {
+          tab.removeAttribute('role');
+          tab.removeAttribute('aria-selected');
+          tab.setAttribute('aria-expanded', String(open));
+          tab.tabIndex = 0;
+          panels[i].setAttribute('role', 'region');
+        } else {
+          tab.setAttribute('role', 'tab');
+          tab.removeAttribute('aria-expanded');
+          tab.setAttribute('aria-selected', String(open));
+          tab.tabIndex = open ? 0 : -1;
+          panels[i].setAttribute('role', 'tabpanel');
+        }
+        tab.classList.toggle('is-active', open);
+        panels[i].hidden = !open;
+      });
+    };
+
+    const select = (i: number, focus = false) => {
+      active = mobile.matches && i === active ? -1 : i;
+      render();
+      if (focus) tabs[i].focus();
+    };
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => select(i));
+      tab.addEventListener('keydown', (e) => {
+        const last = tabs.length - 1;
+        const next = { ArrowDown: i + 1, ArrowRight: i + 1, ArrowUp: i - 1, ArrowLeft: i - 1, Home: 0, End: last }[e.key];
+        if (next === undefined) return;
+        e.preventDefault();
+        const target = (next + tabs.length) % tabs.length;
+        if (mobile.matches) tabs[target].focus();
+        else select(target, true);
+      });
+    });
+
+    mobile.addEventListener('change', () => { if (active === -1) active = 0; render(); });
+    render();
+
+    // "Get a quote for this": prefill the hero form, scroll to it, focus the name field.
+    root.querySelectorAll<HTMLAnchorElement>('[data-quote]').forEach((link) => {
+      link.addEventListener('click', (e) => {
+        const quote = document.getElementById('quote');
+        const message = document.getElementById('q-message') as HTMLTextAreaElement | null;
+        const name = document.getElementById('q-name') as HTMLInputElement | null;
+        if (!quote || !message) return;
+        e.preventDefault();
+        const text = link.dataset.quote ?? '';
+        // Don't overwrite something the visitor typed themselves.
+        if (!message.value.trim() || message.value === message.dataset.prefill) {
+          message.value = text;
+          message.dataset.prefill = text;
+        }
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        quote.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+        name?.focus({ preventScroll: true });
+      });
+    });
+  }
+</script>

@@ -2,7 +2,7 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import Icon from '../components/redesign/Icon.astro';
 import QuoteForm from '../components/redesign/QuoteForm.astro';
-import ServiceList from '../components/redesign/ServiceList.astro';
+import SymptomPicker from '../components/redesign/SymptomPicker.astro';
 import Steps from '../components/redesign/Steps.astro';
 import Areas from '../components/redesign/Areas.astro';
 import ReviewFeature from '../components/redesign/ReviewFeature.astro';
@@ -86,25 +86,10 @@ const schema = [
     </section>
   </div>
 
-  <section class="trust" aria-label="Why Gold Coast customers choose us">
-    <div class="wrap">
-      <div class="trust-item"><Icon name="award" /><div><strong>20 years</strong><span>fixing PCs, laptops and Macs</span></div></div>
-      <div class="trust-item"><Icon name="dollar" /><div><strong>$0 call-out fee</strong><span>anywhere on the Gold Coast</span></div></div>
-      <div class="trust-item"><Icon name="clock" /><div><strong>7am to 10pm</strong><span>7 days, including holidays</span></div></div>
-      <div class="trust-item"><Icon name="home" /><div><strong>Family-owned</strong><span>not a franchise or call centre</span></div></div>
-    </div>
-  </section>
+  {/* TODO: the 4-item trust strip that sat here repeated the hero stats row, so it was removed.
+       Replace it later with 2-3 real customer review quotes once the client supplies them. */}
 
-  <section class="sec" id="services">
-    <div class="wrap split">
-      <div class="split-intro">
-        <h2>Computer and laptop repair services on the Gold Coast</h2>
-        <p class="lede">From a slow PC to a cracked MacBook screen, these are the repairs and IT jobs Gold Coast homes and businesses ask us for most.</p>
-        <div class="hero-actions"><a class="btn btn-line" href="/services">View all services <Icon name="arrow" /></a></div>
-      </div>
-      <ServiceList />
-    </div>
-  </section>
+  <SymptomPicker />
 
   <section class="sec sec-alt">
     <div class="wrap">

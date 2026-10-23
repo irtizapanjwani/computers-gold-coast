@@ -54,6 +54,108 @@ export const brandLogos: { name: string; src: string; href?: string }[] = [
   { name: 'Compaq', src: '/brands/logo-compaq.png' },
 ];
 
+// Homepage symptom picker. `label` also prefills the hero quote form. The last entry has no
+// service page of its own and shows a pointer to /services instead. Badges only repeat claims
+// made in that symptom's copy or elsewhere on the site. Visible text uses typographic apostrophes (’).
+export type Symptom = {
+  label: string;
+  meaning: string;
+  whatWeDo: string;
+  badges: { icon: string; text: string }[];
+  serviceHref: string;
+  serviceLabel: string;
+};
+export const symptoms: Symptom[] = [
+  {
+    label: 'It won’t turn on',
+    meaning: 'Most often it’s power: a faulty charger, a worn charging port (DC jack) or a battery that has failed. Less often it’s the power supply in a desktop, or a fault on the motherboard.',
+    // TODO(client): confirm DC jack and motherboard repairs are done onsite, in the workshop, or both.
+    whatWeDo: 'We test the cheapest causes first (charger, port, battery), then the board if needed. You get the cause and the price before any repair starts.',
+    badges: [
+      { icon: 'wrench', text: 'Cheapest causes checked first' },
+      { icon: 'dollar', text: 'Price before any repair' },
+      { icon: 'home', text: 'No call-out fee' },
+    ],
+    serviceHref: '/hardware-repair-diagnostics-gold-coast',
+    serviceLabel: 'Hardware repair & diagnostics',
+  },
+  {
+    label: 'It’s painfully slow',
+    meaning: 'Usually too many programs starting with the computer, an ageing hard drive, not enough memory, or something unwanted running in the background.',
+    whatWeDo: 'We check the drive’s health and what’s running at startup, clean things up, and tell you whether an SSD or more memory would actually make a difference.',
+    badges: [
+      { icon: 'drive', text: 'Drive health check' },
+      { icon: 'chat', text: 'Honest upgrade advice' },
+      // "Slow computers ... can usually be fixed remotely" is in the homepage FAQ.
+      { icon: 'wifi', text: 'Often fixed remotely' },
+    ],
+    serviceHref: '/computer-tune-up-gold-coast',
+    serviceLabel: 'Computer tune-up',
+  },
+  {
+    label: 'The screen is cracked',
+    meaning: 'On a laptop, a cracked or blank screen usually means the display panel needs replacing. If the picture flickers when you move the lid, it can be the screen cable or hinge instead.',
+    // TODO(client): confirm whether desktop monitors and iMac screens are also replaced, or laptops only.
+    whatWeDo: 'We find the exact panel for your model, quote it, and fit the replacement. If it turns out to be the cable or hinge, we fix that instead.',
+    badges: [
+      { icon: 'screen', text: 'Panel matched to your model' },
+      { icon: 'dollar', text: 'Quoted before fitting' },
+      { icon: 'wrench', text: 'Cable and hinge repairs too' },
+    ],
+    serviceHref: '/laptop-screen-replacement-gold-coast',
+    serviceLabel: 'Laptop screen replacement',
+  },
+  {
+    label: 'Pop-ups and viruses',
+    meaning: 'Pop-ups, a changed home page or new toolbars usually mean adware or a browser hijacker. Slowness plus odd behaviour can point to deeper malware.',
+    whatWeDo: 'We remove the infection, clean up your browsers and startup items, and set up protection so it doesn’t come back. This can often be done remotely.',
+    badges: [
+      { icon: 'wifi', text: 'Can be done remotely' },
+      { icon: 'shield', text: 'Protection set up after' },
+      { icon: 'home', text: 'No call-out fee' },
+    ],
+    serviceHref: '/virus-spyware-removal-gold-coast',
+    serviceLabel: 'Virus & spyware removal',
+  },
+  {
+    label: 'I’ve lost my files',
+    meaning: 'Files are often still there: deleted, moved, or sitting on a drive that’s failing but still readable. Clicking or grinding noises point to a failing drive.',
+    whatWeDo: 'Stop using the device and get in touch, because using it can make recovery harder. We assess the drive and tell you honestly what can be recovered before any work starts.',
+    badges: [
+      { icon: 'chat', text: 'Honest assessment first' },
+      { icon: 'drive', text: 'Failing drives assessed' },
+      { icon: 'dollar', text: 'Price before work starts' },
+    ],
+    serviceHref: '/data-recovery-gold-coast',
+    serviceLabel: 'Data recovery',
+  },
+  {
+    label: 'Wi-Fi keeps dropping',
+    meaning: 'Usually the router is in the wrong spot, walls are blocking the signal (concrete apartments are the worst), or the home is too big for one router. Sometimes the problem is the internet connection itself.',
+    whatWeDo: 'We test the connection and the signal room by room, then fix the router setup or install mesh Wi-Fi so every room gets proper coverage.',
+    badges: [
+      { icon: 'wifi', text: 'Room-by-room signal test' },
+      { icon: 'home', text: 'Mesh Wi-Fi installs' },
+      { icon: 'dollar', text: 'No call-out fee' },
+    ],
+    serviceHref: '/network-optimisation-mesh-wifi-gold-coast',
+    serviceLabel: 'Mesh Wi-Fi & network optimisation',
+  },
+  {
+    label: 'Something else',
+    // TODO(client): "40+ types of IT services" comes from the existing Computer Repairs page; confirm it's still accurate.
+    meaning: 'Printers, email, new computer setup, backups, smart TVs, CCTV and more. We handle over 40 types of IT jobs for Gold Coast homes and businesses.',
+    whatWeDo: '',
+    badges: [
+      { icon: 'wrench', text: '40+ types of IT jobs' },
+      { icon: 'briefcase', text: 'Homes and businesses' },
+      { icon: 'clock', text: '7am to 10pm, 7 days' },
+    ],
+    serviceHref: '/services',
+    serviceLabel: 'View all services',
+  },
+];
+
 // TODO: fill in from the client's Google Business Profile. The rating line under the
 // homepage quote form stays hidden until both values are set. Never estimate these.
 export const googleReviews: { rating: number | null; count: number | null } = { rating: null, count: null };
