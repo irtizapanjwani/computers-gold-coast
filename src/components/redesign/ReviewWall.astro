@@ -1,0 +1,66 @@
+---
+// /reviews: filterable wall of every review. Each quote has its key phrase highlighted.
+// All reviews are in the HTML; the theme chips only hide/show cards (no JS = all shown).
+import { reviews, reviewThemes } from '../../data/site';
+
+// Lead with the strongest non-Google review, then the rest in their usual order.
+const lead = reviews[3];
+const wall = [lead, ...reviews.filter((r) => r !== lead)].map((r) => {
+  const at = r.quote.indexOf(r.highlight);
+  if (at < 0) throw new Error(`Review highlight not found in quote: "${r.highlight}"`);
+  return { ...r, before: r.quote.slice(0, at), after: r.quote.slice(at + r.highlight.length) };
+});
+const label = (id: string) => reviewThemes.find((t) => t.id === id)?.label ?? id;
+const chips = [
+  { id: 'all', label: 'All reviews', count: reviews.length },
+  ...reviewThemes.map((t) => ({ id: t.id, label: t.label, count: reviews.filter((r) => (r.themes as readonly string[]).includes(t.id)).length })),
+];
+---
+<div class="rw" data-rw>
+  <div class="rw-filters" role="group" aria-label="Filter reviews by what customers mention">
+    {chips.map((c, i) => (
+      <button type="button" class="rw-chip" data-filter={c.id} aria-pressed={i === 0 ? 'true' : 'false'}>
+        {c.label}<span>{c.count}</span>
+      </button>
+    ))}
+  </div>
+  <p class="sr-only" role="status" data-rw-status></p>
+
+  <div class="rw-grid">
+    {wall.map((r) => (
+      <figure class:list={['rw-card', { 'is-lead': r === wall[0] }]} data-themes={r.themes.join(' ')}>
+        <div class="rw-top">
+          <span class="rw-mark" aria-hidden="true">“</span>
+          <span class="rw-src">
+            {r.google ? <><b aria-label="5 out of 5 stars">★★★★★</b> Google review</> : 'Customer review'}
+          </span>
+        </div>
+        <blockquote>{r.before}<mark>{r.highlight}</mark>{r.after}</blockquote>
+        <figcaption class="rw-foot">
+          <span class="rw-themes">{r.themes.map((t) => <span>{label(t)}</span>)}</span>
+          <a class="rw-tag" href={r.href}>{r.tag} →</a>
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-rw]');
+  if (root) {
+    const chips = [...root.querySelectorAll<HTMLButtonElement>('.rw-chip')];
+    const cards = [...root.querySelectorAll<HTMLElement>('.rw-card')];
+    const status = root.querySelector<HTMLElement>('[data-rw-status]');
+    chips.forEach((chip) => chip.addEventListener('click', () => {
+      const f = chip.dataset.filter!;
+      chips.forEach((c) => c.setAttribute('aria-pressed', String(c === chip)));
+      let shown = 0;
+      cards.forEach((card) => {
+        const match = f === 'all' || (card.dataset.themes ?? '').split(' ').includes(f);
+        card.hidden = !match;
+        if (match) shown++;
+      });
+      if (status) status.textContent = `Showing ${shown} review${shown === 1 ? '' : 's'}.`;
+    }));
+  }
+</script>

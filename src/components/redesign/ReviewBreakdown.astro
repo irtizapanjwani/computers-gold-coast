@@ -1,0 +1,42 @@
+---
+// "Review breakdown" diagram for the /reviews hero. Every number is counted from the reviews
+// data (no ratings or totals are invented).
+import { reviews, reviewThemes } from '../../data/site';
+
+const total = reviews.length;
+const google = reviews.filter((r) => r.google).length;
+const direct = total - google;
+const themes = reviewThemes.map((t) => ({
+  ...t,
+  count: reviews.filter((r) => (r.themes as readonly string[]).includes(t.id)).length,
+}));
+const pct = (n: number) => `${Math.round((n / total) * 100)}%`;
+---
+<div class="rb">
+  <p class="rb-eyebrow">Review breakdown</p>
+  <div class="rb-total">
+    <strong>{total}</strong>
+    <span>reviews from real customers, shared in their own words</span>
+  </div>
+
+  <div class="rb-source" aria-label={`${google} Google reviews and ${direct} direct customer reviews`}>
+    <div class="rb-split" aria-hidden="true">
+      <i class="is-google" style={`width:${pct(google)}`}></i>
+      <i class="is-direct" style={`width:${pct(direct)}`}></i>
+    </div>
+    <ul class="rb-legend">
+      <li><span class="is-google" aria-hidden="true"></span>{google} Google reviews <b aria-hidden="true">★★★★★</b></li>
+      <li><span class="is-direct" aria-hidden="true"></span>{direct} direct to us</li>
+    </ul>
+  </div>
+
+  <p class="rb-sub">What customers mention most</p>
+  <ul class="rb-themes">
+    {themes.map((t) => (
+      <li>
+        <div class="rb-theme-top"><span>{t.label}</span><b>{t.count} of {total}</b></div>
+        <div class="rb-bar" aria-hidden="true"><i style={`width:${pct(t.count)}`}></i></div>
+      </li>
+    ))}
+  </ul>
+</div>

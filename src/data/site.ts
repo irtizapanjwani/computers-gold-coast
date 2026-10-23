@@ -236,14 +236,21 @@ export const reviewCards = [
 export const googleReviews: { rating: number | null; count: number | null } = { rating: null, count: null };
 
 // Every review the site has. Only the first three were published as Google reviews.
+// `themes` and `highlight` are read straight from each customer's own words (used on /reviews);
+// `highlight` must appear in `quote` exactly.
+export const reviewThemes = [
+  { id: 'quick', label: 'Quick and reliable' },
+  { id: 'affordable', label: 'Fair, affordable pricing' },
+  { id: 'clear', label: 'Clear, honest explanations' },
+] as const;
 export const reviews = [
-  { quote: 'Terrific service, very affordable, has fixed my problems every single time, have already recommended him to friends of mine.', google: true, tag: 'Computer Repairs', href: '/computer-repairs-gold-coast' },
-  { quote: "Punctual, on time, explained in depth what he was doing, I felt that I could trust him and I'll be recommending him to friends and family.", google: true, tag: 'Onsite Service', href: '/computer-repairs-gold-coast' },
-  { quote: "Fixed our PC issues easily and gave great explanations on how to prevent issues in the future. His hourly rate is the cheapest we've found.", google: true, tag: 'PC Repairs & Advice', href: '/preventative-maintenance-gold-coast' },
-  { quote: 'Having dealt with a number of questionable repair people, I was shocked at how quick, flexible and affordable these guys were.', google: false, tag: 'Computer Repairs', href: '/computer-repairs-gold-coast' },
-  { quote: 'I felt the technician was really thorough, solved a lot of my issues remotely on the same day, and had patience with getting the remote session set up.', google: false, tag: 'Remote Support', href: '/general-troubleshooting-gold-coast' },
-  { quote: 'Really happy with the service. Unfortunately my PC had come to the end of its life. Got helpful advice on a replacement to meet my computing needs. Will use these guys again in the future.', google: false, tag: 'Replacement Advice', href: '/laptop-buying-service-gold-coast' },
-  { quote: 'Highly professional and very alert to my computer problems. Very highly recommended.', google: false, tag: 'Diagnostics', href: '/hardware-repair-diagnostics-gold-coast' },
+  { quote: 'Terrific service, very affordable, has fixed my problems every single time, have already recommended him to friends of mine.', google: true, tag: 'Computer Repairs', href: '/computer-repairs-gold-coast', themes: ['quick', 'affordable'], highlight: 'fixed my problems every single time' },
+  { quote: "Punctual, on time, explained in depth what he was doing, I felt that I could trust him and I'll be recommending him to friends and family.", google: true, tag: 'Onsite Service', href: '/computer-repairs-gold-coast', themes: ['quick', 'clear'], highlight: 'explained in depth what he was doing' },
+  { quote: "Fixed our PC issues easily and gave great explanations on how to prevent issues in the future. His hourly rate is the cheapest we've found.", google: true, tag: 'PC Repairs & Advice', href: '/preventative-maintenance-gold-coast', themes: ['affordable', 'clear'], highlight: "the cheapest we've found" },
+  { quote: 'Having dealt with a number of questionable repair people, I was shocked at how quick, flexible and affordable these guys were.', google: false, tag: 'Computer Repairs', href: '/computer-repairs-gold-coast', themes: ['quick', 'affordable'], highlight: 'quick, flexible and affordable' },
+  { quote: 'I felt the technician was really thorough, solved a lot of my issues remotely on the same day, and had patience with getting the remote session set up.', google: false, tag: 'Remote Support', href: '/general-troubleshooting-gold-coast', themes: ['quick'], highlight: 'remotely on the same day' },
+  { quote: 'Really happy with the service. Unfortunately my PC had come to the end of its life. Got helpful advice on a replacement to meet my computing needs. Will use these guys again in the future.', google: false, tag: 'Replacement Advice', href: '/laptop-buying-service-gold-coast', themes: ['clear'], highlight: 'helpful advice on a replacement' },
+  { quote: 'Highly professional and very alert to my computer problems. Very highly recommended.', google: false, tag: 'Diagnostics', href: '/hardware-repair-diagnostics-gold-coast', themes: [], highlight: 'Highly professional' },
 ] as const;
 
 export type Faq = { q: string; a: string };
