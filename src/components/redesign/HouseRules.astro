@@ -1,0 +1,70 @@
+---
+// About page "How we look after every customer": sticky navy intro card (with a counter and
+// progress bar) beside a stack of rule cards. On desktop the card nearest the middle of the
+// viewport becomes active and the counter follows it. Below 1024px it's a plain stack.
+interface Props { rules: { rule: string; detail: string }[] }
+const { rules } = Astro.props;
+const total = String(rules.length).padStart(2, '0');
+---
+<section class="sec sec-alt" aria-labelledby="rules-title">
+  <div class="wrap hr-grid" data-hr>
+    <div class="hr-side">
+      <div class="hr-card">
+        <span class="hr-lines" aria-hidden="true"></span>
+        <span class="hr-glow" aria-hidden="true"></span>
+        <p class="hr-eyebrow">House rules</p>
+        <h2 id="rules-title">How we look after every customer</h2>
+        <p class="hr-lede">The same house rules apply to every job, whether it’s a cracked laptop screen in Southport or a small office network in Robina.</p>
+        <div class="hr-progress" aria-hidden="true">
+          <p class="hr-count"><span class="hr-current">01</span><span class="hr-total">/ {total}</span></p>
+          <div class="hr-bar"><i></i></div>
+        </div>
+      </div>
+    </div>
+    <ol class="hr-list">
+      {rules.map((r, i) => (
+        <li class="hr-item" data-i={i}>
+          <span class="hr-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <div>
+            <h3>{r.rule}</h3>
+            <p>{r.detail}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-hr]');
+  if (root) {
+    const items = [...root.querySelectorAll<HTMLElement>('.hr-item')];
+    const current = root.querySelector<HTMLElement>('.hr-current');
+    const bar = root.querySelector<HTMLElement>('.hr-bar');
+    const desktop = window.matchMedia('(min-width: 1024px)');
+    let io: IntersectionObserver | null = null;
+
+    const setActive = (i: number) => {
+      items.forEach((el, n) => el.classList.toggle('is-active', n === i));
+      if (current) current.textContent = String(i + 1).padStart(2, '0');
+      bar?.style.setProperty('--p', `${((i + 1) / items.length) * 100}%`);
+    };
+
+    const start = () => {
+      io?.disconnect();
+      if (!desktop.matches) {
+        items.forEach((el) => el.classList.remove('is-active'));
+        return;
+      }
+      setActive(0);
+      // A 1px band across the middle of the viewport: whichever card crosses it is active.
+      io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => { if (e.isIntersecting) setActive(Number((e.target as HTMLElement).dataset.i)); });
+      }, { rootMargin: '-50% 0px -50% 0px' });
+      items.forEach((el) => io!.observe(el));
+    };
+
+    desktop.addEventListener('change', start);
+    start();
+  }
+</script>

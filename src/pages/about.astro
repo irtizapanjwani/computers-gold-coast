@@ -1,8 +1,10 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import Icon from '../components/redesign/Icon.astro';
+import HouseRules from '../components/redesign/HouseRules.astro';
 import ServiceList from '../components/redesign/ServiceList.astro';
-import Steps from '../components/redesign/Steps.astro';
+import DiagnosticRadar from '../components/redesign/DiagnosticRadar.astro';
+import ReadyChecklist from '../components/redesign/ReadyChecklist.astro';
 import Areas from '../components/redesign/Areas.astro';
 import ReviewFeature from '../components/redesign/ReviewFeature.astro';
 import Faq from '../components/redesign/Faq.astro';
@@ -10,15 +12,24 @@ import CtaBand from '../components/redesign/CtaBand.astro';
 import { brands, businessSchema, breadcrumbSchema, faqSchema, SITE } from '../data/site';
 
 const url = `${SITE}/about`;
+
+// Decorative skyline behind the facts (same shapes as the homepage hero): [x, width, height].
+const skyline = [
+  [0, 34, 70], [38, 16, 112], [58, 48, 96], [70, 24, 124], [112, 22, 168], [138, 12, 140],
+  [154, 46, 190], [164, 22, 222], [204, 28, 150], [236, 58, 108], [298, 18, 246], [320, 44, 214],
+  [330, 22, 244], [368, 14, 170], [386, 52, 132], [398, 26, 160], [444, 22, 268], [470, 38, 182],
+  [512, 12, 144], [528, 56, 92], [540, 28, 114], [588, 32, 76],
+];
 const title = 'About Us | Family-Owned Computer Repairs Gold Coast';
 
-const promises = [
-  { title: 'Not a franchise or a call centre', text: 'You talk to a local technician who knows your job, not someone reading from a script in another state.' },
-  { title: 'No call-out fee, ever', text: 'We come to your home or office anywhere on the Gold Coast without charging you just to turn up.' },
-  { title: 'The price before we start', text: "We tell you what's wrong and what it will cost, and only go ahead once you've said yes. No hourly padding." },
-  { title: 'Straight advice, no upselling', text: "If free, reputable software will do the job, we'll recommend it. If a repair isn't worth the money, we'll say so." },
-  { title: 'Onsite, remote or drop-off', text: 'Plenty of software problems can be fixed over the internet. Hardware jobs are done at your place or dropped off.' },
-  { title: 'Open 7am to 10pm, 7 days', text: "Computers don't only break during business hours, so we're available early, late, on weekends and on public holidays." },
+// "How we look after every customer": plain house rules. Each one restates a promise made elsewhere on the site.
+const rules = [
+  { rule: 'You talk to the technician', detail: 'Not a franchise or a call centre. The person you speak to is the person who fixes it.' },
+  { rule: 'No call-out fee', detail: 'We come to homes and offices anywhere on the Gold Coast without charging you just to turn up.' },
+  { rule: 'Price first, then the work', detail: 'We tell you what’s wrong and what it will cost. Nothing starts until you say yes.' },
+  { rule: 'No upselling', detail: 'If free, reputable software does the job, we’ll tell you. If a repair isn’t worth the money, we’ll say that too.' },
+  { rule: 'Remote when it makes sense', detail: 'Plenty of software problems can be fixed over the internet. Hardware is done at your place or as a drop-off.' },
+  { rule: 'Open 7am to 10pm, every day', detail: 'Including weekends and public holidays, because computers don’t only break between nine and five.' },
 ];
 
 const steps = [
@@ -53,74 +64,74 @@ const schema = [
   path="/about"
   schema={schema}
 >
-  <section class="hero-page">
-    <div class="wrap">
-      <div>
-        <div class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><span aria-current="page">About Us</span></div>
-        <h1>Your local computer repair technicians, <span class="hl">right here on the Gold Coast.</span></h1>
-        <p class="lede">We're a family-owned repair business, not a franchise. For 20 years we've been fixing PCs, laptops and Macs for Gold Coast homes and businesses. We find the real cause first, explain it in plain English, and tell you the price before any work starts.</p>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="/contact">Get In Touch <Icon name="arrow" /></a>
-          <a class="btn btn-line" href="tel:+61447266455"><Icon name="phone" />0447 266 455</a>
+  <div class="hero-shell">
+    <section class="hero-card about-hero" aria-labelledby="about-title">
+      <svg class="hero-skyline" viewBox="0 0 620 400" preserveAspectRatio="xMaxYMax meet" aria-hidden="true">
+        {skyline.map(([x, w, h]) => <rect x={x} y={400 - h} width={w} height={h} rx="1.5" />)}
+      </svg>
+      <div class="wrap about-hero-grid">
+        <div>
+          <div class="crumbs crumbs-dark" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><span aria-current="page">About Us</span></div>
+          <p class="hero-eyebrow"><span aria-hidden="true"></span>About us</p>
+          <h1 id="about-title">Your local computer repair technicians, <span class="hl">right here on the Gold Coast.</span></h1>
+          <p class="hero-sub">We’re a family-owned repair business, not a franchise. For 20 years we’ve been fixing PCs, laptops and Macs for Gold Coast homes and businesses. We find the real cause first, explain it in plain English, and tell you the price before any work starts.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="/contact">Get In Touch <Icon name="arrow" /></a>
+            <a class="btn btn-ghost-light" href="tel:+61447266455"><Icon name="phone" />0447 266 455</a>
+          </div>
+          <p class="about-hero-meta">Family-owned <span aria-hidden="true">·</span> No call-out fee <span aria-hidden="true">·</span> Open 7 days, 7AM–10PM</p>
         </div>
+        {/* TODO(client): confirm 20 years, the Microsoft certification, the Channel 9 feature and "40+ services". */}
+        <ul class="about-facts">
+          <li><strong>20</strong><span>years fixing PCs, laptops and Macs</span></li>
+          <li><strong>MCP</strong><span>Microsoft Certified Professional at the helm</span></li>
+          <li><strong>Channel 9</strong><span>featured on the news</span></li>
+          <li><strong>40+</strong><span>types of IT services</span></li>
+        </ul>
       </div>
-      <ul class="facts">
-        <li><strong>20 years</strong><span>fixing PCs, laptops and Macs</span></li>
-        <li><strong>Microsoft Certified</strong><span>Professional leading the business</span></li>
-        <li><strong>Channel 9</strong><span>featured on the news</span></li>
-        <li><strong>40+</strong><span>types of IT services</span></li>
-      </ul>
-    </div>
-  </section>
+      <svg class="hero-wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 52C220 84 470 92 760 66C1040 41 1250 28 1440 46V90H0Z" />
+      </svg>
+    </section>
+  </div>
 
   <section class="sec">
-    <div class="wrap">
+    <div class="wrap story-grid">
       <div class="story prose">
         <h2>A family business that does the job properly</h2>
-        <p>Most people only call a computer technician when something has already gone wrong, and it's rarely a good time. The laptop won't start on the morning of a deadline, or the family PC is suddenly covered in pop-ups. In that moment you want someone local, honest about the cost, and good enough to fix it the first time. That's the business we run.</p>
-        <p>Our director is a Microsoft Certified Professional who started out at IBM, as the youngest employee in Australia at the time. Twenty years on, we still work the same way. You speak directly to the technician who will do your job, not a call centre or a sales rep. Along the way we've also been featured on Channel 9 news.</p>
-        <p class="pull">"You deal with one local technician, from the first phone call to the finished repair."</p>
-        <p>We come to homes and offices right across the Gold Coast with no call-out fee, fix many software problems remotely, and take drop-offs for bigger jobs. If you'd like to see everything we can help with, have a look at our <a href="/services">full list of services</a>.</p>
+        <p>Most people only call a computer technician when something has already gone wrong, and it’s rarely a good time. The laptop won’t start on the morning of a deadline, or the family PC is suddenly covered in pop-ups. In that moment you want someone local, honest about the cost, and good enough to fix it the first time. That’s the business we run.</p>
+        <p>Our director is a Microsoft Certified Professional who started out at IBM, as the youngest employee in Australia at the time. Twenty years on, we still work the same way. You speak directly to the technician who will do your job, not a call centre or a sales rep. Along the way we’ve also been featured on Channel 9 news.</p>
+        <p>We come to homes and offices right across the Gold Coast with no call-out fee, fix many software problems remotely, and take drop-offs for bigger jobs. If you’d like to see everything we can help with, have a look at our <a href="/services">full list of services</a>.</p>
       </div>
+      <aside class="story-card" aria-label="Our story so far">
+        <blockquote class="story-quote">“You deal with one local technician, from the first phone call to the finished repair.”</blockquote>
+        <p class="story-card-h">Our story so far</p>
+        {/* These steps restate facts from the story above. TODO(client): add years if dates should be shown. */}
+        <ol class="story-steps">
+          <li><strong>Started out at IBM</strong><span>As the youngest employee in Australia at the time.</span></li>
+          <li><strong>Microsoft Certified Professional</strong><span>Our director’s Microsoft qualification.</span></li>
+          <li><strong>Featured on Channel 9 news</strong><span>Seen on local TV news.</span></li>
+          <li><strong>20 years on</strong><span>Still one local technician, start to finish.</span></li>
+        </ol>
+      </aside>
     </div>
   </section>
 
-  <section class="sec sec-alt">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2>How we look after every customer</h2>
-        <p class="lede">The same rules apply whether it's a cracked laptop screen in Southport or a small office network in Robina.</p>
-      </div>
-      <ol class="numbered">
-        {promises.map((p, i) => <li><b>{String(i + 1).padStart(2, '0')}</b><div><h3>{p.title}</h3><p>{p.text}</p></div></li>)}
-      </ol>
-    </div>
-  </section>
+  <HouseRules rules={rules} />
 
-  <section class="sec">
+  <section class="sec" aria-labelledby="scan-title">
+    <div class="wrap scan-grid">
+      <div class="scan-copy">
+        <h2 id="scan-title">Clear answers before you commit to a repair</h2>
+        <p class="lede">One symptom can have several causes. A laptop that won’t turn on might need a new charger, a new DC jack or a motherboard repair, and each costs something very different. So we diagnose first and quote second.</p>
+        <ol class="scan-steps">
+          {steps.map((st, i) => <li><span class="scan-num">{i + 1}</span><div><h3>{st.title}</h3><p>{st.text}</p></div></li>)}
+        </ol>
+      </div>
+      <DiagnosticRadar />
+    </div>
     <div class="wrap">
-      <div class="sec-head">
-        <h2>Clear answers before you commit to a repair</h2>
-        <p class="lede">One symptom can have several causes. A laptop that won't turn on might need a new charger, a new DC jack or a motherboard repair, and each costs something very different. So we diagnose first and quote second.</p>
-      </div>
-      <Steps steps={steps} />
-      <div class="ready">
-        <div class="panel panel-sky">
-          <h3>Handy to have ready when you call</h3>
-          <ul class="checks">
-            <li><Icon name="check" />The make and model (usually on a sticker underneath)</li>
-            <li><Icon name="check" />When the problem started, and anything that changed just before</li>
-            <li><Icon name="check" />Any error messages, beeps or warning lights</li>
-            <li><Icon name="check" />Whether your files are backed up</li>
-            <li><Icon name="check" />The charger, if it's a laptop</li>
-          </ul>
-        </div>
-        <div class="panel panel-line prose">
-          <h3>Good to know</h3>
-          <p>Repair options depend on the model and the fault. Data recovery can't always be promised until we've looked at the drive.</p>
-          <p>If a device isn't economical to repair, we'll tell you, and we can supply a report for your <a href="/insurance-reports-gold-coast">insurance claim</a>.</p>
-        </div>
-      </div>
+      <ReadyChecklist />
     </div>
   </section>
 

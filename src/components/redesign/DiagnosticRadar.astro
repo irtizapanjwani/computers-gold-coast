@@ -1,0 +1,67 @@
+---
+// About page: "diagnostic scan" radar for the example symptom "laptop won't turn on".
+// One symptom, several possible causes; after the first sweep it locks onto the cause.
+// Illustrative only (matches the homepage example job). CSS animation, started when scrolled
+// into view; static with reduced motion. All text is real HTML.
+const SWEEP_SECONDS = 4;
+const causes = [
+  { name: 'Charger', note: 'Simple swap', angle: 52, r: 0.7 },
+  { name: 'Battery', note: 'Part replacement', angle: 140, r: 0.46 },
+  { name: 'DC jack', note: 'Port repair', angle: 228, r: 0.68, found: true },
+  { name: 'Motherboard', note: 'Board repair', angle: 318, r: 0.4 },
+].map((c) => {
+  const rad = (c.angle * Math.PI) / 180;
+  return {
+    ...c,
+    x: 50 + Math.sin(rad) * c.r * 50,
+    y: 50 - Math.cos(rad) * c.r * 50,
+    // the sweep starts at 12 o'clock and turns clockwise, so it reaches this blip after:
+    delay: (c.angle / 360) * SWEEP_SECONDS,
+  };
+});
+const found = causes.find((c) => c.found)!;
+---
+<figure class="radar" data-radar style={`--sweep:${SWEEP_SECONDS}s; --lock:${found.delay + 0.1}s`}>
+  <div class="radar-head">
+    <span class="radar-live"><i aria-hidden="true"></i>Diagnostic scan</span>
+    <span class="radar-symptom">Symptom: laptop won’t turn on</span>
+  </div>
+
+  <div class="radar-scope" aria-hidden="true">
+    <svg viewBox="0 0 300 300">
+      <circle cx="150" cy="150" r="146" class="radar-outer" />
+      <circle cx="150" cy="150" r="110" /><circle cx="150" cy="150" r="74" /><circle cx="150" cy="150" r="38" />
+      <path d="M150 4V296M4 150H296M47 47 253 253M253 47 47 253" class="radar-cross" />
+    </svg>
+    <div class="radar-sweep"></div>
+    {causes.map((c) => (
+      <span class:list={['blip', { 'is-found': c.found, 'is-left': c.x > 60 }]} style={`left:${c.x}%; top:${c.y}%; --d:${c.delay}s`}>
+        <i></i><b>{c.name}</b>
+      </span>
+    ))}
+  </div>
+
+  <p class="radar-legend-h">Possible causes</p>
+  <ul class="radar-legend">
+    {causes.map((c) => (
+      <li class:list={{ 'is-found': c.found }}><strong>{c.name}</strong><span>{c.note}</span>{c.found && <em>Cause</em>}</li>
+    ))}
+  </ul>
+  <figcaption class="radar-result">
+    <span class="radar-tick" aria-hidden="true">✓</span>
+    Example: cause found, a worn {found.name}. You get the price, then you decide.
+  </figcaption>
+</figure>
+
+<script>
+  const radar = document.querySelector<HTMLElement>('[data-radar]');
+  if (radar && 'IntersectionObserver' in window) {
+    radar.classList.add('is-waiting');
+    const io = new IntersectionObserver((entries) => {
+      if (!entries.some((e) => e.isIntersecting)) return;
+      io.disconnect();
+      radar.classList.remove('is-waiting');
+    }, { threshold: 0.4 });
+    io.observe(radar);
+  }
+</script>
