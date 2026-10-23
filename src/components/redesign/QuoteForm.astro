@@ -1,0 +1,82 @@
+---
+// Homepage quote form. Same SplitForms account and success event as the contact page,
+// tagged form_name 'home_quote' so GTM can tell the two apart.
+import Icon from './Icon.astro';
+import { suburbs, googleReviews } from '../../data/site';
+const { rating, count } = googleReviews;
+---
+<div class="quote-card" id="quote">
+  <h2>Get a free quote</h2>
+  <p class="qc-sub"><Icon name="clock" />Takes 30 seconds · No obligation</p>
+  <form id="quote-form" action="https://splitforms.com/api/submit" method="POST">
+    <input type="hidden" name="access_key" value="b31703ea3cae42b5aa3d3746ce9cfa2c">
+    <input type="hidden" name="subject" value="New quote request from computersgoldcoast.com.au (homepage)">
+    <input type="hidden" name="redirect" value="https://computersgoldcoast.com.au/?sent=1">
+    <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off">
+    <div>
+      <label class="qc-label" for="q-name">Your name</label>
+      <input class="field" id="q-name" name="name" type="text" autocomplete="name" required>
+    </div>
+    <div class="qc-row">
+      <div>
+        <label class="qc-label" for="q-phone">Phone</label>
+        <input class="field" id="q-phone" name="phone" type="tel" placeholder="04xx xxx xxx" autocomplete="tel" required>
+      </div>
+      <div>
+        <label class="qc-label" for="q-suburb">Your suburb</label>
+        <select class="field" id="q-suburb" name="suburb" required>
+          <option value="" disabled selected>Select</option>
+          {suburbs.map((s) => <option>{s}</option>)}
+          <option>Other Gold Coast suburb</option>
+        </select>
+      </div>
+    </div>
+    <div>
+      <label class="qc-label" for="q-message">What's the problem?</label>
+      <textarea class="field" id="q-message" name="message" rows="3" placeholder="e.g. Laptop won't turn on after a drink spill" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Get My Free Quote <Icon name="arrow" /></button>
+    <p class="form-status" id="quote-status" role="status"></p>
+  </form>
+  {/* TODO: real rating and count come from the client; set them in googleReviews (src/data/site.ts). */}
+  {rating !== null && count !== null && (
+    <p class="qc-rating"><span aria-hidden="true">★</span> {rating.toFixed(1)} · {count} Google reviews</p>
+  )}
+  <p class="qc-foot">
+    <span class="qc-open">No call-out fee · Prefer to talk? <a href="tel:+61447266455">0447 266 455</a></span>
+    <span class="qc-closed">We'll call you back from 7AM</span>
+  </p>
+</div>
+
+<script is:inline>(function(){
+  var form=document.getElementById('quote-form');
+  var status=document.getElementById('quote-status');
+  if(!form||!status)return;
+  var ok="Thanks, we've got your request. We'll be in touch soon.";
+  if(new URLSearchParams(location.search).get('sent')==='1'){
+    status.style.color='#15803d';status.textContent=ok;
+    history.replaceState(null,'',location.pathname);
+  }
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var btn=form.querySelector('button[type=submit]');
+    if(btn)btn.disabled=true;
+    status.style.color='#475569';status.textContent='Sending…';
+    fetch(form.action,{method:'POST',body:new FormData(form),headers:{accept:'application/json'}})
+      .then(function(res){return res.json().catch(function(){return{};}).then(function(body){return{ok:res.ok,body:body};});})
+      .then(function(result){
+        if(result.ok&&result.body&&result.body.success){
+          form.after(status);form.hidden=true;window.dataLayer=window.dataLayer||[];dataLayer.push({event:'form_submit_success',form_name:'home_quote'});
+          status.style.color='#15803d';status.textContent=ok;
+        }else{
+          status.style.color='#b91c1c';
+          status.textContent=(result.body&&result.body.message)||'Something went wrong. Please call 0447 266 455 instead.';
+          if(btn)btn.disabled=false;
+        }
+      })
+      .catch(function(){
+        status.style.color='#b91c1c';status.textContent='Could not reach us just now. Please call 0447 266 455 instead.';
+        if(btn)btn.disabled=false;
+      });
+  });
+})();</script>

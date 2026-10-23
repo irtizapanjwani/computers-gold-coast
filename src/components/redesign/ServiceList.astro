@@ -1,0 +1,13 @@
+---
+import Icon from './Icon.astro';
+import { services } from '../../data/site';
+---
+<div class="svc-list">
+  {services.map((s) => (
+    <a class="svc-row" href={s.href}>
+      <span class="svc-ico"><Icon name={s.icon} /></span>
+      <span><strong>{s.name}</strong><span>{s.text}</span></span>
+      <Icon name="arrow" />
+    </a>
+  ))}
+</div>

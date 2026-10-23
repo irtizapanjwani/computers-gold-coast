@@ -1,0 +1,23 @@
+---
+// Right-to-left brand logo carousel. The list is rendered twice so the loop is seamless;
+// the copy is hidden from screen readers and keyboard focus.
+import { brandLogos } from '../../data/site';
+---
+<div class="hero-brands">
+  <p class="hero-brands-label">Brands we repair</p>
+  <div class="marquee">
+    <div class="marquee-track">
+      {[false, true].map((copy) => (
+        <ul class="marquee-group" aria-hidden={copy ? 'true' : undefined}>
+          {brandLogos.map((b) => (
+            <li>
+              {b.href
+                ? <a href={b.href} tabindex={copy ? -1 : undefined}><img src={b.src} alt={copy ? '' : `${b.name} repairs`} width="130" height="50" loading="lazy" /></a>
+                : <img src={b.src} alt={copy ? '' : b.name} width="130" height="50" loading="lazy" />}
+            </li>
+          ))}
+        </ul>
+      ))}
+    </div>
+  </div>
+</div>

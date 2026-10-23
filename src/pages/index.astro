@@ -1,5 +1,188 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import data from '../data/pages/index.json';
+import PageLayout from '../layouts/PageLayout.astro';
+import Icon from '../components/redesign/Icon.astro';
+import QuoteForm from '../components/redesign/QuoteForm.astro';
+import ServiceList from '../components/redesign/ServiceList.astro';
+import Steps from '../components/redesign/Steps.astro';
+import Areas from '../components/redesign/Areas.astro';
+import ReviewFeature from '../components/redesign/ReviewFeature.astro';
+import Faq from '../components/redesign/Faq.astro';
+import CtaBand from '../components/redesign/CtaBand.astro';
+import BrandMarquee from '../components/redesign/BrandMarquee.astro';
+import { businessSchema, faqSchema, quickFixes, SITE } from '../data/site';
+
+// Decorative high-rise skyline behind the quote form: [x, width, height] in a 620x400 box.
+// Pairs that share an x range are towers with a setback on top.
+const skyline = [
+  [0, 34, 70], [38, 16, 112], [58, 48, 96], [70, 24, 124], [112, 22, 168], [138, 12, 140],
+  [154, 46, 190], [164, 22, 222], [204, 28, 150], [236, 58, 108], [298, 18, 246], [320, 44, 214],
+  [330, 22, 244], [368, 14, 170], [386, 52, 132], [398, 26, 160], [444, 22, 268], [470, 38, 182],
+  [512, 12, 144], [528, 56, 92], [540, 28, 114], [588, 32, 76],
+];
+
+const faqs = [
+  { q: 'How much does a computer repair cost on the Gold Coast?', a: "It depends on the fault and the model, so we diagnose first and give you the price before any work starts. There's no call-out fee, and nothing goes ahead until you've said yes." },
+  { q: 'Do you come to my home or office?', a: 'Yes. We come to homes and offices anywhere on the Gold Coast with no call-out fee. Bigger hardware jobs can also be dropped off.' },
+  { q: 'Can you fix my computer remotely?', a: 'Often, yes. Virus removal, slow computers, email problems and software installs can usually be fixed remotely. Hardware faults like broken screens or failed drives need hands-on work.' },
+  { q: 'Do you repair Macs as well as Windows PCs?', a: 'Yes. We repair MacBooks, iMacs and Mac minis as well as Windows desktops and laptops from every major brand. See our <a href="/mac-repairs-gold-coast">Mac repairs</a> page for details.' },
+  { q: 'Will I lose my files?', a: "We take care to protect your data, and we'll tell you before doing anything that could affect your files. If a drive has already failed, our <a href=\"/data-recovery-gold-coast\">data recovery</a> service can often get your files back." },
+  { q: 'What hours are you open?', a: "We're open 7am to 10pm, 7 days a week, including weekends and public holidays." },
+];
+
+const steps = [
+  { title: 'Tell us what’s wrong', text: 'Call, or send the quote form with your device and what it’s doing. A photo of any error message helps.' },
+  { title: 'We diagnose the fault', text: 'Onsite at your Gold Coast home or office with no call-out fee, or remotely if it’s a software problem.' },
+  { title: 'Approve the price, we fix it', text: 'We explain what’s wrong and what it costs before we start. No surprises, no hourly padding.' },
+];
+
+const schema = [
+  { '@context': 'https://schema.org', '@graph': [
+    { '@type': 'WebSite', '@id': `${SITE}/#website`, url: `${SITE}/`, name: 'Computers Gold Coast', inLanguage: 'en-AU', publisher: { '@id': `${SITE}/#business` } },
+    businessSchema,
+  ] },
+  faqSchema(faqs, `${SITE}/`),
+];
 ---
-<Layout headHtml={data.headHtml} bodyHtml={data.bodyHtml} footerHtml={data.footerHtml ?? null} bare={data.bare ?? false} />
+<PageLayout
+  title="Computer Repairs Gold Coast | PC, Laptop & Mac Repairs"
+  description="Family-owned computer repairs on the Gold Coast. PC, laptop and Mac repairs onsite or remote, no call-out fee, open 7am to 10pm, 7 days. Call 0447 266 455."
+  shareDescription="Family-owned computer and laptop repairs across the Gold Coast. Onsite or remote, no call-out fee, open 7am to 10pm, 7 days."
+  path="/"
+  schema={schema}
+>
+  <div class="hero-shell">
+    <section class="hero-card" aria-labelledby="hero-title">
+      <svg class="hero-skyline" viewBox="0 0 620 400" preserveAspectRatio="xMaxYMax meet" aria-hidden="true">
+        {skyline.map(([x, w, h]) => <rect x={x} y={400 - h} width={w} height={h} rx="1.5" />)}
+        <rect x="454" y="104" width="2" height="30" />
+        <rect x="306" y="128" width="2" height="28" />
+      </svg>
+      <div class="wrap hero-grid">
+        <div class="hero-intro">
+          <p class="hero-eyebrow"><span aria-hidden="true"></span>Computer repairs · Gold Coast</p>
+          <h1 id="hero-title">Computer repairs across the Gold Coast. <span class="hl">Fixed at your door, today.</span></h1>
+          <p class="hero-sub">Family-owned, not a franchise. Local technicians who come to your home or office, or help remotely. Macs and PCs, no call-out fee, 7am to 10pm every day.</p>
+        </div>
+        <QuoteForm />
+        <div class="hero-extra">
+          <ul class="hero-stats">
+            <li><strong>$0</strong><span>call-out fee</span></li>
+            <li><strong>7AM–10PM</strong><span>open 7 days</span></li>
+            <li><strong>Onsite</strong><span>or remote</span></li>
+            <li><strong>Family-owned</strong><span>not a franchise</span></li>
+          </ul>
+          <div class="hero-fix">
+            <p class="hero-fix-label" id="hero-fix-label">What needs fixing?</p>
+            <ul class="hero-chips" aria-labelledby="hero-fix-label">
+              {quickFixes.map((f) => <li><a class="hero-chip" href={f.href}><Icon name={f.icon} />{f.label}</a></li>)}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <BrandMarquee />
+      <svg class="hero-wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 52C220 84 470 92 760 66C1040 41 1250 28 1440 46V90H0Z" />
+      </svg>
+    </section>
+  </div>
+
+  <section class="trust" aria-label="Why Gold Coast customers choose us">
+    <div class="wrap">
+      <div class="trust-item"><Icon name="award" /><div><strong>20 years</strong><span>fixing PCs, laptops and Macs</span></div></div>
+      <div class="trust-item"><Icon name="dollar" /><div><strong>$0 call-out fee</strong><span>anywhere on the Gold Coast</span></div></div>
+      <div class="trust-item"><Icon name="clock" /><div><strong>7am to 10pm</strong><span>7 days, including holidays</span></div></div>
+      <div class="trust-item"><Icon name="home" /><div><strong>Family-owned</strong><span>not a franchise or call centre</span></div></div>
+    </div>
+  </section>
+
+  <section class="sec" id="services">
+    <div class="wrap split">
+      <div class="split-intro">
+        <h2>Computer and laptop repair services on the Gold Coast</h2>
+        <p class="lede">From a slow PC to a cracked MacBook screen, these are the repairs and IT jobs Gold Coast homes and businesses ask us for most.</p>
+        <div class="hero-actions"><a class="btn btn-line" href="/services">View all services <Icon name="arrow" /></a></div>
+      </div>
+      <ServiceList />
+    </div>
+  </section>
+
+  <section class="sec sec-alt">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>How our Gold Coast computer repairs work</h2>
+        <p class="lede">No dropping your laptop at a big-box counter and waiting weeks for an answer. Three steps and you're back up and running.</p>
+      </div>
+      <Steps steps={steps} />
+    </div>
+  </section>
+
+  <section class="sec" id="about">
+    <div class="wrap why">
+      <div>
+        <h2>Local, certified computer repair technicians</h2>
+        <p class="lede">Computers Gold Coast has been fixing PCs, laptops and Macs for 20 years. We repair every make and model, old or new, and explain everything in plain English.</p>
+        <p class="statement">"You deal with one local technician, from the first phone call to the finished repair."</p>
+        <div class="hero-actions"><a class="link" href="/about">More about us <Icon name="arrow" /></a></div>
+      </div>
+      <ul class="points">
+        <li class="point"><span class="point-ico"><Icon name="dollar" /></span><div><h3>Affordable, honest pricing</h3><p>We recommend free, reputable software wherever it does the job, so a repair doesn't cost more than it should.</p></div></li>
+        <li class="point"><span class="point-ico"><Icon name="award" /></span><div><h3>Experience counts</h3><p>Led by a Microsoft Certified Professional who knows Windows, Mac, and the "silent" viruses that quietly steal your data.</p></div></li>
+        <li class="point"><span class="point-ico"><Icon name="clock" /></span><div><h3>Available 7 days a week</h3><p>Repairs, upgrades and replacements every day of the year, including weekends and public holidays.</p></div></li>
+        <li class="point"><span class="point-ico"><Icon name="wrench" /></span><div><h3>Every make and model</h3><p>Acer, Lenovo, HP, Dell, Samsung, Toshiba, Sony and more. If it's old and tired, we can usually bring it back to life.</p></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec sec-alt">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Computer problems we see across the Gold Coast</h2>
+        <p class="lede">Coastal living brings its own tech problems. These are some of the jobs we're called out for most.</p>
+      </div>
+      <div class="jobs">
+        <div class="job">
+          <span class="job-where"><Icon name="pin" />Surfers Paradise &amp; Broadbeach</span>
+          <div><h3>High-rise WiFi dead zones</h3><p>Concrete apartment towers block WiFi signal between rooms. We set up mesh WiFi so every room gets proper coverage.</p></div>
+          <a class="link" href="/network-optimisation-mesh-wifi-gold-coast">Mesh WiFi <Icon name="arrow" /></a>
+        </div>
+        <div class="job">
+          <span class="job-where"><Icon name="pin" />All over the Coast</span>
+          <div><h3>Coffee-spilled laptops</h3><p>Coffee and laptops don't mix. We repair liquid-damaged logic boards and recover your files, often when others say "replace".</p></div>
+          <a class="link" href="/data-recovery-gold-coast">Data recovery <Icon name="arrow" /></a>
+        </div>
+        <div class="job">
+          <span class="job-where"><Icon name="pin" />Every storm season</span>
+          <div><h3>Power surge damage</h3><p>Summer storms damage computers every year. We provide Beyond Economical Repair (BER) reports to support your insurance claim.</p></div>
+          <a class="link" href="/insurance-reports-gold-coast">Insurance reports <Icon name="arrow" /></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="areas">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Computer repairs across the whole Gold Coast</h2>
+        <p class="lede">Our technicians cover the Coast from Coomera to Coolangatta and out to the hinterland, with no call-out fee. Don't see your suburb? <a class="link" href="/contact">Get in touch</a></p>
+      </div>
+      <Areas showBrands />
+    </div>
+  </section>
+
+  <section class="sec sec-alt" id="testimonials">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>What Gold Coast customers say</h2>
+      </div>
+      <ReviewFeature />
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <Faq title="Computer repair questions from Gold Coast customers" intro="Can't see your question here? Give us a call. You'll talk to a technician, not a call centre." items={faqs} />
+    </div>
+  </section>
+
+  <CtaBand title="Computer acting up? Get it sorted before it gets worse." text="Slow, crashing or infected? The sooner we look at it, the cheaper and faster the fix usually is." />
+</PageLayout>

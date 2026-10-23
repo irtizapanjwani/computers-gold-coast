@@ -1,5 +1,123 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import data from '../data/pages/reviews.json';
+import PageLayout from '../layouts/PageLayout.astro';
+import Icon from '../components/redesign/Icon.astro';
+import Areas from '../components/redesign/Areas.astro';
+import Faq from '../components/redesign/Faq.astro';
+import CtaBand from '../components/redesign/CtaBand.astro';
+import { reviews, businessSchema, breadcrumbSchema, faqSchema, SITE } from '../data/site';
+
+const url = `${SITE}/reviews`;
+const title = 'Customer Reviews | Computer Repairs Gold Coast';
+
+// Counted by hand from the seven reviews in src/data/site.ts.
+const mentions = [
+  { label: 'Quick and reliable', count: 4 },
+  { label: 'Fair, affordable pricing', count: 3 },
+  { label: 'Clear, honest explanations', count: 3 },
+];
+
+// Lead with the strongest non-Google review, then the rest in their usual order.
+const lead = reviews[3];
+const wall = [lead, ...reviews.filter((r) => r !== lead)];
+
+const faqs = [
+  { q: 'Are these reviews from real customers?', a: 'Yes. Every review on this page comes from a real Computers Gold Coast customer, shared in their own words.' },
+  { q: 'How can I leave a review?', a: 'Send us your feedback through our <a href="/contact">contact page</a>. Let us know what the job was, your suburb and how it went.' },
+  { q: 'Do you charge a call-out fee?', a: "No. There's no call-out fee anywhere on the Gold Coast. You'll know the price before any work starts." },
+  { q: 'Which areas of the Gold Coast do you cover?', a: 'The whole Gold Coast, from Coomera and Helensvale in the north to Coolangatta in the south, and out to Nerang, Mudgeeraba and the hinterland. Remote support is available anywhere.' },
+];
+
+const schema = [
+  { '@context': 'https://schema.org', '@graph': [
+    { '@type': 'WebPage', '@id': `${url}#webpage`, url, name: title, about: { '@id': `${SITE}/#business` }, breadcrumb: { '@id': `${url}#breadcrumb` } },
+    businessSchema,
+    breadcrumbSchema(url, 'Reviews'),
+  ] },
+  faqSchema(faqs, url),
+];
 ---
-<Layout headHtml={data.headHtml} bodyHtml={data.bodyHtml} footerHtml={data.footerHtml ?? null} bare={data.bare ?? false} />
+<PageLayout
+  title={title}
+  description="Read real reviews from Gold Coast customers. Honest, affordable computer and laptop repairs, onsite or remote, with no call-out fee."
+  shareDescription="What Gold Coast customers say about our computer and laptop repairs. Onsite or remote, no call-out fee."
+  path="/reviews"
+  schema={schema}
+>
+  <section class="hero-page">
+    <div class="wrap">
+      <div>
+        <div class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><span aria-current="page">Reviews</span></div>
+        <h1>Computer repair reviews from <span class="hl">Gold Coast customers.</span></h1>
+        <p class="lede">Every review on this page is from a real Computers Gold Coast customer, in their own words. The list is short and grows one finished job at a time.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#reviews">Read the reviews <Icon name="arrow" /></a>
+          <a class="btn btn-line" href="tel:+61447266455"><Icon name="phone" />0447 266 455</a>
+        </div>
+      </div>
+      <div class="mentions">
+        <h2>What customers mention most</h2>
+        <p>Out of {reviews.length} reviews</p>
+        {mentions.map((m) => (
+          <div class="mention">
+            <div class="mention-top">{m.label}<span>{m.count} of {reviews.length}</span></div>
+            <div class="bar"><i style={`width:${Math.round((m.count / reviews.length) * 100)}%`}></i></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec-alt" id="reviews">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Computer repairs, in our customers' words</h2>
+        <p class="lede">Every computer and every fault is different, so these reviews show what working with us is like rather than promising the same result for every job.</p>
+      </div>
+      <div class="rev-wall">
+        {wall.map((r) => (
+          <figure class:list={['rev-card', { 'is-lead': r === lead }]} style="margin:0 0 24px">
+            {r.google && <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>}
+            <blockquote>"{r.quote}"</blockquote>
+            <figcaption class="rev-meta">
+              <span class="rev-src">{r.google ? 'Google Review' : 'Customer Review'}</span>
+              <a class="rev-tag" href={r.href}>{r.tag}</a>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap leave">
+      <div>
+        <h2>Had a repair with us? We'd love to hear how it went.</h2>
+        <p class="lede">Reviews from real customers help other Gold Coast locals choose a technician they can trust. Good or bad, we want to know, because it's how we get better.</p>
+        <div class="hero-actions"><a class="btn btn-dark" href="/contact">Share your feedback <Icon name="arrow" /></a></div>
+      </div>
+      <ol class="leave-steps">
+        <li>Tell us honestly what went well and what didn't.</li>
+        <li>Mention the job and your suburb. It helps people with the same problem.</li>
+        <li>Send it through our contact page and we'll take it from there.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="sec sec-alt">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Computer repairs for customers across the Gold Coast</h2>
+        <p class="lede">We come to homes and offices all over the Gold Coast with no call-out fee. Read more <a class="link" href="/about">about Computers Gold Coast</a></p>
+      </div>
+      <Areas />
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <Faq title="Questions about our reviews and service" intro="Want to talk to someone before you book? Call us any day between 7am and 10pm." items={faqs} />
+    </div>
+  </section>
+
+  <CtaBand title="Need help with a similar problem?" text="Tell us the make, model, your suburb and what's going wrong, and we'll come back to you with a straight answer." />
+</PageLayout>

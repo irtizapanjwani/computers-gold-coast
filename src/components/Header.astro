@@ -1,5 +1,190 @@
 ---
-// Shared site header (identical across all pages except 404). Single source of truth.
-import html from '../data/header.html?raw';
+// Shared site header + top bar (every page except CCTV and 404). Single source of truth.
+// Styles are scoped here so the older pages' inline CSS (which styles bare `nav` etc.) can't reach it.
+import { services } from '../data/site';
+
+const path = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/';
+const isServices = path === '/services' || services.some((s) => s.href === path);
+const current = (href: string) => (href === path ? 'page' : undefined);
 ---
-<Fragment set:html={html} />
+<div class="gc-top">
+  <div class="gc-wrap gc-top-in">
+    <p class="gc-top-left">
+      <svg class="gc-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      <span>Open 7 days, 7AM–10PM</span>
+      <span class="gc-top-sep" aria-hidden="true"></span>
+      <span class="gc-top-area">Servicing Coomera to Coolangatta</span>
+    </p>
+    <a class="gc-top-phone" href="tel:+61447266455">
+      <svg class="gc-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      0447 266 455
+    </a>
+  </div>
+</div>
+
+<header class="gch" data-gch>
+  <div class="gc-wrap gch-in">
+    <a class="gch-brand" href="/" aria-label="Computers Gold Coast, home">
+      <span class="gch-word">Computers</span>
+      <span class="gch-sub">Gold Coast</span>
+    </a>
+
+    <nav class="gch-nav" id="gch-nav" aria-label="Main">
+      <a href="/" aria-current={current('/')}>Home</a>
+      <a href="/about" aria-current={current('/about')}>About Us</a>
+      <div class="gch-dd" data-gch-dd>
+        <button type="button" class="gch-dd-btn" aria-expanded="false" aria-controls="gch-services" data-active={isServices ? '' : undefined}>
+          Services
+          <svg class="gc-ic gch-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="gch-dd-menu" id="gch-services">
+          {services.map((s) => <a href={s.href} aria-current={current(s.href)}>{s.name}</a>)}
+          <a class="gch-dd-all" href="/services" aria-current={current('/services')}>View all services →</a>
+        </div>
+      </div>
+      <a href="/reviews" aria-current={current('/reviews')}>Reviews</a>
+      <a href="/contact" aria-current={current('/contact')}>Contact</a>
+    </nav>
+
+    <div class="gch-cta">
+      <a class="gch-call" href="tel:+61447266455">
+        <span>Call a technician</span>
+        <strong>0447 266 455</strong>
+      </a>
+      <a class="gch-quote" href="/#quote">Get a Quote</a>
+      <a class="gch-callicon" href="tel:+61447266455" aria-label="Call 0447 266 455">
+        <svg class="gc-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      </a>
+      <button type="button" class="gch-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="gch-nav" data-gch-toggle>
+        <svg class="gc-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Opening hours (Australia/Brisbane, 7am to 10pm). Exposed as <html data-hours="open|closed">
+  // so any page can swap after-hours wording with CSS.
+  const setHours = () => {
+    const hour = Number(new Intl.DateTimeFormat('en-GB', { timeZone: 'Australia/Brisbane', hour: '2-digit', hour12: false }).format(new Date()));
+    document.documentElement.dataset.hours = hour >= 7 && hour < 22 ? 'open' : 'closed';
+  };
+  setHours();
+  setInterval(setHours, 60_000);
+
+  const header = document.querySelector<HTMLElement>('[data-gch]');
+  const toggle = header?.querySelector<HTMLButtonElement>('[data-gch-toggle]');
+  const dd = header?.querySelector<HTMLElement>('[data-gch-dd]');
+  const ddBtn = dd?.querySelector<HTMLButtonElement>('button');
+
+  const setMenu = (open: boolean) => {
+    header?.classList.toggle('is-open', open);
+    toggle?.setAttribute('aria-expanded', String(open));
+    toggle?.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  };
+  const setDropdown = (open: boolean) => {
+    dd?.classList.toggle('is-open', open);
+    ddBtn?.setAttribute('aria-expanded', String(open));
+  };
+
+  toggle?.addEventListener('click', () => setMenu(!header?.classList.contains('is-open')));
+  ddBtn?.addEventListener('click', () => setDropdown(!dd?.classList.contains('is-open')));
+  header?.querySelectorAll('.gch-nav a').forEach((a) => a.addEventListener('click', () => { setMenu(false); setDropdown(false); }));
+  document.addEventListener('click', (e) => { if (dd && !dd.contains(e.target as Node)) setDropdown(false); });
+  dd?.addEventListener('focusout', (e) => { if (!dd.contains(e.relatedTarget as Node)) setDropdown(false); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (dd?.classList.contains('is-open')) { setDropdown(false); ddBtn?.focus(); }
+    else if (header?.classList.contains('is-open')) { setMenu(false); toggle?.focus(); }
+  });
+</script>
+
+<style>
+  .gc-wrap{max-width:1180px; margin:0 auto; padding:0 24px; box-sizing:border-box;}
+  .gc-ic{width:16px; height:16px; flex:none; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
+
+  /* Top bar */
+  .gc-top{background:#020617; color:#cbd5e1; font-size:13px; line-height:1.4;}
+  .gc-top-in{display:flex; justify-content:space-between; align-items:center; gap:16px; padding-top:9px; padding-bottom:9px;}
+  .gc-top-left{display:flex; align-items:center; gap:10px; margin:0; font-weight:600;}
+  .gc-top-left .gc-ic{color:#38bdf8;}
+  .gc-top-sep{width:1px; height:14px; background:rgba(255,255,255,.2);}
+  .gc-top-area{font-weight:500; color:#94a3b8;}
+  .gc-top-phone{display:inline-flex; align-items:center; gap:8px; color:#fff; font-weight:700; text-decoration:none;}
+  .gc-top-phone .gc-ic{color:#38bdf8;}
+  .gc-top-phone:hover{color:#38bdf8;}
+
+  /* Header */
+  .gch{position:sticky; top:0; z-index:60; background:#0a1020; border-bottom:1px solid rgba(255,255,255,.06); box-shadow:0 10px 30px -20px rgba(0,0,0,.6);}
+  .gch-in{display:flex; align-items:center; gap:28px; min-height:84px;}
+  .gch-brand{display:flex; flex-direction:column; text-decoration:none; line-height:1; flex:none;}
+  .gch-word{font-family:'Space Grotesk',ui-sans-serif,system-ui,sans-serif; font-weight:700; font-size:23px; letter-spacing:.01em; text-transform:uppercase; color:#fff;}
+  .gch-sub{font-family:'Space Grotesk',ui-sans-serif,system-ui,sans-serif; font-weight:700; font-size:11px; letter-spacing:.46em; text-transform:uppercase; color:#38bdf8; margin-top:7px;}
+
+  .gch .gch-nav{display:flex; align-items:center; gap:26px; margin:0 auto; padding:0;}
+  .gch .gch-nav a,
+  .gch .gch-dd-btn{position:relative; color:#e2e8f0; font-family:inherit; font-size:15px; font-weight:600; line-height:1; text-decoration:none; padding:8px 0; background:none; border:0; cursor:pointer; display:inline-flex; align-items:center; gap:6px;}
+  .gch .gch-nav > a:hover,
+  .gch .gch-dd-btn:hover{color:#fff;}
+  .gch .gch-nav > a[aria-current="page"]::after,
+  .gch .gch-dd-btn[data-active]::after{content:""; position:absolute; left:0; right:0; bottom:-2px; height:2px; border-radius:2px; background:#38bdf8;}
+  .gch .gch-nav > a[aria-current="page"],
+  .gch .gch-dd-btn[data-active]{color:#fff;}
+  .gch-chev{transition:transform .2s ease;}
+
+  /* Services dropdown */
+  .gch-dd{position:relative;}
+  .gch-dd-menu{position:absolute; top:calc(100% + 16px); left:-18px; width:290px; padding:10px; background:#fff; border-radius:14px; box-shadow:0 24px 48px -16px rgba(2,6,23,.45); display:none;}
+  .gch-dd-menu::before{content:""; position:absolute; top:-18px; left:0; right:0; height:18px;}
+  .gch-dd:hover .gch-dd-menu,
+  .gch-dd.is-open .gch-dd-menu{display:block;}
+  .gch-dd:hover .gch-chev,
+  .gch-dd.is-open .gch-chev{transform:rotate(180deg);}
+  .gch .gch-dd-menu a{display:block; padding:10px 12px; border-radius:8px; color:#0f172a; font-size:14.5px; font-weight:600; line-height:1.3;}
+  .gch .gch-dd-menu a:hover,
+  .gch .gch-dd-menu a[aria-current="page"]{background:#f0f9ff; color:#0369a1;}
+  .gch .gch-dd-menu .gch-dd-all{margin-top:6px; border-top:1px solid #e5e7eb; border-radius:0 0 8px 8px; padding-top:12px; color:#0284c7;}
+
+  /* Right side */
+  .gch-cta{display:flex; align-items:center; gap:22px; flex:none;}
+  .gch-call{display:flex; flex-direction:column; align-items:flex-end; text-decoration:none; line-height:1.1;}
+  .gch-call span{font-size:11px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:#94a3b8;}
+  .gch-call strong{font-size:22px; font-weight:800; letter-spacing:-.01em; color:#fff; margin-top:5px; white-space:nowrap;}
+  .gch-call:hover strong{color:#38bdf8;}
+  .gch-quote{background:#38bdf8; color:#020617; font-weight:800; font-size:15px; text-decoration:none; padding:14px 24px; border-radius:999px; white-space:nowrap; transition:background-color .15s ease, transform .15s ease;}
+  .gch-quote:hover{background:#7dd3fc; transform:translateY(-1px);}
+  .gch-callicon,
+  .gch-toggle{display:none; width:44px; height:44px; border-radius:12px; align-items:center; justify-content:center; cursor:pointer;}
+  .gch-callicon{background:#38bdf8; color:#020617;}
+  .gch-toggle{background:rgba(255,255,255,.08); color:#fff; border:1px solid rgba(255,255,255,.12);}
+  .gch-callicon .gc-ic,
+  .gch-toggle .gc-ic{width:20px; height:20px;}
+
+  @media (max-width:1100px){
+    .gch-call{display:none;}
+  }
+  @media (max-width:960px){
+    .gch-in{min-height:72px; justify-content:space-between;}
+    .gch-callicon,.gch-toggle{display:inline-flex;}
+    .gch .gch-nav{display:none; position:absolute; top:100%; left:0; right:0; margin:0; flex-direction:column; align-items:stretch; gap:0; padding:8px 24px 20px; background:#0a1020; border-bottom:1px solid rgba(255,255,255,.08); max-height:calc(100vh - 72px); overflow-y:auto;}
+    .gch.is-open .gch-nav{display:flex;}
+    .gch .gch-nav > a,
+    .gch .gch-dd-btn{width:100%; justify-content:space-between; padding:15px 0; font-size:16px; border-bottom:1px solid rgba(255,255,255,.08);}
+    .gch .gch-nav > a[aria-current="page"]::after,
+    .gch .gch-dd-btn[data-active]::after{display:none;}
+    .gch .gch-nav > a[aria-current="page"]{color:#38bdf8;}
+    .gch-dd:hover .gch-dd-menu{display:none;}
+    .gch-dd-menu{position:static; width:auto; padding:6px 0 10px; background:none; box-shadow:none;}
+    .gch-dd.is-open .gch-dd-menu{display:block;}
+    .gch .gch-dd-menu a{color:#cbd5e1; padding:10px 14px;}
+    .gch .gch-dd-menu a:hover,
+    .gch .gch-dd-menu a[aria-current="page"]{background:rgba(255,255,255,.06); color:#fff;}
+    .gch .gch-dd-menu .gch-dd-all{border-top:0; color:#38bdf8;}
+  }
+  @media (max-width:640px){
+    .gc-top-area,.gc-top-sep{display:none;}
+    .gch-quote{display:none;}
+    .gch-word{font-size:20px;}
+    .gch-sub{font-size:10px; letter-spacing:.4em;}
+  }
+</style>

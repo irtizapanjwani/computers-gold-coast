@@ -1,0 +1,21 @@
+---
+import Icon from './Icon.astro';
+import type { Faq } from '../../data/site';
+interface Props { title: string; intro: string; items: readonly Faq[] }
+const { title, intro, items } = Astro.props;
+---
+<div class="faq-split">
+  <div class="faq-aside">
+    <h2>{title}</h2>
+    <p>{intro}</p>
+    <a class="link" href="tel:+61447266455"><Icon name="phone" /> Call 0447 266 455</a>
+  </div>
+  <div class="faq">
+    {items.map(({ q, a }) => (
+      <details>
+        <summary>{q}<Icon name="plus" /></summary>
+        <p set:html={a} />
+      </details>
+    ))}
+  </div>
+</div>

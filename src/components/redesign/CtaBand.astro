@@ -1,0 +1,20 @@
+---
+import Icon from './Icon.astro';
+interface Props { title: string; text: string }
+const { title, text } = Astro.props;
+---
+<section class="sec">
+  <div class="wrap">
+    <div class="cta-band">
+      <div>
+        <h2>{title}</h2>
+        <p>{text}</p>
+      </div>
+      <div class="cta-side">
+        <a class="cta-phone" href="tel:+61447266455"><Icon name="phone" />0447 266 455</a>
+        <span class="cta-hours">Open 7am to 10pm, 7 days · No call-out fee</span>
+        <a class="btn btn-dark" href="/contact">Send us a message <Icon name="arrow" /></a>
+      </div>
+    </div>
+  </div>
+</section>

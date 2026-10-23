@@ -1,0 +1,19 @@
+---
+import { regions, brands } from '../../data/site';
+interface Props { showBrands?: boolean }
+const { showBrands = false } = Astro.props;
+---
+<div class="areas">
+  {regions.map((r) => (
+    <div class="region">
+      <h3>{r.name}</h3>
+      <ul>{r.suburbs.map(([name, postcode]) => <li>{name} <span>{postcode}</span></li>)}</ul>
+    </div>
+  ))}
+</div>
+{showBrands && (
+  <div class="brands">
+    <span>Brands we repair:</span>
+    {brands.map(([name, href]) => <a href={href}>{name}</a>)}
+  </div>
+)}
