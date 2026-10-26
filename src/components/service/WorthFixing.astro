@@ -1,0 +1,115 @@
+---
+// "Is it worth fixing?" Pick what's wrong with the laptop and how old it is, and a gauge shows
+// the usual answer (worth fixing / worth a quote / often time to replace) with the reasoning.
+// It's a rule of thumb, not a price: the page says so, and the quote is what decides.
+// Every problem's explanation is in the HTML so search engines can read it.
+
+export type Weight = 'low' | 'mid' | 'high';
+export interface Problem { id: string; label: string; weight: Weight; what: string; href: string; linkText: string }
+interface Props { eyebrow: string; title: string; intro: string; problems: Problem[] }
+const { eyebrow, title, intro, problems } = Astro.props;
+
+const ages = [
+  { id: '0', label: 'Under 3 years' },
+  { id: '1', label: '3 to 5 years' },
+  { id: '2', label: '6 to 8 years' },
+  { id: '3', label: '9 years or more' },
+];
+// verdict index: 0 worth fixing, 1 worth a quote, 2 often time to replace
+const table: Record<Weight, number[]> = { low: [0, 0, 0, 1], mid: [0, 0, 1, 2], high: [0, 1, 1, 2] };
+const verdicts = [
+  { title: 'Usually worth fixing', text: 'For a laptop this age, this is normally a sensible repair that costs far less than a replacement.' },
+  { title: 'Worth getting a quote', text: 'It could go either way. Get the diagnosis and the price first, then decide. If it isn’t worth it, we’ll tell you.' },
+  { title: 'Often time to replace', text: 'At this age, the repair can cost a big share of a new laptop. We’ll still check it honestly, and we can help you choose a replacement and move your files across.' },
+];
+---
+<section class="sec wf" aria-labelledby="svc-wf-title" data-wf data-table={JSON.stringify(table)}>
+  <div class="wrap">
+    <div class="wf-head">
+      <div>
+        <p class="svc-eyebrow">{eyebrow}</p>
+        <h2 id="svc-wf-title">{title}</h2>
+      </div>
+      <p class="wf-intro">{intro}</p>
+    </div>
+
+    <div class="wf-grid">
+      <div class="wf-pick">
+        <fieldset class="wf-set">
+          <legend><span>1</span>What’s wrong with it?</legend>
+          <div class="wf-chips">
+            {problems.map((p, i) => (
+              <label class="wf-chip">
+                <input type="radio" name="wf-problem" value={p.id} data-weight={p.weight} checked={i === 0} />
+                <span>{p.label}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+        <fieldset class="wf-set">
+          <legend><span>2</span>How old is the laptop?</legend>
+          <div class="wf-chips wf-ages">
+            {ages.map((a, i) => (
+              <label class="wf-chip">
+                <input type="radio" name="wf-age" value={a.id} checked={i === 1} />
+                <span>{a.label}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="wf-result" aria-live="polite">
+        <div class="wf-gauge" aria-hidden="true">
+          <span class="wf-zone">Fix it</span><span class="wf-zone">Get a quote</span><span class="wf-zone">Replace</span>
+          <span class="wf-needle" data-wf-needle></span>
+        </div>
+        {verdicts.map((v, i) => (
+          <div class="wf-verdict" data-wf-verdict={i} hidden={i !== 0}>
+            <p class="wf-verdict-title">{v.title}</p>
+            <p class="wf-verdict-text">{v.text}</p>
+          </div>
+        ))}
+        {problems.map((p, i) => (
+          <div class="wf-what" data-wf-what={p.id} hidden={i !== 0}>
+            <p class="wf-what-label">What’s usually involved</p>
+            <p>{p.what}</p>
+            <a class="link" href={p.href}>{p.linkText} →</a>
+          </div>
+        ))}
+        <div class="wf-foot">
+          <a class="btn btn-primary" href="#quote" data-wf-quote>Get a quote for this</a>
+          <p>A rule of thumb, not a price. The diagnosis is what decides, and you get the price before any work starts.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>(function(){
+  var root=document.querySelector('[data-wf]');
+  if(!root)return;
+  var table=JSON.parse(root.getAttribute('data-table'));
+  var needle=root.querySelector('[data-wf-needle]');
+  function update(){
+    var p=root.querySelector('input[name=wf-problem]:checked');
+    var a=root.querySelector('input[name=wf-age]:checked');
+    if(!p||!a)return;
+    var v=table[p.getAttribute('data-weight')][+a.value];
+    root.querySelectorAll('[data-wf-verdict]').forEach(function(el){el.hidden=+el.getAttribute('data-wf-verdict')!==v;});
+    root.querySelectorAll('[data-wf-what]').forEach(function(el){el.hidden=el.getAttribute('data-wf-what')!==p.value;});
+    needle.style.left=(v*33.333+16.667)+'%';
+    root.setAttribute('data-verdict',v);
+  }
+  root.addEventListener('change',update);
+  root.querySelector('[data-wf-quote]').addEventListener('click',function(){
+    var p=root.querySelector('input[name=wf-problem]:checked');
+    var a=root.querySelector('input[name=wf-age]:checked');
+    var msg=document.getElementById('q-message');
+    if(msg&&!msg.value&&p&&a){
+      msg.value='Laptop: '+p.nextElementSibling.textContent.toLowerCase()+' ('+a.nextElementSibling.textContent.toLowerCase()+' old). ';
+    }
+    setTimeout(function(){var n=document.getElementById('q-name');if(n)n.focus({preventScroll:true});},450);
+  });
+  update();
+})();</script>

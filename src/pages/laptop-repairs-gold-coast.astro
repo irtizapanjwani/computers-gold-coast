@@ -1,5 +1,171 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import data from '../data/pages/laptop-repairs-gold-coast.json';
+// Laptop Repairs service page, fully redesigned. Content is the page's original copy (problems,
+// DC jack and motherboard repairs, remote repairs, related services, areas), rewritten in
+// sentence case, plus practical laptop advice. Business claims are only ones already on the site.
+import PageLayout from '../layouts/PageLayout.astro';
+import ServiceHero from '../components/redesign/ServiceHero.astro';
+import SpillCard from '../components/service/SpillCard.astro';
+import WorthFixing from '../components/service/WorthFixing.astro';
+import HowItWorks from '../components/service/HowItWorks.astro';
+import ServiceReviews from '../components/service/ServiceReviews.astro';
+import Areas from '../components/redesign/Areas.astro';
+import Faq from '../components/redesign/Faq.astro';
+import CtaBand from '../components/redesign/CtaBand.astro';
+import { SITE, businessSchema, faqSchema } from '../data/site';
+import type { Problem } from '../components/service/WorthFixing.astro';
+
+const path = '/laptop-repairs-gold-coast';
+const url = `${SITE}${path}`;
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Services', href: '/services' },
+  { label: 'Laptop Repairs' },
+];
+
+// "Is it worth fixing?" weight: low = usually a modest repair, mid = a bigger part,
+// high = could be the motherboard, so it depends on the diagnosis.
+const problems: Problem[] = [
+  { id: 'screen', label: 'Cracked or flickering screen', weight: 'mid', what: 'A replacement panel matched to your exact model. Flickering can also be the screen cable, which we check first because it’s the cheaper fix.', href: '/laptop-screen-replacement-gold-coast', linkText: 'Laptop screen replacement' },
+  { id: 'battery', label: 'Battery won’t hold charge', weight: 'low', what: 'Usually just a new battery. We check the charger and charging circuit too, so you don’t replace a battery that wasn’t the problem.', href: '/laptop-battery-replacement-gold-coast', linkText: 'Laptop battery replacement' },
+  { id: 'jack', label: 'Only charges at an angle', weight: 'low', what: 'That’s usually a worn DC jack (the charging socket). We repair it properly rather than just patching it, so it doesn’t come back.', href: '/hardware-repair-diagnostics-gold-coast', linkText: 'Hardware repair & diagnostics' },
+  { id: 'hinge', label: 'Loose or broken hinge', weight: 'low', what: 'Hinges and the mounts around them can be repaired before they crack the screen or pull the case apart.', href: '/laptop-hinge-repairs-gold-coast', linkText: 'Laptop hinge repairs' },
+  { id: 'keys', label: 'Keyboard or touchpad', weight: 'low', what: 'Sticky, dead or erratic keys and an unresponsive trackpad. Sometimes it’s a driver or setting, otherwise the part is replaced.', href: '/hardware-repair-diagnostics-gold-coast', linkText: 'Hardware repair & diagnostics' },
+  { id: 'heat', label: 'Overheating or loud fan', weight: 'low', what: 'Usually dust in the fan and vents, or dried-out thermal paste. A proper clean often fixes the noise, the heat and the slowdowns.', href: '/preventative-maintenance-gold-coast', linkText: 'Preventative maintenance' },
+  { id: 'slow', label: 'Painfully slow', weight: 'low', what: 'Can be software or hardware, so we test both. Clutter and malware get cleaned up; an old hard drive is often best swapped for an SSD.', href: '/computer-tune-up-gold-coast', linkText: 'Computer tune-ups' },
+  { id: 'dead', label: 'Won’t turn on at all', weight: 'high', what: 'Could be as simple as the charger or battery, or a motherboard fault. We start with the cheapest likely causes and tell you what we find.', href: '/hardware-repair-diagnostics-gold-coast', linkText: 'Hardware repair & diagnostics' },
+  { id: 'liquid', label: 'Liquid spill or storm damage', weight: 'high', what: 'The motherboard controls almost all of your laptop’s hardware, and a board repair is usually far cheaper than a full replacement.', href: '/insurance-reports-gold-coast', linkText: 'Insurance reports' },
+];
+
+const faqs = [
+  { q: 'My laptop only charges if I hold the cable at an angle. What’s wrong?', a: 'Usually the DC jack, the socket the charger plugs into, has worn loose. Before you buy a new charger, try it on a different power point and look for damage along the cable. If the charger is fine, the jack needs repairing. Keep using it like that and the jack can short or damage the motherboard, so it’s worth fixing early.' },
+  { q: 'Should I take the battery out and leave it plugged in?', a: 'Most modern laptops have a battery built in, so that’s not an option, and you don’t need to. What wears batteries out fastest is heat. Keep the vents clear, don’t use it on a doona or pillow, and if the battery is swelling (the case bulges or the touchpad lifts), stop using it and get the <a href="/laptop-battery-replacement-gold-coast">battery replaced</a>.' },
+  { q: 'Why does my laptop get so hot and loud?', a: 'Dust builds up in the fan and vents, and the paste that carries heat away from the processor dries out over the years. The fan runs harder to compensate, the laptop slows itself down to cool off, and it may shut down under load. A clean-out usually fixes all three. Using it on a hard, flat surface helps in the meantime.' },
+  { q: 'Can you get my files off a laptop that won’t turn on?', a: 'Often, yes. The drive that holds your files is separate from most of the parts that stop a laptop turning on, so the data is frequently fine. Don’t keep trying to power it on if it clicks or smells hot. See <a href="/data-recovery-gold-coast">data recovery</a>.' },
+  { q: 'Is a cracked laptop screen worth replacing?', a: 'For most laptops under about five years old, yes: the screen is replaced with a panel matched to your model and the rest of the laptop is untouched. On an older, cheaper laptop it can be a large share of the value, and we’ll tell you honestly if that’s the case. See <a href="/laptop-screen-replacement-gold-coast">laptop screen replacement</a>.' },
+  { q: 'Can laptop problems be fixed remotely?', a: 'Software problems can, as long as the laptop can get online: viruses, slowdowns, email and program issues. Anything physical, like the screen, battery, keyboard, hinge or charging socket, needs hands-on work at your home or office, or as a drop-off.' },
+  { q: 'Do you repair MacBooks too?', a: 'Yes. We repair Windows laptops from every major brand as well as MacBooks. See <a href="/mac-repairs-gold-coast">Apple Mac repairs</a>.' },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        '@id': `${url}#service`,
+        name: 'Laptop Repairs Gold Coast',
+        serviceType: 'Laptop repairs',
+        url,
+        description: 'Laptop repairs across the Gold Coast: cracked screens, batteries, DC jack and charging faults, hinges, keyboards, overheating, motherboard and liquid damage. Onsite, remote or drop-off.',
+        provider: businessSchema,
+        areaServed: businessSchema.areaServed,
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${url}#breadcrumb`,
+        itemListElement: breadcrumbs.map((c, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: c.label,
+          item: c.href ? `${SITE}${c.href === '/' ? '/' : c.href}` : url,
+        })),
+      },
+    ],
+  },
+  faqSchema(faqs, url),
+];
 ---
-<Layout headHtml={data.headHtml} bodyHtml={data.bodyHtml} footerHtml={data.footerHtml ?? null} bare={data.bare ?? false} />
+<PageLayout
+  title="Laptop Repairs Gold Coast | Computers Gold Coast"
+  description="Laptop repairs across the Gold Coast, cracked screens, DC jack repairs, motherboard faults, won't turn on, slow performance and more. Onsite, remote or drop-off."
+  shareDescription="Laptop repairs across the Gold Coast: screens, batteries, DC jacks, hinges, motherboards and more. Onsite, remote or drop-off."
+  path={path}
+  schema={schema}
+>
+  <ServiceHero
+    eyebrow="Laptop repairs · Gold Coast"
+    title="Laptop repairs on the Gold Coast."
+    highlight="Screens, batteries, charging and more."
+    intro="Won’t turn on, cracked screen, overheating or just painfully slow? We fix Windows laptops and MacBooks from Coomera to Coolangatta, onsite, remotely or via drop-off."
+    breadcrumbs={breadcrumbs}
+    path={path}
+    formPlaceholder="e.g. Laptop only charges at a certain angle"
+  />
+
+  <SpillCard
+    word="Unplug"
+    lead="Liquid and electricity are what do the damage, and every minute it’s powered on matters. What you do in the first few minutes can be the difference between a clean-up and a new motherboard."
+    stages={[
+      { when: 'Right now', steps: [
+        { title: 'Pull the charger out', text: 'Then hold the power button until the laptop switches off completely.' },
+        { title: 'Unplug everything else', text: 'Mouse, USB drives, cables. If the battery is removable, take it out.' },
+      ] },
+      { when: 'Next 10 minutes', steps: [
+        { title: 'Tip it upside down', text: 'Open it like a tent, screen and keyboard facing down, so liquid drains away from the board.' },
+        { title: 'Blot, don’t rub', text: 'Soak up what you can see with a towel. Don’t shake it or tilt it the other way.' },
+      ] },
+      { when: 'After that', steps: [
+        { title: 'Leave it off', text: 'Even if it seems fine. Sugary or salty drinks keep corroding once they dry.' },
+        { title: 'Get it checked', text: 'The sooner it’s cleaned inside, the better the odds. Storm damage may be covered by insurance.' },
+      ] },
+    ]}
+    avoidTitle="Don’t"
+    avoid={['Turn it on to check', 'Charge it', 'Use a hairdryer', 'Put it in rice']}
+    quote="Had it plugged in during a storm, or already tried turning it on? Still call. A motherboard repair is usually far cheaper than a whole new laptop, and we can provide an insurance report for your claim."
+  />
+
+  <WorthFixing
+    eyebrow="Repair or replace?"
+    title="Is your laptop worth fixing?"
+    intro="Pick what’s wrong and how old the laptop is. You’ll get the usual answer, what the repair normally involves, and a link to the details."
+    problems={problems}
+  />
+
+  <HowItWorks
+    eyebrow="How it works"
+    title="From laptop trouble to a clear repair plan."
+    intro="Tell us what the laptop is doing, and we’ll find the real cause before recommending any parts or work."
+    steps={[
+      { title: 'Describe the fault', text: 'Call, or send the quote form with the make and model and what it’s doing. A photo of any error message or damage helps.' },
+      { title: 'We diagnose and quote', text: 'Onsite at your home or office with no call-out fee, remotely if it’s software, or on our bench. We find the real cause, then give you the price.' },
+      { title: 'Approve the repair', text: 'Nothing starts until you’ve said yes. We fix it, explain what we did, and you get free advice afterwards.' },
+    ]}
+    example={{
+      problem: 'Laptop only charges at an angle',
+      checks: ['Charger', 'Battery', 'Screen', 'DC jack'],
+      faultLabel: 'Worn',
+      cause: 'Worn DC jack',
+      fix: 'New DC jack, fitted properly',
+    }}
+  />
+
+  <ServiceReviews
+    title="What customers say about our laptop repairs."
+    intro="In Gold Coast customers’ own words."
+    picks={[1, 4, 0]}
+  />
+
+  <section class="sec" aria-labelledby="svc-areas-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="svc-eyebrow">Where we work</p>
+        <h2 id="svc-areas-title">Laptop repairs across the Gold Coast.</h2>
+        <p class="lede">From Coomera to Coolangatta and up to Tamborine Mountain, for homes and businesses alike. Not sure if we cover your suburb? <a class="link" href="tel:+61447266455">Give us a call</a>.</p>
+      </div>
+      <Areas showBrands />
+    </div>
+  </section>
+
+  <section class="sec sec-alt" aria-label="Frequently asked questions">
+    <div class="wrap">
+      <Faq title="Laptop questions, answered." intro="Practical answers to what Gold Coast customers ask us most about their laptops. Can’t see yours? Call and you’ll talk to a technician, not a call centre." items={faqs} />
+    </div>
+  </section>
+
+  <CtaBand
+    title="Get your laptop fixed today."
+    text="Book an onsite visit, connect remotely or drop it off. You’ll get the cause and the price before any work starts."
+    href="#quote"
+    label="Get a free quote"
+  />
+</PageLayout>

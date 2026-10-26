@@ -7,13 +7,30 @@
 // the final frame straight away.
 
 interface Step { title: string; text: string }
+/** What the example scenes show. Defaults are the desktop PC example. */
+interface Example {
+  problem: string;
+  checks: [string, string, string, string];
+  faultLabel: string;
+  cause: string;
+  fix: string;
+}
 interface Props {
   eyebrow: string;
   title: string;
   intro: string;
   steps: [Step, Step, Step];
+  example?: Example;
 }
-const { eyebrow, title, intro, steps } = Astro.props;
+const defaultExample: Example = {
+  problem: 'PC is on, but the screen is black',
+  checks: ['Power supply', 'Memory', 'Graphics', 'Hard drive'],
+  faultLabel: 'Failing',
+  cause: 'Failing hard drive',
+  fix: 'New SSD, files moved across',
+};
+const { eyebrow, title, intro, steps, example = defaultExample } = Astro.props;
+const ex = example;
 ---
 <section class="sec hiw" aria-labelledby="svc-hiw-title" data-hiw>
   <div class="wrap">
@@ -32,7 +49,7 @@ const { eyebrow, title, intro, steps } = Astro.props;
             <div class="s1-field"><span class="s1-label">Name</span><span class="s1-val">Sam, Robina</span></div>
             <div class="s1-field s1-msg">
               <span class="s1-label">What’s the problem?</span>
-              <span class="s1-type"><span>PC is on, but the screen is black</span><i class="s1-caret"></i></span>
+              <span class="s1-type"><span>{ex.problem}</span><i class="s1-caret"></i></span>
             </div>
             <div class="s1-row">
               <span class="s1-file"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/></svg>error-photo.jpg</span>
@@ -52,15 +69,15 @@ const { eyebrow, title, intro, steps } = Astro.props;
             <p class="s2-head"><span>Diagnosis</span><span class="s2-pct"><b>Testing</b><b>Complete</b></span></p>
             <span class="s2-bar"><span></span></span>
             <ul class="s2-list">
-              <li><span>Power supply</span><em class="ok">OK</em></li>
-              <li><span>Memory</span><em class="ok">OK</em></li>
-              <li><span>Graphics</span><em class="ok">OK</em></li>
-              <li><span>Hard drive</span><em class="bad">Failing</em></li>
+              <li><span>{ex.checks[0]}</span><em class="ok">OK</em></li>
+              <li><span>{ex.checks[1]}</span><em class="ok">OK</em></li>
+              <li><span>{ex.checks[2]}</span><em class="ok">OK</em></li>
+              <li><span>{ex.checks[3]}</span><em class="bad">{ex.faultLabel}</em></li>
             </ul>
           </div>
           <div class="s2-result">
             <span class="s2-result-ico"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span>
-            <span><b>Cause found</b>Failing hard drive. Quote ready.</span>
+            <span><b>Cause found</b>{ex.cause}. Quote ready.</span>
           </div>
         </div>
         <span class="hiw-num">2</span>
@@ -73,8 +90,8 @@ const { eyebrow, title, intro, steps } = Astro.props;
           <span class="hiw-tag">Example</span>
           <div class="s3-card">
             <p class="s3-title">Your quote</p>
-            <p class="s3-line"><span>Cause</span><b>Failing hard drive</b></p>
-            <p class="s3-line"><span>Fix</span><b>New SSD, files moved across</b></p>
+            <p class="s3-line"><span>Cause</span><b>{ex.cause}</b></p>
+            <p class="s3-line"><span>Fix</span><b>{ex.fix}</b></p>
             <p class="s3-line"><span>Price</span><b>Agreed before work</b></p>
             <div class="s3-actions">
               <span class="s3-btn s3-no">Not now</span>

@@ -1,0 +1,59 @@
+---
+// "Spilled something on your laptop?" first-aid card. One big word, then what to do in the
+// order it matters: right now, the next ten minutes, and after that. No icons or boxes: type,
+// rules and colour only. The top edge is a waterline that rises when the card scrolls into view.
+
+interface Stage { when: string; steps: { title: string; text: string }[] }
+interface Props {
+  word: string;
+  lead: string;
+  stages: Stage[];
+  avoidTitle: string;
+  avoid: string[];
+  quote: string;
+}
+const { word, lead, stages, avoidTitle, avoid, quote } = Astro.props;
+---
+<section class="sec spill" aria-labelledby="svc-spill-title" data-spill>
+  <div class="wrap">
+    <div class="spill-card">
+      <svg class="spill-water" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true">
+        <path class="spill-wave spill-wave-back" d="M0 34C150 14 300 50 450 32S750 12 900 30S1100 46 1200 28V0H0Z" />
+        <path class="spill-wave" d="M0 24C160 44 320 8 480 26S800 44 960 22S1120 10 1200 26V0H0Z" />
+      </svg>
+
+      <div class="spill-left">
+        <p class="spill-kicker">Spilled something on your laptop?</p>
+        <h2 id="svc-spill-title" class="spill-word">{word}</h2>
+        <p class="spill-lead">{lead}</p>
+        <p class="spill-call">Then call us: <a href="tel:+61447266455">0447 266 455</a></p>
+      </div>
+
+      <div class="spill-right">
+        <ol class="spill-stages">
+          {stages.map((st) => (
+            <li class="spill-stage">
+              <p class="spill-when">{st.when}</p>
+              <ul>
+                {st.steps.map((x) => <li><strong>{x.title}</strong><span>{x.text}</span></li>)}
+              </ul>
+            </li>
+          ))}
+        </ol>
+        <div class="spill-avoid">
+          <p class="spill-avoid-title">{avoidTitle}</p>
+          <ul>{avoid.map((a) => <li>{a}</li>)}</ul>
+        </div>
+        <p class="spill-quote">{quote}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>(function(){
+  var root=document.querySelector('[data-spill]');
+  if(!root||window.matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver' in window))return;
+  root.classList.add('spill-ready');
+  var io=new IntersectionObserver(function(es){if(!es[0].isIntersecting)return;io.disconnect();root.classList.add('spill-on');},{threshold:.35});
+  io.observe(root.querySelector('.spill-card'));
+})();</script>
