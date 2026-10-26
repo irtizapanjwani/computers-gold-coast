@@ -25,7 +25,7 @@ const { word, lead, credentials, getTitle, get, notTitle, not, footer } = Astro.
       <span class="who-plug who-plug-a" aria-hidden="true"></span>
       <span class="who-plug who-plug-b" aria-hidden="true"></span>
       <div class="who-left">
-        <h2 id="svc-who-title" class="who-word">{word}</h2>
+        <h2 id="svc-who-title" class="who-word" style={`--chars:${word.length}`}>{word}</h2>
         <p class="who-lead">{lead}</p>
         <ul class="who-creds">{credentials.map((c) => <li>{c}</li>)}</ul>
         <p class="who-call">Talk to the technician: <a href="tel:+61447266455">0447 266 455</a></p>

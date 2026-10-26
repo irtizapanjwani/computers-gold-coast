@@ -129,24 +129,6 @@ const schema = [
     ]}
   />
 
-  <MacPicker
-    eyebrow="Which Mac do you have?"
-    title="Every Mac has its own weak spots."
-    intro="Pick your Mac to see what usually goes wrong with it, whether it can be upgraded, and what we can do about it."
-    models={models}
-    note='Not sure which one you have? Click the Apple menu, then <strong>About This Mac</strong>: it shows the model and year. We also repair Mac Studio, Mac Pro and older eMac, iBook and PowerBook machines. iPad or iPhone needs setting up? See <a class="link" href="/apple-repairs-gold-coast">Apple support</a>.'
-  />
-
-  <BoardRepair
-    eyebrow="Logic board repairs"
-    title="Fix the chip, not the whole board."
-    intro="The logic board controls almost everything in a Mac. Plenty of shops only know one fix for a faulty board: replace the whole thing, which is the most expensive outcome for you. We diagnose down to the component, so a single failed chip or a bad GPU can often be repaired instead."
-    options={[
-      { label: 'The usual fix', title: 'Replace the whole board', points: ['The most expensive outcome', 'Waiting on a whole new part', 'A good board thrown away for one fault'] },
-      { label: 'Our fix', title: 'Repair the failed component', points: ['Board-level and BGA chip work', 'Usually a smaller bill', 'Usually a faster turnaround'], ours: true },
-    ]}
-  />
-
   <WhoFixes
     word="Honest"
     lead="Fixing Macs on the Gold Coast since 2008. If your Mac isn’t worth fixing, we’ll say so rather than sell you a repair you don’t need."
@@ -166,6 +148,24 @@ const schema = [
       { title: 'A call-out fee', text: 'Not anywhere on the Gold Coast.' },
     ]}
     footer='Your Mac works but needs setting up, migrating or backing up? Our <a href="/apple-repairs-gold-coast">Apple support</a> page covers iCloud, Time Machine, macOS and moving to a new Mac. Windows laptop instead? See <a href="/laptop-repairs-gold-coast">laptop repairs</a>.'
+  />
+
+  <MacPicker
+    eyebrow="Which Mac do you have?"
+    title="Every Mac has its own weak spots."
+    intro="Pick your Mac to see what usually goes wrong with it, whether it can be upgraded, and what we can do about it."
+    models={models}
+    note='Not sure which one you have? Click the Apple menu, then <strong>About This Mac</strong>: it shows the model and year. We also repair Mac Studio, Mac Pro and older eMac, iBook and PowerBook machines. iPad or iPhone needs setting up? See <a class="link" href="/apple-repairs-gold-coast">Apple support</a>.'
+  />
+
+  <BoardRepair
+    eyebrow="Logic board repairs"
+    title="Fix the chip, not the whole board."
+    intro="The logic board controls almost everything in a Mac. Plenty of shops only know one fix for a faulty board: replace the whole thing, which is the most expensive outcome for you. We diagnose down to the component, so a single failed chip or a bad GPU can often be repaired instead."
+    options={[
+      { label: 'The usual fix', title: 'Replace the whole board', points: ['The most expensive outcome', 'Waiting on a whole new part', 'A good board thrown away for one fault'] },
+      { label: 'Our fix', title: 'Repair the failed component', points: ['Board-level and BGA chip work', 'Usually a smaller bill', 'Usually a faster turnaround'], ours: true },
+    ]}
   />
 
   <HowItWorks

@@ -454,14 +454,14 @@ textarea.field{min-height:96px; resize:vertical;}
 .who-card::before{top:0;}
 .who-card::after{bottom:0; transform:scaleY(-1);}
 
-.who-left{padding-right:8px;}
+.who-left{padding-right:8px; min-width:0; container-type:inline-size;}
 /* IDC connectors clamped onto the ribbon, top left and bottom right */
 .who-plug{position:absolute; z-index:1; width:132px; height:38px; border-radius:5px; background:radial-gradient(circle,#475569 1.4px,transparent 1.8px) 8px 7px/9px 9px, var(--hero); box-shadow:0 6px 14px -6px rgba(2,6,23,.6);}
 .who-plug::after{content:""; position:absolute; left:50%; bottom:-5px; width:22px; height:5px; margin-left:-11px; border-radius:0 0 3px 3px; background:var(--hero);}
 .who-plug-a{top:-5px; left:56px;}
 @media (max-width:700px){ .who-plug{width:96px; height:32px;} .who-plug-a{left:24px;} .who-plug-b{right:24px;} }
 .who-plug-b{bottom:-5px; right:56px; transform:scaleY(-1);}
-.who-word{margin:0; font-size:clamp(5rem,9vw,8.5rem); font-weight:800; line-height:.9; letter-spacing:-.06em; color:var(--ink);}
+.who-word{margin:0; white-space:nowrap; font-size:min(clamp(5rem,9vw,8.5rem), calc(100cqi / (var(--chars, 6) * .68))); font-weight:800; line-height:.9; letter-spacing:-.06em; color:var(--ink);}
 .who-word::after{content:""; display:inline-block; width:.16em; height:.16em; margin-left:.04em; border-radius:50%; background:var(--accent);}
 .who-lead{margin-top:28px; font-size:1.25rem; line-height:1.55; font-weight:500; color:var(--soft);}
 .who-creds{list-style:none; margin:26px 0 0; padding:0;}
@@ -490,7 +490,7 @@ textarea.field{min-height:96px; resize:vertical;}
 }
 @media (max-width:700px){
   .who-card{grid-template-columns:1fr; padding:60px 22px 52px; border-radius:14px;}
-  .who-word{font-size:5.5rem;}
+  .who-word{font-size:min(5.5rem, calc(100cqi / (var(--chars, 6) * .68)));}
   .who-lead{font-size:1.125rem;}
 }
 
