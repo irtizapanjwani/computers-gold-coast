@@ -5,19 +5,15 @@
 // (aria-hidden); the step text underneath carries the meaning. They play once when the
 // section scrolls into view and rest on their final frame; with reduced motion they show
 // the final frame straight away.
-import Icon from '../redesign/Icon.astro';
 
 interface Step { title: string; text: string }
-interface Way { icon: string; label: string; bestFor: string }
 interface Props {
   eyebrow: string;
   title: string;
   intro: string;
   steps: [Step, Step, Step];
-  ways: Way[];
-  note: string;
 }
-const { eyebrow, title, intro, steps, ways, note } = Astro.props;
+const { eyebrow, title, intro, steps } = Astro.props;
 ---
 <section class="sec hiw" aria-labelledby="svc-hiw-title" data-hiw>
   <div class="wrap">
@@ -95,15 +91,6 @@ const { eyebrow, title, intro, steps, ways, note } = Astro.props;
       </li>
     </ol>
 
-    <div class="hiw-ways">
-      <p class="hiw-ways-label">Every step works</p>
-      <ul>
-        {ways.map((w) => (
-          <li><span class="hiw-way-ico"><Icon name={w.icon} /></span><span><strong>{w.label}</strong>{w.bestFor}</span></li>
-        ))}
-      </ul>
-    </div>
-    <p class="hiw-note"><Icon name="clock" />{note}</p>
   </div>
 </section>
 

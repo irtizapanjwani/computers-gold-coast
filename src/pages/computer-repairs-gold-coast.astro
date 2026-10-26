@@ -42,16 +42,11 @@ const jobLinks = [
   { label: 'Mac repairs', href: '/mac-repairs-gold-coast' },
 ];
 
-// "How it works": three steps, then the three ways a repair can be done.
+// "How it works": three steps.
 const howSteps: [{ title: string; text: string }, { title: string; text: string }, { title: string; text: string }] = [
   { title: 'Describe the fault', text: 'Call, or send the quote form with your computer and what it’s doing. A photo of any error message helps.' },
   { title: 'We diagnose and quote', text: 'Onsite at your home or office with no call-out fee, remotely, or on our bench. We find the real cause, then give you the price.' },
   { title: 'Approve the repair', text: 'Nothing starts until you’ve said yes. We fix it, explain what we did, and you get free advice afterwards.' },
-];
-const howWays = [
-  { icon: 'home', label: 'Onsite', bestFor: 'Won’t start, network and printer problems, new setups' },
-  { icon: 'monitor', label: 'Remote', bestFor: 'Viruses, slow computers, email and software issues' },
-  { icon: 'box', label: 'Drop-off', bestFor: 'Part replacements, data recovery, bigger upgrades' },
 ];
 
 const faqs = [
@@ -139,8 +134,6 @@ const schema = [
     title="From computer trouble to a clear repair plan."
     intro="Tell us what the computer is doing, and we’ll find the real cause before recommending any parts or work."
     steps={howSteps}
-    ways={howWays}
-    note="Open 7 days a week, 7AM to 10PM, including weekends and public holidays."
   />
 
   <ServiceReviews
