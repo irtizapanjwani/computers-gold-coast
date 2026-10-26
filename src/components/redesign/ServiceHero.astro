@@ -1,0 +1,77 @@
+---
+// Hero for service pages: the same dark rounded card as the homepage hero, but shorter
+// (sized to its content, no brand carousel or chips). Breadcrumb, H1, short intro, two
+// CTAs and a proof row on the left; the shared quote form on the right.
+import Icon from './Icon.astro';
+import QuoteForm from './QuoteForm.astro';
+import { business } from '../../config/business';
+
+interface Crumb { label: string; href?: string }
+interface Proof { value: string; label: string }
+interface Props {
+  eyebrow: string;
+  title: string;
+  /** Optional second line of the H1, shown in sky blue. */
+  highlight?: string;
+  intro: string;
+  breadcrumbs: Crumb[];
+  /** Path of this page, e.g. '/computer-repairs-gold-coast' (used for the form's return URL). */
+  path: string;
+  formPlaceholder?: string;
+  proofItems?: Proof[];
+}
+
+// TODO(client): confirm 20 years, the Microsoft certification, the Channel 9 feature and the IBM background.
+const defaultProof: Proof[] = [
+  { value: '20 years', label: 'fixing computers' },
+  { value: 'Channel 9', label: 'as seen on the news' },
+  { value: 'Microsoft', label: 'Certified Professional' },
+  { value: 'Ex-IBM', label: 'technician' },
+];
+
+const { eyebrow, title, highlight, intro, breadcrumbs, path, formPlaceholder, proofItems = defaultProof } = Astro.props;
+
+// Same skyline shapes as the homepage hero: [x, width, height] in a 620x400 box.
+const skyline = [
+  [0, 34, 70], [38, 16, 112], [58, 48, 96], [70, 24, 124], [112, 22, 168], [138, 12, 140],
+  [154, 46, 190], [164, 22, 222], [204, 28, 150], [236, 58, 108], [298, 18, 246], [320, 44, 214],
+  [330, 22, 244], [368, 14, 170], [386, 52, 132], [398, 26, 160], [444, 22, 268], [470, 38, 182],
+  [512, 12, 144], [528, 56, 92], [540, 28, 114], [588, 32, 76],
+];
+---
+<div class="hero-shell">
+  <section class="hero-card svc-hero" aria-labelledby="svc-title">
+    <svg class="hero-skyline" viewBox="0 0 620 400" preserveAspectRatio="xMaxYMax meet" aria-hidden="true">
+      {skyline.map(([x, w, h]) => <rect x={x} y={400 - h} width={w} height={h} rx="1.5" />)}
+    </svg>
+    <div class="wrap svc-hero-grid">
+      <div class="svc-hero-intro">
+        <nav class="crumbs crumbs-dark" aria-label="Breadcrumb">
+          <ol>
+            {breadcrumbs.map((c, i) => (
+              <li>
+                {c.href && i < breadcrumbs.length - 1
+                  ? <a href={c.href}>{c.label}</a>
+                  : <span aria-current="page">{c.label}</span>}
+              </li>
+            ))}
+          </ol>
+        </nav>
+        <p class="hero-eyebrow"><span aria-hidden="true"></span>{eyebrow}</p>
+        <h1 id="svc-title">{title}{highlight && <> <span class="hl">{highlight}</span></>}</h1>
+        <p class="hero-sub">{intro}</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#quote">Get a free quote <Icon name="arrow" /></a>
+          <a class="btn btn-ghost-light" href={business.phoneHref}><Icon name="phone" />Call {business.phone}</a>
+        </div>
+      </div>
+      <QuoteForm formName="service_quote" source={path} returnPath={path} placeholder={formPlaceholder} />
+      <ul class="hero-stats svc-hero-proof">
+        {proofItems.map((p) => <li><strong>{p.value}</strong><span>{p.label}</span></li>)}
+      </ul>
+    </div>
+    <svg class="hero-wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 52C220 84 470 92 760 66C1040 41 1250 28 1440 46V90H0Z" />
+    </svg>
+  </section>
+</div>

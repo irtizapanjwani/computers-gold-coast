@@ -162,6 +162,37 @@ textarea.field{min-height:96px; resize:vertical;}
 .about-facts strong{display:block; font-size:clamp(1.6rem,2.6vw,2.2rem); font-weight:800; line-height:1.05; letter-spacing:-.03em; color:var(--accent);}
 .about-facts span{display:block; margin-top:8px; font-size:13.5px; line-height:1.45; color:#cbd5e1;}
 
+/* Service-page hero: same dark card, sized to its content; quote form on the right */
+.hero-card.svc-hero{min-height:0; padding:clamp(36px,5vh,56px) 0 104px;}
+.svc-hero-grid{display:grid; grid-template-columns:minmax(0,1fr) minmax(340px,400px); grid-template-areas:"intro form" "proof form"; grid-template-rows:auto 1fr; gap:0 clamp(40px,5vw,80px); align-items:start; width:100%; max-width:none; padding:0 clamp(24px,5vw,80px);}
+.svc-hero-intro{grid-area:intro; max-width:880px;}
+.svc-hero .hero-sub{max-width:40rem;}
+.svc-hero-grid > .quote-card{grid-area:form;}
+.svc-hero h1{font-size:clamp(2.1rem,min(4vw,5.6vh),3.25rem);}
+.svc-hero .hero-actions{margin-top:28px;}
+.svc-hero .hero-actions .ic{color:inherit;}
+.svc-hero-proof{grid-area:proof; align-self:end; margin-top:36px;}
+.crumbs ol{list-style:none; display:flex; flex-wrap:wrap; gap:8px; margin:0; padding:0;}
+.crumbs li{display:flex; align-items:center; gap:8px;}
+.crumbs li + li::before{content:"›"; color:#475569;}
+.crumbs-dark [aria-current]{color:#cbd5e1;}
+@media (max-width:960px){
+  .svc-hero-grid{grid-template-columns:1fr; grid-template-areas:"intro" "form" "proof"; row-gap:32px;}
+  .svc-hero-proof{margin-top:0;}
+  .hero-card.svc-hero{padding-bottom:88px;}
+  .svc-hero .hero-skyline{display:none;}
+  /* Original page content: its two-column check list is set inline, so stack it here. */
+  .legacy-body .check-list{grid-template-columns:1fr !important;}
+}
+@media (max-width:560px){
+  .svc-hero .hero-actions .btn{width:100%;}
+}
+
+/* Original page content: its check-list items are flex rows, which split bold text and
+   links into separate columns. Render each item as a normal line with the tick in front. */
+.legacy-body .check-list li{display:block; position:relative; padding-left:22px;}
+.legacy-body .check-list li::before{position:absolute; left:0; top:0;}
+
 /* ---------- Trust strip ---------- */
 .trust{border-bottom:1px solid var(--line);}
 .trust .wrap{display:grid; grid-template-columns:repeat(4,1fr);}

@@ -1,5 +1,23 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import ServiceLayout from '../layouts/ServiceLayout.astro';
+import ServiceHero from '../components/redesign/ServiceHero.astro';
 import data from '../data/pages/computer-repairs-gold-coast.json';
+
+const path = '/computer-repairs-gold-coast';
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Services', href: '/services' },
+  { label: 'Computer Repairs' },
+];
 ---
-<Layout headHtml={data.headHtml} bodyHtml={data.bodyHtml} footerHtml={data.footerHtml ?? null} bare={data.bare ?? false} />
+<ServiceLayout headHtml={data.headHtml} bodyHtml={data.bodyHtml} breadcrumbs={breadcrumbs}>
+  <ServiceHero
+    eyebrow="Computer repairs · Gold Coast"
+    title="Computer repairs on the Gold Coast."
+    highlight="Fast, honest, onsite or remote."
+    intro="PCs, laptops and Macs fixed at your home or office, remotely, or via drop-off. Led by a Microsoft Certified Professional with 20 years’ experience."
+    breadcrumbs={breadcrumbs}
+    path={path}
+    formPlaceholder="e.g. PC is slow and keeps freezing"
+  />
+</ServiceLayout>

@@ -1,0 +1,66 @@
+---
+// Layout for service pages that have the new hero but still use their original body
+// content (src/data/pages/*.json). New header, hero slot and footer, like PageLayout; the
+// page's own meta tags and JSON-LD are kept, and its original CSS is scoped to .legacy-body
+// so it only styles the original content below the hero.
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import GtmHead from '../components/GtmHead.astro';
+import GtmBody from '../components/GtmBody.astro';
+import Icons from '../components/redesign/Icons.astro';
+import bodyScripts from '../data/body-scripts.html?raw';
+import { SITE } from '../data/site';
+import { splitLegacyHead, stripLegacyHero } from '../lib/legacyPage';
+import '../styles/redesign.css';
+
+interface Crumb { label: string; href?: string }
+interface Props {
+  headHtml: string;
+  bodyHtml: string;
+  breadcrumbs: Crumb[];
+}
+const { headHtml, bodyHtml, breadcrumbs } = Astro.props;
+const { head, css } = splitLegacyHead(headHtml, '.legacy-body');
+const body = stripLegacyHero(bodyHtml);
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: breadcrumbs.map((c, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: c.label,
+    ...(c.href ? { item: `${SITE}${c.href === '/' ? '/' : c.href}` } : {}),
+  })),
+};
+const FONTS = 'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap';
+---
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<Fragment set:html={head} />
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href={FONTS}>
+<link rel="stylesheet" href={FONTS} media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href={FONTS}></noscript>
+<style is:inline set:html={css}></style>
+<GtmHead />
+</head>
+<body>
+<GtmBody />
+<Icons />
+<Header />
+<main>
+  <slot />
+  <div class="legacy-body">
+    <Fragment set:html={body} />
+  </div>
+</main>
+<Footer />
+<Fragment set:html={bodyScripts} />
+</body>
+</html>

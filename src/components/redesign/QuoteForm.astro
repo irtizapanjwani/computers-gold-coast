@@ -1,17 +1,33 @@
 ---
-// Homepage quote form. Same SplitForms account and success event as the contact page,
-// tagged form_name 'home_quote' so GTM can tell the two apart.
+// Quote form used in the homepage and service-page heroes. Same SplitForms account and
+// success event as the contact page; form_name tells GTM which page it came from
+// ('home_quote' on the homepage, 'service_quote' on service pages).
 import Icon from './Icon.astro';
 import { suburbs, googleReviews } from '../../data/site';
+
+interface Props {
+  formName?: string;
+  /** Where the request came from, shown in the email subject. */
+  source?: string;
+  /** Page to return to after a no-JS submit, e.g. '/' or '/computer-repairs-gold-coast'. */
+  returnPath?: string;
+  placeholder?: string;
+}
+const {
+  formName = 'home_quote',
+  source = 'homepage',
+  returnPath = '/',
+  placeholder = 'e.g. Laptop won’t turn on after a drink spill',
+} = Astro.props;
 const { rating, count } = googleReviews;
 ---
 <div class="quote-card" id="quote">
   <h2>Get a free quote</h2>
   <p class="qc-sub"><Icon name="clock" />Takes 30 seconds · No obligation</p>
-  <form id="quote-form" action="https://splitforms.com/api/submit" method="POST">
+  <form id="quote-form" data-form-name={formName} action="https://splitforms.com/api/submit" method="POST">
     <input type="hidden" name="access_key" value="b31703ea3cae42b5aa3d3746ce9cfa2c">
-    <input type="hidden" name="subject" value="New quote request from computersgoldcoast.com.au (homepage)">
-    <input type="hidden" name="redirect" value="https://computersgoldcoast.com.au/?sent=1">
+    <input type="hidden" name="subject" value={`New quote request from computersgoldcoast.com.au (${source})`}>
+    <input type="hidden" name="redirect" value={`https://computersgoldcoast.com.au${returnPath}?sent=1`}>
     <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off">
     <div>
       <label class="qc-label" for="q-name">Your name</label>
@@ -33,7 +49,7 @@ const { rating, count } = googleReviews;
     </div>
     <div>
       <label class="qc-label" for="q-message">What’s the problem?</label>
-      <textarea class="field" id="q-message" name="message" rows="3" placeholder="e.g. Laptop won’t turn on after a drink spill" required></textarea>
+      <textarea class="field" id="q-message" name="message" rows="3" placeholder={placeholder} required></textarea>
     </div>
     <button type="submit" class="btn btn-primary">Get My Free Quote <Icon name="arrow" /></button>
     <p class="form-status" id="quote-status" role="status"></p>
@@ -66,7 +82,7 @@ const { rating, count } = googleReviews;
       .then(function(res){return res.json().catch(function(){return{};}).then(function(body){return{ok:res.ok,body:body};});})
       .then(function(result){
         if(result.ok&&result.body&&result.body.success){
-          form.after(status);form.hidden=true;window.dataLayer=window.dataLayer||[];dataLayer.push({event:'form_submit_success',form_name:'home_quote'});
+          form.after(status);form.hidden=true;window.dataLayer=window.dataLayer||[];dataLayer.push({event:'form_submit_success',form_name:form.getAttribute('data-form-name')||'home_quote'});
           status.style.color='#15803d';status.textContent=ok;
         }else{
           status.style.color='#b91c1c';
