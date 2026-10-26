@@ -1,0 +1,96 @@
+---
+// "Which Mac do you have?" Pick a Mac (drawn in CSS/SVG, no icons or logos) and see what usually
+// goes wrong with that kind of Mac, whether it can be upgraded, and where to go next.
+// All panels are in the HTML; inactive ones are hidden. General, well-known model traits only.
+
+export interface MacModel {
+  id: 'air' | 'pro' | 'imac' | 'mini';
+  name: string;
+  tagline: string;
+  issues: { title: string; text: string }[];
+  upgrade: { verdict: string; text: string };
+  href: string;
+  linkText: string;
+}
+interface Props { eyebrow: string; title: string; intro: string; models: MacModel[]; note: string }
+const { eyebrow, title, intro, models, note } = Astro.props;
+---
+<section class="sec mp" aria-labelledby="svc-mp-title" data-mp>
+  <div class="wrap">
+    <div class="mp-head">
+      <div>
+        <p class="svc-eyebrow">{eyebrow}</p>
+        <h2 id="svc-mp-title">{title}</h2>
+      </div>
+      <p class="mp-intro">{intro}</p>
+    </div>
+
+    <div class="mp-shelf" role="tablist" aria-label="Choose your Mac">
+      {models.map((m, i) => (
+        <button type="button" role="tab" class="mp-tab" id={`mp-tab-${m.id}`} aria-controls={`mp-panel-${m.id}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} data-mp-tab>
+          <span class={`mp-art mp-art-${m.id}`} aria-hidden="true">
+            {m.id === 'air' && (
+              <svg viewBox="0 0 200 130"><rect class="mp-shell" x="34" y="8" width="132" height="88" rx="6"/><rect class="mp-glass" x="40" y="14" width="120" height="76" rx="2"/><path class="mp-shell" d="M14 100h172l-6 9H20z"/><rect class="mp-notch" x="88" y="100" width="24" height="3" rx="1.5"/></svg>
+            )}
+            {m.id === 'pro' && (
+              <svg viewBox="0 0 200 130"><rect class="mp-shell" x="30" y="4" width="140" height="94" rx="7"/><rect class="mp-glass" x="36" y="10" width="128" height="82" rx="2"/><rect class="mp-shell" x="92" y="10" width="16" height="5" rx="2"/><path class="mp-shell" d="M10 102h180v5a5 5 0 0 1-5 5H15a5 5 0 0 1-5-5z"/><rect class="mp-notch" x="86" y="102" width="28" height="3" rx="1.5"/></svg>
+            )}
+            {m.id === 'imac' && (
+              <svg viewBox="0 0 200 130"><rect class="mp-shell" x="30" y="2" width="140" height="96" rx="6"/><rect class="mp-glass" x="36" y="8" width="128" height="72" rx="2"/><path class="mp-shell" d="M86 98h28l6 24H80z"/><rect class="mp-shell" x="70" y="121" width="60" height="5" rx="2.5"/></svg>
+            )}
+            {m.id === 'mini' && (
+              <svg viewBox="0 0 200 130"><rect class="mp-shell" x="30" y="66" width="140" height="40" rx="10"/><rect class="mp-glass" x="30" y="66" width="140" height="10" rx="5" opacity=".35"/><circle class="mp-led" cx="44" cy="92" r="2.5"/><rect class="mp-shadow" x="38" y="108" width="124" height="4" rx="2"/></svg>
+            )}
+          </span>
+          <span class="mp-tab-name">{m.name}</span>
+        </button>
+      ))}
+    </div>
+
+    <div class="mp-panels">
+      {models.map((m, i) => (
+        <article class="mp-panel" role="tabpanel" id={`mp-panel-${m.id}`} aria-labelledby={`mp-tab-${m.id}`} hidden={i !== 0}>
+          <div class="mp-panel-main">
+            <p class="mp-kicker">{m.name}</p>
+            <h3>{m.tagline}</h3>
+            <p class="mp-label">What usually goes wrong</p>
+            <ol class="mp-issues">
+              {m.issues.map((it, k) => (
+                <li><span class="mp-n" aria-hidden="true">{String(k + 1).padStart(2, '0')}</span><div><strong>{it.title}</strong><span>{it.text}</span></div></li>
+              ))}
+            </ol>
+          </div>
+          <aside class="mp-upgrade">
+            <p class="mp-label">Can it be upgraded?</p>
+            <p class="mp-verdict">{m.upgrade.verdict}</p>
+            <p class="mp-upgrade-text">{m.upgrade.text}</p>
+            <a class="link" href={m.href}>{m.linkText} →</a>
+            <a class="btn btn-primary mp-quote" href="#quote" data-mp-quote={m.name}>Get a quote for my {m.name}</a>
+          </aside>
+        </article>
+      ))}
+    </div>
+    <p class="mp-note" set:html={note} />
+  </div>
+</section>
+
+<script is:inline>(function(){
+  var root=document.querySelector('[data-mp]');
+  if(!root)return;
+  var tabs=[].slice.call(root.querySelectorAll('[data-mp-tab]'));
+  function select(i,focus){
+    tabs.forEach(function(t,j){var on=j===i;t.setAttribute('aria-selected',on?'true':'false');t.tabIndex=on?0:-1;var p=document.getElementById(t.getAttribute('aria-controls'));if(p)p.hidden=!on;});
+    if(focus)tabs[i].focus();
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){select(i);});
+    t.addEventListener('keydown',function(e){var n=null;if(e.key==='ArrowRight')n=(i+1)%tabs.length;if(e.key==='ArrowLeft')n=(i-1+tabs.length)%tabs.length;if(n!==null){e.preventDefault();select(n,true);}});
+  });
+  root.querySelectorAll('[data-mp-quote]').forEach(function(a){
+    a.addEventListener('click',function(){
+      var msg=document.getElementById('q-message');
+      if(msg&&!msg.value)msg.value='My '+a.getAttribute('data-mp-quote')+': ';
+      setTimeout(function(){var n=document.getElementById('q-name');if(n)n.focus({preventScroll:true});},450);
+    });
+  });
+})();</script>

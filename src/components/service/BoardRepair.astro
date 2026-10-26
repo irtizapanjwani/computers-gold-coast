@@ -1,0 +1,60 @@
+---
+// "Fix the chip, not the whole board": an illustrated logic board where one component fails
+// (red) and is repaired (green), next to the two ways a shop can handle it. Illustration only,
+// no icons. Plays once on scroll; reduced motion shows the repaired state.
+
+interface Option { label: string; title: string; points: string[]; ours?: boolean }
+interface Props { eyebrow: string; title: string; intro: string; options: [Option, Option] }
+const { eyebrow, title, intro, options } = Astro.props;
+
+// [x, y, w, h] chips on a 360x240 board
+const chips = [
+  [34, 30, 70, 50], [120, 30, 40, 40], [176, 24, 90, 30], [282, 30, 44, 70],
+  [34, 100, 44, 44], [94, 92, 112, 70], [222, 70, 46, 46], [222, 132, 46, 30],
+  [34, 162, 60, 40], [110, 180, 40, 30], [166, 180, 70, 30], [252, 180, 74, 30], [286, 116, 40, 46],
+];
+---
+<section class="sec br" aria-labelledby="svc-br-title" data-br>
+  <div class="wrap br-grid">
+    <figure class="br-board" aria-hidden="true">
+      <svg viewBox="0 0 360 240">
+        <defs>
+          <pattern id="br-trace" width="12" height="12" patternUnits="userSpaceOnUse"><path d="M0 6h12M6 0v12" stroke="#1e3a5f" stroke-width=".6" /></pattern>
+        </defs>
+        <rect class="br-pcb" x="2" y="2" width="356" height="236" rx="14" />
+        <rect x="2" y="2" width="356" height="236" rx="14" fill="url(#br-trace)" opacity=".5" />
+        <path class="br-line" d="M104 55h16M160 50h16M266 40h16M56 80v20M78 122h16M206 120h16M150 162v18M200 162v18M245 116v16M268 150h18" />
+        {chips.map(([x, y, w, h]) => <rect class="br-chip" x={x} y={y} width={w} height={h} rx="4" />)}
+        <rect class="br-fault" x="222" y="70" width="46" height="46" rx="4" />
+        <circle class="br-ring" cx="245" cy="93" r="38" />
+      </svg>
+      <figcaption>
+        <span class="br-cap-bad">One failed chip</span>
+        <span class="br-cap-good">Repaired at board level</span>
+      </figcaption>
+    </figure>
+
+    <div class="br-copy">
+      <p class="svc-eyebrow">{eyebrow}</p>
+      <h2 id="svc-br-title">{title}</h2>
+      <p class="br-intro">{intro}</p>
+      <div class="br-options">
+        {options.map((o) => (
+          <div class:list={['br-opt', { 'is-ours': o.ours }]}>
+            <p class="br-opt-label">{o.label}</p>
+            <p class="br-opt-title">{o.title}</p>
+            <ul>{o.points.map((p) => <li>{p}</li>)}</ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>(function(){
+  var root=document.querySelector('[data-br]');
+  if(!root||window.matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver' in window))return;
+  root.classList.add('br-ready');
+  var io=new IntersectionObserver(function(es){if(!es[0].isIntersecting)return;io.disconnect();root.classList.add('br-on');},{threshold:.45});
+  io.observe(root.querySelector('.br-board'));
+})();</script>

@@ -1,5 +1,218 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import data from '../data/pages/mac-repairs-gold-coast.json';
+// Mac Repairs service page, fully redesigned. Business claims are the client's own from the
+// original page (since 2008, one-year guarantee, OEM-quality parts, board-level repairs, free phone
+// quotes, often while you wait). Model information is general, well-known Mac behaviour.
+// TODO(client): confirm the claims above are still current.
+import PageLayout from '../layouts/PageLayout.astro';
+import ServiceHero from '../components/redesign/ServiceHero.astro';
+import MacPicker from '../components/service/MacPicker.astro';
+import BoardRepair from '../components/service/BoardRepair.astro';
+import WhoFixes from '../components/service/WhoFixes.astro';
+import HowItWorks from '../components/service/HowItWorks.astro';
+import ServiceReviews from '../components/service/ServiceReviews.astro';
+import Areas from '../components/redesign/Areas.astro';
+import Faq from '../components/redesign/Faq.astro';
+import CtaBand from '../components/redesign/CtaBand.astro';
+import { SITE, businessSchema, faqSchema } from '../data/site';
+import type { MacModel } from '../components/service/MacPicker.astro';
+
+const path = '/mac-repairs-gold-coast';
+const url = `${SITE}${path}`;
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Services', href: '/services' },
+  { label: 'Mac Repairs' },
+];
+
+const models: MacModel[] = [
+  {
+    id: 'air', name: 'MacBook Air', tagline: 'Thin, light, and doesn’t like drinks.',
+    issues: [
+      { title: 'Liquid damage', text: 'The keyboard sits right above the logic board, so a spill reaches the electronics fast. Switch it off straight away and don’t charge it.' },
+      { title: 'Battery wearing out', text: 'If the battery shows “Service Recommended” or the Mac shuts down at 20%, it’s due for a new battery. We check the charging circuit at the same time.' },
+      { title: 'Cracked screen', text: 'Usually from closing the lid on something small, like earbuds or a pen. The display is replaced properly as a complete unit.' },
+    ],
+    upgrade: { verdict: 'Mostly no', text: 'On recent MacBook Airs the memory and storage are built into the board, so buy the size you need. Some older models can take an SSD upgrade.' },
+    href: '/laptop-battery-replacement-gold-coast', linkText: 'Laptop battery replacement',
+  },
+  {
+    id: 'pro', name: 'MacBook Pro', tagline: 'Powerful, and works hard when it’s hot.',
+    issues: [
+      { title: 'Sticky or double-typing keys', text: 'Common on the 2016 to 2019 models with the very thin “butterfly” keyboard. Dust under a key is enough to stop it working.' },
+      { title: 'Overheating and loud fans', text: 'Dust in the fans and dried-out thermal paste make it run hot and slow itself down. A proper internal clean usually fixes it.' },
+      { title: 'Logic board faults', text: 'No power, no picture or random restarts, especially on older models. Often one failed component, which we can repair at board level.' },
+    ],
+    upgrade: { verdict: 'Depends on the year', text: 'Older MacBook Pros can often take a faster SSD and more memory. On newer models both are built in, so a repair or clean-up is the way to go.' },
+    href: '/hardware-repair-diagnostics-gold-coast', linkText: 'Hardware repair & diagnostics',
+  },
+  {
+    id: 'imac', name: 'iMac', tagline: 'Slow older iMacs are often an easy fix.',
+    issues: [
+      { title: 'Painfully slow to start', text: 'Many older iMacs shipped with a spinning hard drive or a “Fusion Drive”. Swapping it for an SSD is often the single biggest speed-up you can get.' },
+      { title: 'Screen lines or dark patches', text: 'Display faults and cracked glass on iMacs are repaired in place, so you keep the Mac you already have.' },
+      { title: 'Won’t turn on', text: 'Can be the internal power supply or the logic board. We test the cheapest likely causes first.' },
+    ],
+    upgrade: { verdict: 'Often yes', text: 'Many older iMacs can take an SSD, and a lot of 27-inch models have a memory door for easy RAM upgrades. Newer iMacs have both built in.' },
+    href: '/hardware-installs-upgrades-gold-coast', linkText: 'SSD and memory upgrades',
+  },
+  {
+    id: 'mini', name: 'Mac mini', tagline: 'Small box, easy to drop off.',
+    issues: [
+      { title: 'Slow older models', text: 'Older Mac minis with a spinning hard drive feel sluggish today. An SSD makes a big difference.' },
+      { title: 'Won’t power on', text: 'Check the power cable and power point first. If it’s still dead, it’s usually the power supply or the board.' },
+      { title: 'No display', text: 'Often the cable, adapter or monitor rather than the Mac itself, which makes it worth checking before you buy anything.' },
+    ],
+    upgrade: { verdict: 'Some models', text: 'Some older Mac minis can take more memory and an SSD. On Apple silicon models (2020 onwards) memory and storage are built in.' },
+    href: '/hardware-installs-upgrades-gold-coast', linkText: 'Hardware installs & upgrades',
+  },
+];
+
+const faqs = [
+  { q: 'Is it cheaper than taking my Mac to Apple?', a: 'Most jobs come in under what you’d pay booking through Apple directly, especially logic board faults, where we can often repair the failed component instead of replacing the whole board. Call us with the model and the symptom for a free quote over the phone.' },
+  { q: 'My Mac says “Battery Service Recommended”. What does that mean?', a: 'macOS has detected that the battery has worn and no longer holds as much charge as it should. The Mac is safe to keep using, but expect shorter battery life and possible sudden shutdowns. If the case is bulging or the trackpad is lifting, the battery is swelling: stop using it and get it replaced.' },
+  { q: 'How do I find out which Mac I have?', a: 'Click the Apple menu in the top-left corner of the screen and choose About This Mac. It shows the model name and the year, for example “MacBook Pro, 13-inch, 2019”. That’s the best thing to tell us when you call.' },
+  { q: 'Is it worth putting an SSD in my old Mac?', a: 'On older Macs that still have a spinning hard drive or a Fusion Drive, it’s usually the best value upgrade there is: startup and apps get dramatically faster. We migrate your files and system across so it’s ready to use. Newer Macs already have built-in solid-state storage.' },
+  { q: 'Can you get my files off a Mac that won’t start?', a: 'Often, yes. We recover what can be recovered before doing anything else. See <a href="/data-recovery-gold-coast">data recovery</a>.' },
+  { q: 'Do you use genuine parts?', a: 'OEM-quality parts are our standard. If you’d rather keep the price down with a quality alternative part, we’ll explain the difference upfront and let you choose.' },
+  { q: 'I’m locked out of my Mac. Can you help?', a: 'Yes. We can reset access on most models so you’re back in, usually without wiping your data.' },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        '@id': `${url}#service`,
+        name: 'Mac Repairs Gold Coast',
+        serviceType: 'Mac and MacBook repairs',
+        url,
+        description: 'MacBook, MacBook Air, MacBook Pro, iMac and Mac mini repairs on the Gold Coast: screens, batteries, keyboards, board-level logic board repair, liquid damage, SSD upgrades and data recovery.',
+        provider: businessSchema,
+        areaServed: businessSchema.areaServed,
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${url}#breadcrumb`,
+        itemListElement: breadcrumbs.map((c, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: c.label,
+          item: c.href ? `${SITE}${c.href === '/' ? '/' : c.href}` : url,
+        })),
+      },
+    ],
+  },
+  faqSchema(faqs, url),
+];
 ---
-<Layout headHtml={data.headHtml} bodyHtml={data.bodyHtml} footerHtml={data.footerHtml ?? null} bare={data.bare ?? false} />
+<PageLayout
+  title="Mac Repairs Gold Coast | MacBook, iMac & Mac Mini Repair"
+  description="Mac and MacBook repairs on the Gold Coast since 2008. Screen replacement, battery, board-level logic board repair, water damage and data recovery. One-year guarantee, free phone quotes."
+  shareDescription="MacBook, iMac and Mac mini repairs on the Gold Coast since 2008. Board-level repairs, one-year guarantee, free phone quotes."
+  path={path}
+  schema={schema}
+>
+  <ServiceHero
+    eyebrow="Mac repairs · Gold Coast"
+    title="Mac repairs on the Gold Coast."
+    highlight="Usually cheaper than the Apple Store."
+    intro="MacBook Air, MacBook Pro, iMac and Mac mini, fixed properly by technicians who’ve been repairing Macs since 2008. You get a straight answer on price before we start."
+    breadcrumbs={breadcrumbs}
+    path={path}
+    formPlaceholder="e.g. MacBook Pro 2019, keys sticking"
+    proofItems={[
+      { value: 'Since 2008', label: 'fixing Macs' },
+      { value: '1-year', label: 'guarantee on repairs' },
+      { value: 'Board-level', label: 'logic board repairs' },
+      { value: 'Free', label: 'quotes over the phone' },
+    ]}
+  />
+
+  <MacPicker
+    eyebrow="Which Mac do you have?"
+    title="Every Mac has its own weak spots."
+    intro="Pick your Mac to see what usually goes wrong with it, whether it can be upgraded, and what we can do about it."
+    models={models}
+    note='Not sure which one you have? Click the Apple menu, then <strong>About This Mac</strong>: it shows the model and year. We also repair Mac Studio, Mac Pro and older eMac, iBook and PowerBook machines. iPad or iPhone needs setting up? See <a class="link" href="/apple-repairs-gold-coast">Apple support</a>.'
+  />
+
+  <BoardRepair
+    eyebrow="Logic board repairs"
+    title="Fix the chip, not the whole board."
+    intro="The logic board controls almost everything in a Mac. Plenty of shops only know one fix for a faulty board: replace the whole thing, which is the most expensive outcome for you. We diagnose down to the component, so a single failed chip or a bad GPU can often be repaired instead."
+    options={[
+      { label: 'The usual fix', title: 'Replace the whole board', points: ['The most expensive outcome', 'Waiting on a whole new part', 'A good board thrown away for one fault'] },
+      { label: 'Our fix', title: 'Repair the failed component', points: ['Board-level and BGA chip work', 'Usually a smaller bill', 'Usually a faster turnaround'], ours: true },
+    ]}
+  />
+
+  <WhoFixes
+    word="Honest"
+    lead="Fixing Macs on the Gold Coast since 2008. If your Mac isn’t worth fixing, we’ll say so rather than sell you a repair you don’t need."
+    credentials={['Fixing Macs since 2008', 'One-year guarantee on parts and labour', 'Board-level and BGA chip repairs', 'Free quotes over the phone']}
+    getTitle="What you get here"
+    get={[
+      { title: 'OEM-quality parts as standard', text: 'Or a quality alternative part to keep the price down, if you’d prefer. We explain the difference upfront and you choose.' },
+      { title: 'Repairs often done while you wait', text: 'Common jobs can usually be sorted the same day.' },
+      { title: 'A full year of cover', text: 'Every repair is guaranteed for a year on parts and labour. This doesn’t affect your rights under Australian Consumer Law.' },
+      { title: 'A price before we start', text: 'Tell us the model and the symptom and you’ll get a realistic idea of cost before you come in.' },
+    ]}
+    notTitle="What you won’t get"
+    not={[
+      { title: 'A whole new board for one fault', text: 'We repair the fault where the fault actually is.' },
+      { title: 'Parts you didn’t choose', text: 'You decide between OEM-quality and a quality alternative.' },
+      { title: 'A repair you don’t need', text: 'Honest advice on repair versus replace, every time.' },
+      { title: 'A call-out fee', text: 'Not anywhere on the Gold Coast.' },
+    ]}
+    footer='Your Mac works but needs setting up, migrating or backing up? Our <a href="/apple-repairs-gold-coast">Apple support</a> page covers iCloud, Time Machine, macOS and moving to a new Mac. Windows laptop instead? See <a href="/laptop-repairs-gold-coast">laptop repairs</a>.'
+  />
+
+  <HowItWorks
+    eyebrow="How it works"
+    title="From Mac trouble to a clear repair plan."
+    intro="Tell us your Mac model and what it’s doing, and we’ll find the real cause before recommending any parts or work."
+    steps={[
+      { title: 'Describe the fault', text: 'Call, or send the quote form with your Mac model and year and what it’s doing. A photo of any damage or error helps.' },
+      { title: 'We diagnose and quote', text: 'Onsite at your home or office with no call-out fee, remotely if it’s software, or on our bench. We find the real cause, then give you the price.' },
+      { title: 'Approve the repair', text: 'Nothing starts until you’ve said yes. Common repairs are often done while you wait, and every repair has a one-year guarantee.' },
+    ]}
+    example={{
+      problem: 'MacBook Pro 2018, keys double-typing',
+      checks: ['Battery', 'Trackpad', 'Display', 'Keyboard'],
+      faultLabel: 'Faulty',
+      cause: 'Faulty keyboard',
+      fix: 'Keyboard repaired, all keys tested',
+    }}
+  />
+
+  <ServiceReviews
+    title="What customers say about our repairs."
+    intro="In Gold Coast customers’ own words."
+    picks={[0, 1, 2]}
+  />
+
+  <section class="sec" aria-labelledby="svc-areas-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="svc-eyebrow">Where we work</p>
+        <h2 id="svc-areas-title">Mac repairs across the Gold Coast.</h2>
+        <p class="lede">From Coomera to Coolangatta and up to Tamborine Mountain. Not sure if we cover your suburb? <a class="link" href="tel:+61447266455">Give us a call</a>.</p>
+      </div>
+      <Areas showBrands />
+    </div>
+  </section>
+
+  <section class="sec sec-alt" aria-label="Frequently asked questions">
+    <div class="wrap">
+      <Faq title="Mac questions, answered." intro="Straight answers to what Gold Coast Mac owners ask us most. Can’t see yours? Call and you’ll talk to a technician, not a call centre." items={faqs} />
+    </div>
+  </section>
+
+  <CtaBand
+    title="Got a Mac problem?"
+    text="Send us the model and what it’s doing. We’ll come back the same day with a price."
+    href="#quote"
+    label="Get a free quote"
+  />
+</PageLayout>
