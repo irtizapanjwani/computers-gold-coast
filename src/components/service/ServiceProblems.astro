@@ -1,0 +1,38 @@
+---
+// Grid of problems/jobs this service covers. Each card links to the page that covers it
+// in depth, which also gives the page useful internal links.
+import Icon from '../redesign/Icon.astro';
+
+interface Item { icon: string; title: string; text: string; href: string; linkText: string }
+interface Props {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  items: Item[];
+  /** Optional closing line of HTML (e.g. links to related services). */
+  footer?: string;
+}
+const { eyebrow, title, intro, items, footer } = Astro.props;
+---
+<section class="sec sec-alt" aria-labelledby="svc-problems-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="svc-eyebrow">{eyebrow}</p>
+      <h2 id="svc-problems-title">{title}</h2>
+      <p class="lede">{intro}</p>
+    </div>
+    <ul class="svc-cards">
+      {items.map((it) => (
+        <li>
+          <a class="svc-card" href={it.href}>
+            <span class="svc-card-ico"><Icon name={it.icon} /></span>
+            <h3>{it.title}</h3>
+            <p>{it.text}</p>
+            <span class="svc-card-link">{it.linkText} <Icon name="arrow" /></span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    {footer && <p class="svc-related prose" set:html={footer} />}
+  </div>
+</section>

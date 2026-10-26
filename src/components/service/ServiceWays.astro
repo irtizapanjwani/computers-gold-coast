@@ -1,0 +1,31 @@
+---
+// "Onsite, remote or drop-off": the ways the job can be done, with what each suits best.
+import Icon from '../redesign/Icon.astro';
+
+interface Way { icon: string; title: string; text: string; bestFor: string[]; featured?: boolean }
+interface Props { eyebrow: string; title: string; intro: string; ways: Way[]; note: string }
+const { eyebrow, title, intro, ways, note } = Astro.props;
+---
+<section class="sec" aria-labelledby="svc-ways-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="svc-eyebrow">{eyebrow}</p>
+      <h2 id="svc-ways-title">{title}</h2>
+      <p class="lede">{intro}</p>
+    </div>
+    <ul class="svc-ways">
+      {ways.map((w) => (
+        <li class:list={['svc-way', { 'is-featured': w.featured }]}>
+          <span class="svc-way-ico"><Icon name={w.icon} /></span>
+          <h3>{w.title}</h3>
+          <p>{w.text}</p>
+          <p class="svc-way-label">Best for</p>
+          <ul class="svc-way-list">
+            {w.bestFor.map((b) => <li><Icon name="check" />{b}</li>)}
+          </ul>
+        </li>
+      ))}
+    </ul>
+    <p class="svc-ways-note"><Icon name="clock" />{note}</p>
+  </div>
+</section>

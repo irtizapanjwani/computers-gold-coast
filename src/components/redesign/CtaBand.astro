@@ -1,8 +1,8 @@
 ---
 // Full-width sky-blue call to action at the bottom of Home, About and Reviews.
 import Icon from './Icon.astro';
-interface Props { title: string; text: string }
-const { title, text } = Astro.props;
+interface Props { title: string; text: string; href?: string; label?: string }
+const { title, text, href = '/contact', label = 'Get In Touch' } = Astro.props;
 ---
 <section class="cta-full" aria-labelledby="cta-title">
   <span class="cta-ring cta-ring-1" aria-hidden="true"></span>
@@ -11,7 +11,7 @@ const { title, text } = Astro.props;
     <h2 id="cta-title">{title}</h2>
     <p class="cta-text">{text}</p>
     <div class="cta-actions">
-      <a class="btn btn-dark cta-btn" href="/contact">Get In Touch <Icon name="arrow" /></a>
+      <a class="btn btn-dark cta-btn" href={href}>{label} <Icon name="arrow" /></a>
       <a class="btn cta-call" href="tel:+61447266455"><Icon name="phone" />0447 266 455</a>
     </div>
     <p class="cta-note">No call-out fee. Ever.</p>

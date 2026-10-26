@@ -1,0 +1,35 @@
+---
+// Dark band of customer reviews for a service page. Uses the site's real review text only
+// (src/data/site.ts); only the ones published on Google get the "Google review" label.
+import Icon from '../redesign/Icon.astro';
+import { reviews } from '../../data/site';
+
+interface Props { title: string; intro: string; picks: number[] }
+const { title, intro, picks } = Astro.props;
+const items = picks.map((i) => reviews[i]);
+---
+<section class="svc-reviews" aria-labelledby="svc-reviews-title">
+  <div class="wrap">
+    <div class="svc-reviews-head">
+      <div>
+        <p class="svc-eyebrow">Customer reviews</p>
+        <h2 id="svc-reviews-title">{title}</h2>
+      </div>
+      <p>{intro}</p>
+    </div>
+    <ul class="svc-review-list">
+      {items.map((r) => (
+        <li class="svc-review">
+          {r.google && <p class="svc-review-stars" aria-label="5 out of 5 stars">★★★★★</p>}
+          <blockquote set:html={`“${r.quote.replace(r.highlight, `<mark>${r.highlight}</mark>`)}”`} />
+          <p class="svc-review-meta">
+            <span>{r.google ? 'Google review' : 'Customer review'}</span>
+            <span aria-hidden="true">·</span>
+            <span>{r.tag}</span>
+          </p>
+        </li>
+      ))}
+    </ul>
+    <a class="link svc-reviews-more" href="/reviews">Read all reviews <Icon name="arrow" /></a>
+  </div>
+</section>

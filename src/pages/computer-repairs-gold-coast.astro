@@ -1,16 +1,88 @@
 ---
-import ServiceLayout from '../layouts/ServiceLayout.astro';
+// Computer Repairs service page, fully redesigned. The content is the page's original copy
+// (Channel 9, IBM, services, onsite/remote/drop-off, reviews, areas), rewritten in sentence case
+// and laid out with the shared service-page sections so other service pages can follow.
+import PageLayout from '../layouts/PageLayout.astro';
 import ServiceHero from '../components/redesign/ServiceHero.astro';
-import data from '../data/pages/computer-repairs-gold-coast.json';
+import ServiceIntro from '../components/service/ServiceIntro.astro';
+import ServiceProblems from '../components/service/ServiceProblems.astro';
+import ServiceWays from '../components/service/ServiceWays.astro';
+import ServiceReviews from '../components/service/ServiceReviews.astro';
+import Areas from '../components/redesign/Areas.astro';
+import Faq from '../components/redesign/Faq.astro';
+import CtaBand from '../components/redesign/CtaBand.astro';
+import { SITE, businessSchema, faqSchema } from '../data/site';
 
 const path = '/computer-repairs-gold-coast';
+const url = `${SITE}${path}`;
 const breadcrumbs = [
   { label: 'Home', href: '/' },
   { label: 'Services', href: '/services' },
   { label: 'Computer Repairs' },
 ];
+
+const problems = [
+  { icon: 'wrench', title: 'Computer won’t start or keeps crashing', text: 'Dead on power-up, blue screens, random restarts or freezing. We track down whether it’s hardware or software before quoting.', href: '/hardware-repair-diagnostics-gold-coast', linkText: 'Diagnostics' },
+  { icon: 'zap', title: 'Slow PC speed-up', text: 'A tune-up clears out bloatware and startup clutter, the same way a car needs a regular service.', href: '/computer-tune-up-gold-coast', linkText: 'Computer tune-ups' },
+  { icon: 'trending', title: 'Upgrades instead of replacing', text: 'Freezing or out of disk space? A new SSD or more memory often beats buying a whole new machine.', href: '/hardware-installs-upgrades-gold-coast', linkText: 'Hardware upgrades' },
+  { icon: 'shield', title: 'Virus and malware removal', text: 'Pop-ups, hijacked browsers and suspicious slowdowns cleaned up, plus advice on keeping your anti-virus current.', href: '/virus-spyware-removal-gold-coast', linkText: 'Virus & spyware removal' },
+  { icon: 'lock', title: 'Internet security checks', text: 'You often can’t tell if a computer has already been compromised. A certified technician can check it properly.', href: '/computer-network-security-gold-coast', linkText: 'Network security' },
+  { icon: 'drive', title: 'Lost files and backups', text: 'Back up your files before something fails, or let us recover data from a drive that already has.', href: '/data-recovery-gold-coast', linkText: 'Data recovery' },
+  { icon: 'plug', title: 'Printers, webcams and devices', text: 'New printer or webcam that won’t cooperate? We connect and configure nearly any peripheral.', href: '/hardware-installs-upgrades-gold-coast', linkText: 'Device installs' },
+  { icon: 'monitor', title: 'New computer setup', text: 'Buying a new computer should be exciting, not stressful. We come to you and set it up onsite.', href: '/new-computer-setup-gold-coast', linkText: 'New computer setup' },
+];
+
+const ways = [
+  { icon: 'home', title: 'Onsite at your home or office', text: 'A technician comes to you anywhere on the Gold Coast, with no call-out fee. You see what’s wrong and what it costs before any work starts.', bestFor: ['Computers that won’t start', 'Network and printer problems', 'New computer setups'], featured: true },
+  { icon: 'monitor', title: 'Remote support', text: 'Many software problems can be fixed over the internet, so you don’t have to leave home or wait for a visit.', bestFor: ['Viruses and pop-ups', 'Slow computers', 'Email and software issues'] },
+  { icon: 'box', title: 'Drop-off', text: 'For bigger hardware jobs you can drop the computer off, and we’ll call you with the cause and the price before going ahead.', bestFor: ['Hardware part replacements', 'Data recovery', 'Bigger upgrades'] },
+];
+
+const faqs = [
+  { q: 'How much does a computer repair cost on the Gold Coast?', a: 'It depends on the fault and the machine, so we diagnose first and give you the price before any work starts. There’s no call-out fee, and nothing goes ahead until you’ve said yes.' },
+  { q: 'Is it worth repairing an old computer?', a: 'Often, yes. A new SSD or more memory can make an older PC feel new for far less than a replacement. If a repair isn’t worth the money, we’ll tell you, and we can help you <a href="/laptop-buying-service-gold-coast">choose a replacement</a>.' },
+  { q: 'Can you fix my computer without coming out?', a: 'Many software problems, like viruses, slowdowns and email issues, can be fixed remotely. Hardware faults need hands-on work, either onsite at your home or office or as a drop-off.' },
+  { q: 'Do you fix all brands of desktop PCs?', a: 'Yes. We repair desktop PCs from every major brand, as well as <a href="/laptop-repairs-gold-coast">laptops</a> and <a href="/mac-repairs-gold-coast">Macs</a>.' },
+  { q: 'Will I lose my files during the repair?', a: 'We take care to protect your data and tell you before doing anything that could affect your files. If a drive has already failed, our <a href="/data-recovery-gold-coast">data recovery</a> service can often get your files back.' },
+  { q: 'Can you help with an insurance claim for a damaged computer?', a: 'Yes. If your computer was damaged by a storm, power surge or water, we can assess it and provide an <a href="/insurance-reports-gold-coast">insurance report</a>.' },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        '@id': `${url}#service`,
+        name: 'Computer Repairs Gold Coast',
+        serviceType: 'Computer repairs',
+        url,
+        description: 'Onsite, remote and drop-off computer and PC repairs across the Gold Coast, including diagnostics, speed-ups, upgrades, virus removal and data recovery.',
+        provider: businessSchema,
+        areaServed: businessSchema.areaServed,
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${url}#breadcrumb`,
+        itemListElement: breadcrumbs.map((c, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: c.label,
+          item: c.href ? `${SITE}${c.href === '/' ? '/' : c.href}` : url,
+        })),
+      },
+    ],
+  },
+  faqSchema(faqs, url),
+];
 ---
-<ServiceLayout headHtml={data.headHtml} bodyHtml={data.bodyHtml} breadcrumbs={breadcrumbs}>
+<PageLayout
+  title="Computer Repairs Gold Coast | Computers Gold Coast"
+  description="Reliable, affordable computer and PC repairs across the Gold Coast. Onsite, remote or drop-off. Virus removal, tune-ups, hardware upgrades and honest advice, 7 days a week."
+  shareDescription="Reliable, affordable computer and PC repairs across the Gold Coast. Onsite, remote or drop-off, 7 days a week."
+  path={path}
+  schema={schema}
+>
   <ServiceHero
     eyebrow="Computer repairs · Gold Coast"
     title="Computer repairs on the Gold Coast."
@@ -20,4 +92,67 @@ const breadcrumbs = [
     path={path}
     formPlaceholder="e.g. PC is slow and keeps freezing"
   />
-</ServiceLayout>
+
+  <ServiceIntro
+    eyebrow="Why Computers Gold Coast"
+    title="A computer technician who finds the real fault first."
+    paragraphs={[
+      'Choosing a computer technician can feel daunting when there are so many companies to pick from. Computers Gold Coast has been fixing PCs, laptops and Macs for 20 years. We’ve been featured on Channel 9 news, and our director is a Microsoft Certified Professional who was previously the youngest employee at IBM in Australia.',
+      'Most people are grateful for a technician who helps them out and goes over and above, and that’s what we aim for on every job. If you already know what’s wrong, send us the details and we’ll give you a straight quote before booking anything in.',
+      'It’s not just repairs. We install new hardware, make sure your network is set up properly, and get a new computer fully configured before we leave. Need a <a href="/laptop-repairs-gold-coast">laptop repair</a> or a <a href="/mac-repairs-gold-coast">MacBook repair</a>? We do those too.',
+    ]}
+    listTitle="On every computer repair"
+    list={[
+      { title: 'Diagnosis before a quote', text: 'We find what’s actually wrong instead of guessing.' },
+      { title: 'The price before the work', text: 'Nothing starts until you’ve said yes.' },
+      { title: 'Plain-English explanations', text: 'You’ll know what was wrong and what we did.' },
+      { title: 'Free advice afterwards', text: 'We don’t disappear once the invoice is paid.' },
+    ]}
+  />
+
+  <ServiceProblems
+    eyebrow="What we fix"
+    title="Common computer problems we fix on the Gold Coast."
+    intro="We offer more than 40 types of IT services across the Gold Coast. These are the PC repairs and jobs people ask us for most."
+    items={problems}
+    footer='Not a desktop? See <a href="/laptop-repairs-gold-coast">laptop repairs</a> or <a href="/mac-repairs-gold-coast">Apple Mac repairs</a>. Storm, electrical or water damage? We also do <a href="/insurance-reports-gold-coast">insurance reports</a>.'
+  />
+
+  <ServiceWays
+    eyebrow="How it works"
+    title="Onsite, remote or drop-off. Your choice."
+    intro="Your local Gold Coast computer repair technicians, whichever way suits you best."
+    ways={ways}
+    note="Open 7 days a week, 7AM to 10PM. A problem doesn’t wait for business hours, and neither do we."
+  />
+
+  <ServiceReviews
+    title="What customers say about our computer repairs."
+    intro="In Gold Coast customers’ own words."
+    picks={[0, 1, 3]}
+  />
+
+  <section class="sec" aria-labelledby="svc-areas-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="svc-eyebrow">Where we work</p>
+        <h2 id="svc-areas-title">Computer repairs across the Gold Coast.</h2>
+        <p class="lede">From Coomera to Coolangatta and up to Tamborine Mountain. Not sure if we cover your suburb? <a class="link" href="tel:+61447266455">Give us a call</a>.</p>
+      </div>
+      <Areas showBrands />
+    </div>
+  </section>
+
+  <section class="sec sec-alt" aria-label="Frequently asked questions">
+    <div class="wrap">
+      <Faq title="Computer repair questions, answered." intro="Can’t see your question here? Give us a call. You’ll talk to a technician, not a call centre." items={faqs} />
+    </div>
+  </section>
+
+  <CtaBand
+    title="Get your computer fixed today."
+    text="Book an onsite visit, connect remotely or drop it off. You’ll get the cause and the price before any work starts."
+    href="#quote"
+    label="Get a free quote"
+  />
+</PageLayout>
