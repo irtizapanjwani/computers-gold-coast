@@ -1,0 +1,122 @@
+---
+// "How it works": three steps as large cards with a numbered badge, like a photo layout,
+// but each card shows a small animated scene of that step happening (a quote request being
+// typed and sent, a diagnosis running, a quote being approved). Scenes are decorative
+// (aria-hidden); the step text underneath carries the meaning. They play once when the
+// section scrolls into view and rest on their final frame; with reduced motion they show
+// the final frame straight away.
+import Icon from '../redesign/Icon.astro';
+
+interface Step { title: string; text: string }
+interface Way { icon: string; label: string; bestFor: string }
+interface Props {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  steps: [Step, Step, Step];
+  ways: Way[];
+  note: string;
+}
+const { eyebrow, title, intro, steps, ways, note } = Astro.props;
+---
+<section class="sec hiw" aria-labelledby="svc-hiw-title" data-hiw>
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="svc-eyebrow">{eyebrow}</p>
+      <h2 id="svc-hiw-title">{title}</h2>
+      <p class="lede">{intro}</p>
+    </div>
+
+    <ol class="hiw-steps">
+      <li class="hiw-step">
+        <div class="hiw-scene hiw-scene-1" aria-hidden="true">
+          <span class="hiw-tag">Example</span>
+          <div class="s1-card">
+            <p class="s1-title">Get a free quote</p>
+            <div class="s1-field"><span class="s1-label">Name</span><span class="s1-val">Sam, Robina</span></div>
+            <div class="s1-field s1-msg">
+              <span class="s1-label">What’s the problem?</span>
+              <span class="s1-type"><span>PC is on, but the screen is black</span><i class="s1-caret"></i></span>
+            </div>
+            <div class="s1-row">
+              <span class="s1-file"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/></svg>error-photo.jpg</span>
+              <span class="s1-send"><span class="s1-send-a">Send</span><span class="s1-send-b">Sent ✓</span></span>
+            </div>
+          </div>
+        </div>
+        <span class="hiw-num">1</span>
+        <h3>{steps[0].title}</h3>
+        <p>{steps[0].text}</p>
+      </li>
+
+      <li class="hiw-step">
+        <div class="hiw-scene hiw-scene-2" aria-hidden="true">
+          <span class="hiw-tag">Example</span>
+          <div class="s2-panel">
+            <p class="s2-head"><span>Diagnosis</span><span class="s2-pct"><b>Testing</b><b>Complete</b></span></p>
+            <span class="s2-bar"><span></span></span>
+            <ul class="s2-list">
+              <li><span>Power supply</span><em class="ok">OK</em></li>
+              <li><span>Memory</span><em class="ok">OK</em></li>
+              <li><span>Graphics</span><em class="ok">OK</em></li>
+              <li><span>Hard drive</span><em class="bad">Failing</em></li>
+            </ul>
+          </div>
+          <div class="s2-result">
+            <span class="s2-result-ico"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span>
+            <span><b>Cause found</b>Failing hard drive. Quote ready.</span>
+          </div>
+        </div>
+        <span class="hiw-num">2</span>
+        <h3>{steps[1].title}</h3>
+        <p>{steps[1].text}</p>
+      </li>
+
+      <li class="hiw-step">
+        <div class="hiw-scene hiw-scene-3" aria-hidden="true">
+          <span class="hiw-tag">Example</span>
+          <div class="s3-card">
+            <p class="s3-title">Your quote</p>
+            <p class="s3-line"><span>Cause</span><b>Failing hard drive</b></p>
+            <p class="s3-line"><span>Fix</span><b>New SSD, files moved across</b></p>
+            <p class="s3-line"><span>Price</span><b>Agreed before work</b></p>
+            <div class="s3-actions">
+              <span class="s3-btn s3-no">Not now</span>
+              <span class="s3-btn s3-yes">Approve</span>
+            </div>
+            <span class="s3-stamp">Approved</span>
+          </div>
+          <span class="s3-cursor"><svg viewBox="0 0 24 24"><path d="M4 3l7 17 2.5-7.5L21 10z"/></svg></span>
+          <span class="s3-done"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Fixed and working</span>
+        </div>
+        <span class="hiw-num">3</span>
+        <h3>{steps[2].title}</h3>
+        <p>{steps[2].text}</p>
+      </li>
+    </ol>
+
+    <div class="hiw-ways">
+      <p class="hiw-ways-label">Every step works</p>
+      <ul>
+        {ways.map((w) => (
+          <li><span class="hiw-way-ico"><Icon name={w.icon} /></span><span><strong>{w.label}</strong>{w.bestFor}</span></li>
+        ))}
+      </ul>
+    </div>
+    <p class="hiw-note"><Icon name="clock" />{note}</p>
+  </div>
+</section>
+
+<script is:inline>(function(){
+  var root=document.querySelector('[data-hiw]');
+  if(!root)return;
+  // Without JS, or with reduced motion, the scenes simply show their final frame.
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver' in window))return;
+  root.classList.add('hiw-ready');
+  var io=new IntersectionObserver(function(es){
+    if(!es[0].isIntersecting)return;
+    io.disconnect();
+    root.classList.add('is-on');
+  },{threshold:.35});
+  io.observe(root.querySelector('.hiw-steps'));
+})();</script>

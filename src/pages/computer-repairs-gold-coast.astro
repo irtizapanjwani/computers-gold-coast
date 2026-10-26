@@ -6,7 +6,7 @@ import PageLayout from '../layouts/PageLayout.astro';
 import ServiceHero from '../components/redesign/ServiceHero.astro';
 import ServiceIntro from '../components/service/ServiceIntro.astro';
 import BootCheck from '../components/service/BootCheck.astro';
-import ServiceWays from '../components/service/ServiceWays.astro';
+import HowItWorks from '../components/service/HowItWorks.astro';
 import ServiceReviews from '../components/service/ServiceReviews.astro';
 import Areas from '../components/redesign/Areas.astro';
 import Faq from '../components/redesign/Faq.astro';
@@ -42,10 +42,16 @@ const jobLinks = [
   { label: 'Mac repairs', href: '/mac-repairs-gold-coast' },
 ];
 
-const ways = [
-  { icon: 'home', title: 'Onsite at your home or office', text: 'A technician comes to you anywhere on the Gold Coast, with no call-out fee. You see what’s wrong and what it costs before any work starts.', bestFor: ['Computers that won’t start', 'Network and printer problems', 'New computer setups'], featured: true },
-  { icon: 'monitor', title: 'Remote support', text: 'Many software problems can be fixed over the internet, so you don’t have to leave home or wait for a visit.', bestFor: ['Viruses and pop-ups', 'Slow computers', 'Email and software issues'] },
-  { icon: 'box', title: 'Drop-off', text: 'For bigger hardware jobs you can drop the computer off, and we’ll call you with the cause and the price before going ahead.', bestFor: ['Hardware part replacements', 'Data recovery', 'Bigger upgrades'] },
+// "How it works": three steps, then the three ways a repair can be done.
+const howSteps: [{ title: string; text: string }, { title: string; text: string }, { title: string; text: string }] = [
+  { title: 'Describe the fault', text: 'Call, or send the quote form with your computer and what it’s doing. A photo of any error message helps.' },
+  { title: 'We diagnose and quote', text: 'Onsite at your home or office with no call-out fee, remotely, or on our bench. We find the real cause, then give you the price.' },
+  { title: 'Approve the repair', text: 'Nothing starts until you’ve said yes. We fix it, explain what we did, and you get free advice afterwards.' },
+];
+const howWays = [
+  { icon: 'home', label: 'Onsite', bestFor: 'Won’t start, network and printer problems, new setups' },
+  { icon: 'monitor', label: 'Remote', bestFor: 'Viruses, slow computers, email and software issues' },
+  { icon: 'box', label: 'Drop-off', bestFor: 'Part replacements, data recovery, bigger upgrades' },
 ];
 
 const faqs = [
@@ -128,12 +134,13 @@ const schema = [
     links={jobLinks}
   />
 
-  <ServiceWays
+  <HowItWorks
     eyebrow="How it works"
-    title="Onsite, remote or drop-off. Your choice."
-    intro="Your local Gold Coast computer repair technicians, whichever way suits you best."
-    ways={ways}
-    note="Open 7 days a week, 7AM to 10PM. A problem doesn’t wait for business hours, and neither do we."
+    title="From computer trouble to a clear repair plan."
+    intro="Tell us what the computer is doing, and we’ll find the real cause before recommending any parts or work."
+    steps={howSteps}
+    ways={howWays}
+    note="Open 7 days a week, 7AM to 10PM, including weekends and public holidays."
   />
 
   <ServiceReviews
