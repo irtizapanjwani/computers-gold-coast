@@ -1,0 +1,193 @@
+---
+// "Where does it stop?" — the desktop PC version of the interactive fault finder.
+// A computer goes through the same steps every time it's switched on; the visitor picks
+// the step where theirs gets stuck, sees what that usually means, and can send a quote
+// request with that symptom already filled in. Every panel is rendered in the HTML (inactive
+// ones hidden) so search engines can read all of it.
+import Icon from '../redesign/Icon.astro';
+
+export interface BootStage {
+  id: string;
+  step: string;      // short label on the track
+  symptom: string;   // what the customer sees, in their words
+  means: string;     // what it usually means
+  check: string;     // what we check / do
+  href: string;
+  linkText: string;
+}
+interface Link { label: string; href: string }
+interface Props {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  stages: BootStage[];
+  links: Link[];
+}
+const { eyebrow, title, intro, stages, links } = Astro.props;
+---
+<section class="bt" aria-labelledby="svc-bt-title" data-bt>
+  <div class="wrap">
+    <div class="bt-head">
+      <div>
+        <p class="svc-eyebrow">{eyebrow}</p>
+        <h2 id="svc-bt-title">{title}</h2>
+      </div>
+      <p class="bt-intro">{intro}</p>
+    </div>
+
+    <div class="bt-grid">
+      <div class="bt-stage-col">
+        {/* Monitor showing what you'd see at the selected step */}
+        <div class="bt-monitor" aria-hidden="true">
+          <div class="bt-screen" data-bt-screen data-stage={stages[0].id}>
+            <div class="bt-view bt-view-dead">
+              <span class="bt-power"><svg viewBox="0 0 24 24"><path d="M12 2v10M18.4 6.6a9 9 0 1 1-12.8 0"/></svg></span>
+            </div>
+            <div class="bt-view bt-view-nosignal">
+              <span class="bt-osd">No signal<small>Check the cable</small></span>
+            </div>
+            <div class="bt-view bt-view-bios">
+              <pre>Detecting drives...
+SATA Port 0: Not detected
+SATA Port 1: Not detected
+
+Reboot and select proper boot device
+or insert boot media and press a key<i>_</i></pre>
+            </div>
+            <div class="bt-view bt-view-loop">
+              <span class="bt-dots"><i></i><i></i><i></i><i></i><i></i></span>
+              <span class="bt-loop-text">Restarting…</span>
+            </div>
+            <div class="bt-view bt-view-slow">
+              <span class="bt-desk-icons"><i></i><i></i><i></i></span>
+              <span class="bt-popup"><b>Your PC is at risk!</b><span>Click here to scan now</span></span>
+              <span class="bt-popup bt-popup-2"><b>Warning</b><span>3 threats found</span></span>
+              <span class="bt-cursor"></span>
+              <span class="bt-taskbar"></span>
+            </div>
+            <div class="bt-view bt-view-net">
+              <span class="bt-desk-icons"><i></i><i></i><i></i></span>
+              <span class="bt-browser"><span class="bt-browser-bar"></span><span class="bt-browser-body"><svg viewBox="0 0 24 24"><path d="M12 20h.01M8.5 16.43a5 5 0 0 1 7 0M2 8.82a15 15 0 0 1 4.17-2.65M10.66 5c4.01-.36 8.14.9 11.34 3.76M16.85 11.25a10 10 0 0 1 2.22 1.68M5 12.86a10 10 0 0 1 5.17-2.69M2 2l20 20"/></svg>No internet</span></span>
+              <span class="bt-taskbar"></span>
+            </div>
+          </div>
+          <span class="bt-led" data-bt-led></span>
+          <span class="bt-neck"></span>
+          <span class="bt-base"></span>
+        </div>
+
+        {/* The power-on sequence: pick where it stops */}
+        <div class="bt-track" role="tablist" aria-label="Where does your computer stop?">
+          <span class="bt-rail" aria-hidden="true"><span class="bt-rail-fill" data-bt-fill></span></span>
+          {stages.map((s, i) => (
+            <button
+              type="button"
+              class="bt-step"
+              role="tab"
+              id={`bt-tab-${s.id}`}
+              aria-controls={`bt-panel-${s.id}`}
+              aria-selected={i === 0 ? 'true' : 'false'}
+              tabindex={i === 0 ? 0 : -1}
+              data-bt-tab={s.id}
+              data-index={i}
+            >
+              <span class="bt-dot" aria-hidden="true">{i + 1}</span>
+              <span class="bt-step-label">{s.step}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div class="bt-panels">
+        {stages.map((s, i) => (
+          <article class="bt-panel" role="tabpanel" id={`bt-panel-${s.id}`} aria-labelledby={`bt-tab-${s.id}`} hidden={i !== 0}>
+            <p class="bt-panel-top"><span>Stops at step {i + 1}</span><span>{s.step}</span></p>
+            <h3>“{s.symptom}”</h3>
+            <div class="bt-block">
+              <p class="bt-label">Usually means</p>
+              <p>{s.means}</p>
+            </div>
+            <div class="bt-block">
+              <p class="bt-label">What we check</p>
+              <p>{s.check}</p>
+            </div>
+            <div class="bt-panel-foot">
+              <a class="link" href={s.href}>{s.linkText} <Icon name="arrow" /></a>
+              <a class="btn btn-primary bt-quote" href="#quote" data-bt-quote={s.symptom}>Get a quote for this <Icon name="arrow" /></a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <div class="bt-also">
+      <p class="bt-also-label">Also on the job list</p>
+      <ul>
+        {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<script is:inline>(function(){
+  var root=document.querySelector('[data-bt]');
+  if(!root)return;
+  var tabs=[].slice.call(root.querySelectorAll('[data-bt-tab]'));
+  var screen=root.querySelector('[data-bt-screen]');
+  var fill=root.querySelector('[data-bt-fill]');
+  var led=root.querySelector('[data-bt-led]');
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var playing=null;
+
+  function select(i,focus){
+    tabs.forEach(function(t,j){
+      var on=j===i;
+      t.setAttribute('aria-selected',on?'true':'false');
+      t.tabIndex=on?0:-1;
+      t.classList.toggle('is-past',j<i);
+      var p=document.getElementById(t.getAttribute('aria-controls'));
+      if(p)p.hidden=!on;
+    });
+    screen.setAttribute('data-stage',tabs[i].getAttribute('data-bt-tab'));
+    led.classList.toggle('is-on',i>0);
+    fill.style.width=(tabs.length>1?(i/(tabs.length-1))*100:0)+'%';
+    if(focus)tabs[i].focus();
+  }
+  function stop(){if(playing){clearInterval(playing);playing=null;}}
+
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){stop();select(i);});
+    t.addEventListener('keydown',function(e){
+      var n=null;
+      if(e.key==='ArrowRight'||e.key==='ArrowDown')n=(i+1)%tabs.length;
+      if(e.key==='ArrowLeft'||e.key==='ArrowUp')n=(i-1+tabs.length)%tabs.length;
+      if(e.key==='Home')n=0;
+      if(e.key==='End')n=tabs.length-1;
+      if(n!==null){e.preventDefault();stop();select(n,true);}
+    });
+  });
+
+  // Prefill the hero quote form with the chosen symptom.
+  root.querySelectorAll('[data-bt-quote]').forEach(function(a){
+    a.addEventListener('click',function(){
+      var msg=document.getElementById('q-message');
+      if(msg&&!msg.value)var t=a.getAttribute('data-bt-quote');msg.value='My computer: '+t.charAt(0).toLowerCase()+t.slice(1)+'. ';
+      setTimeout(function(){var n=document.getElementById('q-name');if(n)n.focus({preventScroll:true});},450);
+    });
+  });
+
+  // Play the power-on sequence once when the section first scrolls into view, then rest on step 1.
+  if(!reduce&&'IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(entries){
+      if(!entries[0].isIntersecting)return;
+      io.disconnect();
+      var k=0;
+      playing=setInterval(function(){
+        k++;
+        if(k>=tabs.length){stop();select(0);return;}
+        select(k);
+      },900);
+    },{threshold:.45});
+    io.observe(root.querySelector('.bt-monitor'));
+  }
+})();</script>

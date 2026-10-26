@@ -5,7 +5,7 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import ServiceHero from '../components/redesign/ServiceHero.astro';
 import ServiceIntro from '../components/service/ServiceIntro.astro';
-import ServiceProblems from '../components/service/ServiceProblems.astro';
+import BootCheck from '../components/service/BootCheck.astro';
 import ServiceWays from '../components/service/ServiceWays.astro';
 import ServiceReviews from '../components/service/ServiceReviews.astro';
 import Areas from '../components/redesign/Areas.astro';
@@ -21,15 +21,25 @@ const breadcrumbs = [
   { label: 'Computer Repairs' },
 ];
 
-const problems = [
-  { icon: 'wrench', title: 'Computer won’t start or keeps crashing', text: 'Dead on power-up, blue screens, random restarts or freezing. We track down whether it’s hardware or software before quoting.', href: '/hardware-repair-diagnostics-gold-coast', linkText: 'Diagnostics' },
-  { icon: 'zap', title: 'Slow PC speed-up', text: 'A tune-up clears out bloatware and startup clutter, the same way a car needs a regular service.', href: '/computer-tune-up-gold-coast', linkText: 'Computer tune-ups' },
-  { icon: 'trending', title: 'Upgrades instead of replacing', text: 'Freezing or out of disk space? A new SSD or more memory often beats buying a whole new machine.', href: '/hardware-installs-upgrades-gold-coast', linkText: 'Hardware upgrades' },
-  { icon: 'shield', title: 'Virus and malware removal', text: 'Pop-ups, hijacked browsers and suspicious slowdowns cleaned up, plus advice on keeping your anti-virus current.', href: '/virus-spyware-removal-gold-coast', linkText: 'Virus & spyware removal' },
-  { icon: 'lock', title: 'Internet security checks', text: 'You often can’t tell if a computer has already been compromised. A certified technician can check it properly.', href: '/computer-network-security-gold-coast', linkText: 'Network security' },
-  { icon: 'drive', title: 'Lost files and backups', text: 'Back up your files before something fails, or let us recover data from a drive that already has.', href: '/data-recovery-gold-coast', linkText: 'Data recovery' },
-  { icon: 'plug', title: 'Printers, webcams and devices', text: 'New printer or webcam that won’t cooperate? We connect and configure nearly any peripheral.', href: '/hardware-installs-upgrades-gold-coast', linkText: 'Device installs' },
-  { icon: 'monitor', title: 'New computer setup', text: 'Buying a new computer should be exciting, not stressful. We come to you and set it up onsite.', href: '/new-computer-setup-gold-coast', linkText: 'New computer setup' },
+// Interactive "where does it stop?" section. Each step links to the page that covers that fix.
+const bootStages = [
+  { id: 'dead', step: 'Press power', symptom: 'Nothing happens when I press the power button', means: 'No lights and no fans usually points to power: a failed power supply, a loose cable or power board, or a faulty power button. Less often it’s the motherboard.', check: 'We test the power supply and connections first, because they’re the cheapest causes to rule out, then the board if needed.', href: '/hardware-repair-diagnostics-gold-coast', linkText: 'Hardware diagnostics' },
+  { id: 'nosignal', step: 'Lights, no picture', symptom: 'The fans spin but the screen stays black', means: 'The computer has power but isn’t getting to a picture. Common causes are a loose memory stick, a failed graphics card, or simply the monitor cable or input setting.', check: 'We check the monitor and cable, reseat and test the memory and graphics, and narrow it down before quoting any parts.', href: '/hardware-repair-diagnostics-gold-coast', linkText: 'Hardware diagnostics' },
+  { id: 'bios', step: 'Error before Windows', symptom: 'It says no boot device or shows an error', means: 'The computer can’t find or read the drive Windows lives on. That can be a loose connection, a startup setting, or a drive that’s failing.', check: 'Your files come first: we check the drive’s health and copy your data off before trying any fix that could affect it.', href: '/data-recovery-gold-coast', linkText: 'Data recovery' },
+  { id: 'loop', step: 'Stuck loading', symptom: 'It’s stuck restarting or won’t finish loading', means: 'Usually a Windows update that failed part-way, a bad driver, or system files that have been damaged. Occasionally it’s an early sign of a failing drive.', check: 'We repair Windows where we can and only reinstall when we have to, after your files are backed up.', href: '/operating-system-install-repair-gold-coast', linkText: 'Windows install & repair' },
+  { id: 'slow', step: 'Slow or pop‑ups', symptom: 'It loads, but it’s painfully slow and full of pop-ups', means: 'Too many programs loading at startup, a nearly full or ageing hard drive, or adware and malware running in the background.', check: 'We clean up startup items and remove any infection. If the hardware is holding it back, a new SSD or more memory is often the real fix.', href: '/computer-tune-up-gold-coast', linkText: 'Computer tune-ups' },
+  { id: 'net', step: 'Internet & devices', symptom: 'It works, but the internet or printer doesn’t', means: 'The computer itself is fine. The problem is between it and the network, the Wi-Fi, or a printer or device that’s lost its connection or driver.', check: 'We sort out the network settings, Wi-Fi coverage and device drivers so everything connects reliably.', href: '/wireless-networks-setup-gold-coast', linkText: 'Wi-Fi & network setup' },
+];
+
+const jobLinks = [
+  { label: 'Virus & spyware removal', href: '/virus-spyware-removal-gold-coast' },
+  { label: 'Hardware upgrades', href: '/hardware-installs-upgrades-gold-coast' },
+  { label: 'Network security', href: '/computer-network-security-gold-coast' },
+  { label: 'New computer setup', href: '/new-computer-setup-gold-coast' },
+  { label: 'Custom computer builds', href: '/custom-computer-builds-gold-coast' },
+  { label: 'Preventative maintenance', href: '/preventative-maintenance-gold-coast' },
+  { label: 'Laptop repairs', href: '/laptop-repairs-gold-coast' },
+  { label: 'Mac repairs', href: '/mac-repairs-gold-coast' },
 ];
 
 const ways = [
@@ -110,12 +120,12 @@ const schema = [
     ]}
   />
 
-  <ServiceProblems
+  <BootCheck
     eyebrow="What we fix"
-    title="Common computer problems we fix on the Gold Coast."
-    intro="We offer more than 40 types of IT services across the Gold Coast. These are the PC repairs and jobs people ask us for most."
-    items={problems}
-    footer='Not a desktop? See <a href="/laptop-repairs-gold-coast">laptop repairs</a> or <a href="/mac-repairs-gold-coast">Apple Mac repairs</a>. Storm, electrical or water damage? We also do <a href="/insurance-reports-gold-coast">insurance reports</a>.'
+    title="Where does your computer stop?"
+    intro="Every computer goes through the same steps when you switch it on. Pick the step where yours gets stuck, and we’ll tell you what it usually means and how we fix it."
+    stages={bootStages}
+    links={jobLinks}
   />
 
   <ServiceWays
