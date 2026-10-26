@@ -92,7 +92,6 @@ const schema = [
 ];
 ---
 <PageLayout
-  serif
   title="Computer Repairs Gold Coast | Computers Gold Coast"
   description="Reliable, affordable computer and PC repairs across the Gold Coast. Onsite, remote or drop-off. Virus removal, tune-ups, hardware upgrades and honest advice, 7 days a week."
   shareDescription="Reliable, affordable computer and PC repairs across the Gold Coast. Onsite, remote or drop-off, 7 days a week."
@@ -126,18 +125,19 @@ const schema = [
   />
 
   <WhoFixes
-    eyebrow="Who fixes your computer"
-    title="Not a franchise. Not a call centre. One local technician."
-    quote="The person you speak to is the person who fixes it."
+    eyebrow="Who picks up the phone"
+    title="Not a franchise. Not a call centre."
+    intro="With a lot of repair services, your call passes through several people before anyone touches your computer. Here’s how it works with us."
+    chain={['Call centre', 'Booking queue', 'Contractor', 'Someone new next time']}
     paragraphs={[
-      'Choosing a computer technician can feel daunting when there are so many companies to pick from. Computers Gold Coast is a family-owned Gold Coast business that has been fixing PCs, laptops and Macs for 20 years. Most people are grateful for a technician who helps them out and goes over and above, and that’s what we aim for on every job.',
+      'Computers Gold Coast is a family-owned Gold Coast business that has been fixing PCs, laptops and Macs for 20 years. Most people are grateful for a technician who helps them out and goes over and above, and that’s what we aim for on every job.',
       'It’s not just repairs, either. We install new hardware, make sure your network is set up properly, and get a new computer fully configured before we leave. Need a <a href="/laptop-repairs-gold-coast">laptop repair</a> or a <a href="/mac-repairs-gold-coast">MacBook repair</a>? We do those too.',
     ]}
-    milestones={[
-      { big: 'IBM', label: 'Started young', text: 'Previously the youngest employee at IBM in Australia.' },
-      { big: 'MCP', label: 'Certified', text: 'A Microsoft Certified Professional.' },
-      { big: '20', label: 'Years on the tools', text: 'Fixing PCs, laptops and Macs for Gold Coast homes and businesses.' },
-      { big: 'Ch 9', label: 'On the news', text: 'Featured on Channel 9 news.' },
+    facts={[
+      { big: '20 years', text: 'fixing PCs, laptops and Macs on the Gold Coast' },
+      { big: 'Microsoft', text: 'Certified Professional' },
+      { big: 'Ex-IBM', text: 'previously IBM Australia’s youngest employee' },
+      { big: 'Channel 9', text: 'featured on the news' },
     ]}
   />
 

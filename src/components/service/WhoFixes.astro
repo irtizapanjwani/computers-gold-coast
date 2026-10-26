@@ -1,54 +1,88 @@
 ---
-// "Who fixes your computer": an editorial-style section about the person behind the business.
-// A large serif pull quote and the story on the left; the director's background as a set of
-// milestones on the right. Uses Instrument Serif (loaded by PageLayout when `serif` is set).
+// "Who fixes your computer": shows what "not a franchise, not a call centre" actually means.
+// Two routes from your phone call to the person who fixes the computer: the usual chain
+// (call centre, booking queue, contractor, someone new next time) and ours (straight through).
+// When the section scrolls into view a pulse travels each route; ours arrives while the
+// other is still on hold. Below: who that technician is.
 // TODO(client): confirm the credentials, and add the director's name and a photo if he's happy to.
 import Icon from '../redesign/Icon.astro';
 
-interface Milestone { big: string; label: string; text: string }
+interface Fact { big: string; text: string }
 interface Props {
   eyebrow: string;
   title: string;
-  quote: string;
+  intro: string;
+  chain: string[];
   /** Paragraphs of HTML (links allowed). */
   paragraphs: string[];
-  milestones: Milestone[];
+  facts: Fact[];
 }
-const { eyebrow, title, quote, paragraphs, milestones } = Astro.props;
+const { eyebrow, title, intro, chain, paragraphs, facts } = Astro.props;
 ---
-<section class="sec who" aria-labelledby="svc-who-title">
-  <div class="wrap who-grid">
-    <div class="who-story">
-      <p class="svc-eyebrow">{eyebrow}</p>
-      <h2 id="svc-who-title">{title}</h2>
-      <figure class="who-quote">
-        <span class="who-mark" aria-hidden="true">“</span>
-        <blockquote>{quote}</blockquote>
-      </figure>
-      <div class="who-prose prose">
-        {paragraphs.map((p) => <p set:html={p} />)}
+<section class="sec who" aria-labelledby="svc-who-title" data-who>
+  <div class="wrap">
+    <div class="who-head">
+      <div>
+        <p class="svc-eyebrow">{eyebrow}</p>
+        <h2 id="svc-who-title">{title}</h2>
       </div>
-      <a class="link" href="/about">More about us <Icon name="arrow" /></a>
+      <p class="who-intro">{intro}</p>
     </div>
 
-    <aside class="who-card" aria-labelledby="who-card-title">
-      <p class="who-card-kicker">The person behind the repairs</p>
-      <h3 id="who-card-title">Our director, in four lines</h3>
-      <ol class="who-miles">
-        {milestones.map((m) => (
-          <li>
-            <span class="who-big">{m.big}</span>
-            <div>
-              <strong>{m.label}</strong>
-              <span>{m.text}</span>
-            </div>
-          </li>
-        ))}
-      </ol>
-      <p class="who-sign">
-        <span class="who-sign-line" aria-hidden="true"></span>
-        <span>Family-owned on the Gold Coast, not a franchise</span>
-      </p>
-    </aside>
+    <div class="who-routes">
+      {/* The usual route */}
+      <div class="who-route who-route-them">
+        <p class="who-route-label"><span>The usual route</span><em>{chain.length} handovers</em></p>
+        <ol class="who-track">
+          <li class="who-node who-you"><Icon name="phone" /><span>You call</span></li>
+          {chain.map((c, i) => (
+            <>
+            <li class="who-link" aria-hidden="true"></li>
+            <li class="who-node" style={`--d:${i}`}>
+              <span class="who-hop" aria-hidden="true">{i + 1}</span>
+              <span>{c}</span>
+            </li>
+            </>
+          ))}
+        </ol>
+        <p class="who-route-foot">You explain the problem again at every step.</p>
+      </div>
+
+      {/* Our route */}
+      <div class="who-route who-route-us">
+        <p class="who-route-label"><span>With Computers Gold Coast</span><em>0 handovers</em></p>
+        <div class="who-direct">
+          <span class="who-node who-you"><Icon name="phone" /><span>You call</span></span>
+          <span class="who-wire" aria-hidden="true"><span class="who-pulse"></span></span>
+          <span class="who-node who-tech"><Icon name="wrench" /><span>The technician who fixes it</span></span>
+        </div>
+        <p class="who-route-foot"><strong>The person you speak to is the person who fixes it.</strong> Same person next time, too.</p>
+      </div>
+    </div>
+
+    <div class="who-bottom">
+      <div class="who-prose prose">
+        {paragraphs.map((p) => <p set:html={p} />)}
+        <a class="link" href="/about">More about us <Icon name="arrow" /></a>
+      </div>
+      <div class="who-facts">
+        <p class="who-facts-label">Who that technician is</p>
+        <ul>
+          {facts.map((f) => <li><strong>{f.big}</strong><span>{f.text}</span></li>)}
+        </ul>
+      </div>
+    </div>
   </div>
 </section>
+
+<script is:inline>(function(){
+  var root=document.querySelector('[data-who]');
+  if(!root||window.matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver' in window))return;
+  root.classList.add('who-ready');
+  var io=new IntersectionObserver(function(es){
+    if(!es[0].isIntersecting)return;
+    io.disconnect();
+    root.classList.add('who-on');
+  },{threshold:.4});
+  io.observe(root.querySelector('.who-routes'));
+})();</script>
