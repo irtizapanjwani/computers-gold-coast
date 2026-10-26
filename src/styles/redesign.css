@@ -336,6 +336,8 @@ textarea.field{min-height:96px; resize:vertical;}
 
 /* "How it works" — three cards with animated scenes instead of photos (HowItWorks.astro) */
 .hiw{background:var(--bg-alt); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+.hiw .sec-head{max-width:none;}
+.hiw .sec-head .lede{max-width:none;}
 .hiw-steps{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:28px;}
 .hiw-step{position:relative;}
 .hiw-step h3{margin-top:46px; font-size:1.375rem; letter-spacing:-.02em;}
