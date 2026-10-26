@@ -1,0 +1,54 @@
+---
+// "Who fixes your computer": an editorial-style section about the person behind the business.
+// A large serif pull quote and the story on the left; the director's background as a set of
+// milestones on the right. Uses Instrument Serif (loaded by PageLayout when `serif` is set).
+// TODO(client): confirm the credentials, and add the director's name and a photo if he's happy to.
+import Icon from '../redesign/Icon.astro';
+
+interface Milestone { big: string; label: string; text: string }
+interface Props {
+  eyebrow: string;
+  title: string;
+  quote: string;
+  /** Paragraphs of HTML (links allowed). */
+  paragraphs: string[];
+  milestones: Milestone[];
+}
+const { eyebrow, title, quote, paragraphs, milestones } = Astro.props;
+---
+<section class="sec who" aria-labelledby="svc-who-title">
+  <div class="wrap who-grid">
+    <div class="who-story">
+      <p class="svc-eyebrow">{eyebrow}</p>
+      <h2 id="svc-who-title">{title}</h2>
+      <figure class="who-quote">
+        <span class="who-mark" aria-hidden="true">“</span>
+        <blockquote>{quote}</blockquote>
+      </figure>
+      <div class="who-prose prose">
+        {paragraphs.map((p) => <p set:html={p} />)}
+      </div>
+      <a class="link" href="/about">More about us <Icon name="arrow" /></a>
+    </div>
+
+    <aside class="who-card" aria-labelledby="who-card-title">
+      <p class="who-card-kicker">The person behind the repairs</p>
+      <h3 id="who-card-title">Our director, in four lines</h3>
+      <ol class="who-miles">
+        {milestones.map((m) => (
+          <li>
+            <span class="who-big">{m.big}</span>
+            <div>
+              <strong>{m.label}</strong>
+              <span>{m.text}</span>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <p class="who-sign">
+        <span class="who-sign-line" aria-hidden="true"></span>
+        <span>Family-owned on the Gold Coast, not a franchise</span>
+      </p>
+    </aside>
+  </div>
+</section>

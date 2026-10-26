@@ -198,19 +198,6 @@ textarea.field{min-height:96px; resize:vertical;}
 .svc-eyebrow{display:flex; align-items:center; gap:12px; margin-bottom:14px; font-size:12.5px; font-weight:800; letter-spacing:.18em; text-transform:uppercase; color:var(--accent-ink);}
 .svc-eyebrow::before{content:""; width:28px; height:2px; border-radius:2px; background:var(--accent);}
 
-/* Intro: story + "on every repair" card */
-.svc-intro-grid{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr); gap:72px; align-items:start;}
-.svc-intro-copy .prose{display:grid; gap:16px; margin-top:22px; font-size:1.0625rem; line-height:1.75; color:var(--soft);}
-.svc-intro-card{position:sticky; top:120px; padding:32px; border-radius:22px; background:var(--hero); color:#cbd5e1; box-shadow:0 40px 70px -40px rgba(2,6,23,.55);}
-.svc-intro-card h3{color:#fff; font-size:1.125rem;}
-.svc-steps{list-style:none; margin:20px 0 24px; padding:0; display:grid;}
-.svc-steps li{display:grid; grid-template-columns:40px 1fr; gap:12px; padding:16px 0; border-top:1px solid rgba(255,255,255,.08);}
-.svc-step-num{font-size:13px; font-weight:800; letter-spacing:.06em; color:var(--accent); padding-top:2px;}
-.svc-steps strong{display:block; color:#fff; font-size:15.5px;}
-.svc-steps span{display:block; margin-top:2px; font-size:14px; color:#94a3b8;}
-.svc-intro-card .link{color:var(--accent);}
-.svc-intro-card .link:hover{color:#7dd3fc;}
-
 /* Problems grid */
 .svc-cards{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px;}
 .svc-card{display:flex; flex-direction:column; height:100%; padding:24px; border:1px solid var(--line); border-radius:18px; background:#fff; color:var(--ink); text-decoration:none; transition:border-color .2s ease, box-shadow .2s ease, transform .2s ease;}
@@ -452,6 +439,37 @@ textarea.field{min-height:96px; resize:vertical;}
   .hiw-num{top:244px;}
 }
 
+/* "Who fixes your computer" editorial section (WhoFixes.astro) */
+.who{background:#fff;}
+.who-grid{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr); gap:80px; align-items:center;}
+.who h2{max-width:none;}
+.who-quote{position:relative; margin:40px 0 0; padding:0 0 0 64px;}
+@media (max-width:560px){ .who-quote{padding-left:48px;} .who-mark{font-size:88px; top:-8px;} }
+.who-mark{position:absolute; left:-4px; top:-14px; font:400 112px/1 'Instrument Serif',Georgia,serif; color:var(--accent);}
+.who-quote blockquote{margin:0; font:italic 400 clamp(1.9rem,2.9vw,2.7rem)/1.15 'Instrument Serif',Georgia,'Times New Roman',serif; letter-spacing:-.005em; color:var(--ink); text-wrap:balance;}
+.who-prose{display:grid; gap:14px; margin:32px 0 22px; max-width:38rem; font-size:1.0625rem; line-height:1.75; color:var(--soft);}
+
+.who-card{position:relative; padding:34px 34px 28px; border-radius:24px; background:var(--sky-50); border:1px solid var(--sky-100); overflow:hidden; isolation:isolate;}
+.who-card::after{content:""; position:absolute; right:-110px; top:-110px; z-index:-1; width:220px; height:220px; border-radius:50%; border:1px solid rgba(56,189,248,.35); box-shadow:0 0 0 28px rgba(56,189,248,.06), 0 0 0 56px rgba(56,189,248,.04);}
+.who-card-kicker{font-size:12px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--accent-ink);}
+.who-card h3{margin-top:8px; font:400 2rem/1.1 'Instrument Serif',Georgia,serif; letter-spacing:0; color:var(--ink);}
+.who-miles{list-style:none; margin:24px 0 0; padding:0; display:grid;}
+.who-miles li{display:grid; grid-template-columns:92px 1fr; gap:18px; align-items:center; padding:16px 0; border-top:1px solid rgba(2,132,199,.14);}
+.who-big{font:400 2.5rem/1 'Instrument Serif',Georgia,serif; color:var(--accent-deep); white-space:nowrap;}
+.who-miles strong{display:block; font-size:15.5px; color:var(--ink);}
+.who-miles li span:not(.who-big){display:block; margin-top:2px; font-size:14.5px; line-height:1.5; color:var(--soft);}
+.who-sign{display:flex; align-items:center; gap:14px; margin-top:12px; padding-top:20px; border-top:1px solid rgba(2,132,199,.14); font:italic 400 1.2rem/1.3 'Instrument Serif',Georgia,serif; color:var(--accent-deep);}
+.who-sign-line{flex:none; width:36px; height:1.5px; background:var(--accent);}
+
+@media (max-width:960px){
+  .who-grid{grid-template-columns:1fr; gap:48px;}
+}
+@media (max-width:560px){
+  .who-card{padding:26px 22px 22px;}
+  .who-miles li{grid-template-columns:72px 1fr; gap:14px;}
+  .who-big{font-size:2rem;}
+}
+
 /* Onsite / remote / drop-off */
 .svc-ways{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px;}
 .svc-way{display:flex; flex-direction:column; padding:30px; border:1px solid var(--line); border-radius:22px; background:#fff;}
@@ -491,14 +509,13 @@ textarea.field{min-height:96px; resize:vertical;}
   .svc-cards{grid-template-columns:repeat(2,minmax(0,1fr));}
 }
 @media (max-width:960px){
-  .svc-intro-grid,.svc-reviews-head{grid-template-columns:1fr; gap:36px;}
-  .svc-intro-card{position:static;}
+  .svc-reviews-head{grid-template-columns:1fr; gap:36px;}
   .svc-ways,.svc-review-list{grid-template-columns:1fr;}
   .svc-reviews{padding:72px 0;}
 }
 @media (max-width:560px){
   .svc-cards{grid-template-columns:1fr;}
-  .svc-intro-card,.svc-way,.svc-review{padding:24px;}
+  .svc-way,.svc-review{padding:24px;}
 }
 
 /* ---------- Trust strip ---------- */

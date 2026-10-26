@@ -16,11 +16,13 @@ interface Props {
   path: string;
   shareDescription?: string;
   schema: object[];
+  /** Also load Instrument Serif (used by editorial sections such as WhoFixes). */
+  serif?: boolean;
 }
-const { title, description, path, shareDescription = description, schema } = Astro.props;
+const { title, description, path, shareDescription = description, schema, serif = false } = Astro.props;
 const url = path === '/' ? `${SITE}/` : `${SITE}${path}`;
 // Loaded without blocking first paint (display=swap shows fallback text until it arrives).
-const FONTS = 'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@700&display=swap';
+const FONTS = `https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@700${serif ? '&family=Instrument+Serif:ital@0;1' : ''}&display=swap`;
 ---
 <!doctype html>
 <html lang="en-AU">

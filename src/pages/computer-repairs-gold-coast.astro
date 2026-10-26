@@ -4,7 +4,7 @@
 // and laid out with the shared service-page sections so other service pages can follow.
 import PageLayout from '../layouts/PageLayout.astro';
 import ServiceHero from '../components/redesign/ServiceHero.astro';
-import ServiceIntro from '../components/service/ServiceIntro.astro';
+import WhoFixes from '../components/service/WhoFixes.astro';
 import BootCheck from '../components/service/BootCheck.astro';
 import HowItWorks from '../components/service/HowItWorks.astro';
 import ServiceReviews from '../components/service/ServiceReviews.astro';
@@ -92,6 +92,7 @@ const schema = [
 ];
 ---
 <PageLayout
+  serif
   title="Computer Repairs Gold Coast | Computers Gold Coast"
   description="Reliable, affordable computer and PC repairs across the Gold Coast. Onsite, remote or drop-off. Virus removal, tune-ups, hardware upgrades and honest advice, 7 days a week."
   shareDescription="Reliable, affordable computer and PC repairs across the Gold Coast. Onsite, remote or drop-off, 7 days a week."
@@ -108,22 +109,6 @@ const schema = [
     formPlaceholder="e.g. PC is slow and keeps freezing"
   />
 
-  <ServiceIntro
-    eyebrow="Why Computers Gold Coast"
-    title="A computer technician who finds the real fault first."
-    paragraphs={[
-      'Choosing a computer technician can feel daunting when there are so many companies to pick from. Computers Gold Coast has been fixing PCs, laptops and Macs for 20 years. We’ve been featured on Channel 9 news, and our director is a Microsoft Certified Professional who was previously the youngest employee at IBM in Australia.',
-      'Most people are grateful for a technician who helps them out and goes over and above, and that’s what we aim for on every job. If you already know what’s wrong, send us the details and we’ll give you a straight quote before booking anything in.',
-      'It’s not just repairs. We install new hardware, make sure your network is set up properly, and get a new computer fully configured before we leave. Need a <a href="/laptop-repairs-gold-coast">laptop repair</a> or a <a href="/mac-repairs-gold-coast">MacBook repair</a>? We do those too.',
-    ]}
-    listTitle="On every computer repair"
-    list={[
-      { title: 'Diagnosis before a quote', text: 'We find what’s actually wrong instead of guessing.' },
-      { title: 'The price before the work', text: 'Nothing starts until you’ve said yes.' },
-      { title: 'Plain-English explanations', text: 'You’ll know what was wrong and what we did.' },
-      { title: 'Free advice afterwards', text: 'We don’t disappear once the invoice is paid.' },
-    ]}
-  />
 
   <BootCheck
     eyebrow="What we fix"
@@ -138,6 +123,22 @@ const schema = [
     title="From computer trouble to a clear repair plan."
     intro="Tell us what the computer is doing, and we’ll find the real cause before recommending any parts or work."
     steps={howSteps}
+  />
+
+  <WhoFixes
+    eyebrow="Who fixes your computer"
+    title="Not a franchise. Not a call centre. One local technician."
+    quote="The person you speak to is the person who fixes it."
+    paragraphs={[
+      'Choosing a computer technician can feel daunting when there are so many companies to pick from. Computers Gold Coast is a family-owned Gold Coast business that has been fixing PCs, laptops and Macs for 20 years. Most people are grateful for a technician who helps them out and goes over and above, and that’s what we aim for on every job.',
+      'It’s not just repairs, either. We install new hardware, make sure your network is set up properly, and get a new computer fully configured before we leave. Need a <a href="/laptop-repairs-gold-coast">laptop repair</a> or a <a href="/mac-repairs-gold-coast">MacBook repair</a>? We do those too.',
+    ]}
+    milestones={[
+      { big: 'IBM', label: 'Started young', text: 'Previously the youngest employee at IBM in Australia.' },
+      { big: 'MCP', label: 'Certified', text: 'A Microsoft Certified Professional.' },
+      { big: '20', label: 'Years on the tools', text: 'Fixing PCs, laptops and Macs for Gold Coast homes and businesses.' },
+      { big: 'Ch 9', label: 'On the news', text: 'Featured on Channel 9 news.' },
+    ]}
   />
 
   <ServiceReviews
