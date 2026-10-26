@@ -1,88 +1,60 @@
 ---
-// "Who fixes your computer": shows what "not a franchise, not a call centre" actually means.
-// Two routes from your phone call to the person who fixes the computer: the usual chain
-// (call centre, booking queue, contractor, someone new next time) and ours (straight through).
-// When the section scrolls into view a pulse travels each route; ours arrives while the
-// other is still on hold. Below: who that technician is.
-// TODO(client): confirm the credentials, and add the director's name and a photo if he's happy to.
-import Icon from '../redesign/Icon.astro';
+// "Who fixes your computer": one big card. A single huge word on the left with the short story
+// and credentials; on the right, what you get here versus what you won't. No icons and no boxes:
+// type, rules and colour only. Top and bottom edges are drawn as a ribbon cable (grey wires
+// with a blue "pin 1" wire), a nod to the inside of a PC.
+// TODO(client): confirm the credentials.
 
-interface Fact { big: string; text: string }
+interface Item { title: string; text: string }
 interface Props {
-  eyebrow: string;
-  title: string;
-  intro: string;
-  chain: string[];
-  /** Paragraphs of HTML (links allowed). */
-  paragraphs: string[];
-  facts: Fact[];
+  word: string;
+  lead: string;
+  credentials: string[];
+  getTitle: string;
+  get: Item[];
+  notTitle: string;
+  not: Item[];
+  /** Optional closing line of HTML under the card (links allowed). */
+  footer?: string;
 }
-const { eyebrow, title, intro, chain, paragraphs, facts } = Astro.props;
+const { word, lead, credentials, getTitle, get, notTitle, not, footer } = Astro.props;
 ---
-<section class="sec who" aria-labelledby="svc-who-title" data-who>
+<section class="sec who" aria-labelledby="svc-who-title">
   <div class="wrap">
-    <div class="who-head">
-      <div>
-        <p class="svc-eyebrow">{eyebrow}</p>
-        <h2 id="svc-who-title">{title}</h2>
+    <div class="who-card">
+      <span class="who-plug who-plug-a" aria-hidden="true"></span>
+      <span class="who-plug who-plug-b" aria-hidden="true"></span>
+      <div class="who-left">
+        <h2 id="svc-who-title" class="who-word">{word}</h2>
+        <p class="who-lead">{lead}</p>
+        <ul class="who-creds">{credentials.map((c) => <li>{c}</li>)}</ul>
+        <p class="who-call">Talk to the technician: <a href="tel:+61447266455">0447 266 455</a></p>
       </div>
-      <p class="who-intro">{intro}</p>
-    </div>
 
-    <div class="who-routes">
-      {/* The usual route */}
-      <div class="who-route who-route-them">
-        <p class="who-route-label"><span>The usual route</span><em>{chain.length} handovers</em></p>
-        <ol class="who-track">
-          <li class="who-node who-you"><Icon name="phone" /><span>You call</span></li>
-          {chain.map((c, i) => (
-            <>
-            <li class="who-link" aria-hidden="true"></li>
-            <li class="who-node" style={`--d:${i}`}>
-              <span class="who-hop" aria-hidden="true">{i + 1}</span>
-              <span>{c}</span>
+      <div class="who-col who-col-get">
+        <h3>{getTitle}</h3>
+        <ol>
+          {get.map((it, i) => (
+            <li>
+              <span class="who-n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              <div><strong>{it.title}</strong><span>{it.text}</span></div>
             </li>
-            </>
           ))}
         </ol>
-        <p class="who-route-foot">You explain the problem again at every step.</p>
       </div>
 
-      {/* Our route */}
-      <div class="who-route who-route-us">
-        <p class="who-route-label"><span>With Computers Gold Coast</span><em>0 handovers</em></p>
-        <div class="who-direct">
-          <span class="who-node who-you"><Icon name="phone" /><span>You call</span></span>
-          <span class="who-wire" aria-hidden="true"><span class="who-pulse"></span></span>
-          <span class="who-node who-tech"><Icon name="wrench" /><span>The technician who fixes it</span></span>
-        </div>
-        <p class="who-route-foot"><strong>The person you speak to is the person who fixes it.</strong> Same person next time, too.</p>
-      </div>
-    </div>
-
-    <div class="who-bottom">
-      <div class="who-prose prose">
-        {paragraphs.map((p) => <p set:html={p} />)}
-        <a class="link" href="/about">More about us <Icon name="arrow" /></a>
-      </div>
-      <div class="who-facts">
-        <p class="who-facts-label">Who that technician is</p>
+      <div class="who-col who-col-not">
+        <h3>{notTitle}</h3>
         <ul>
-          {facts.map((f) => <li><strong>{f.big}</strong><span>{f.text}</span></li>)}
+          {not.map((it) => (
+            <li>
+              <span class="who-n" aria-hidden="true">No</span>
+              <div><strong>{it.title}</strong><span>{it.text}</span></div>
+            </li>
+          ))}
         </ul>
       </div>
     </div>
+    {footer && <p class="who-foot prose" set:html={footer} />}
   </div>
 </section>
-
-<script is:inline>(function(){
-  var root=document.querySelector('[data-who]');
-  if(!root||window.matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver' in window))return;
-  root.classList.add('who-ready');
-  var io=new IntersectionObserver(function(es){
-    if(!es[0].isIntersecting)return;
-    io.disconnect();
-    root.classList.add('who-on');
-  },{threshold:.4});
-  io.observe(root.querySelector('.who-routes'));
-})();</script>

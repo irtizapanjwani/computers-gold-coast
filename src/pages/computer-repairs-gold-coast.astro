@@ -125,20 +125,24 @@ const schema = [
   />
 
   <WhoFixes
-    eyebrow="Who picks up the phone"
-    title="Not a franchise. Not a call centre."
-    intro="With a lot of repair services, your call passes through several people before anyone touches your computer. Here’s how it works with us."
-    chain={['Call centre', 'Booking queue', 'Contractor', 'Someone new next time']}
-    paragraphs={[
-      'Computers Gold Coast is a family-owned Gold Coast business that has been fixing PCs, laptops and Macs for 20 years. Most people are grateful for a technician who helps them out and goes over and above, and that’s what we aim for on every job.',
-      'It’s not just repairs, either. We install new hardware, make sure your network is set up properly, and get a new computer fully configured before we leave. Need a <a href="/laptop-repairs-gold-coast">laptop repair</a> or a <a href="/mac-repairs-gold-coast">MacBook repair</a>? We do those too.',
+    word="One"
+    lead="One local technician, from your first phone call to the finished repair. Computers Gold Coast is family-owned, not a franchise and not a call centre."
+    credentials={['20 years fixing computers', 'Microsoft Certified Professional', 'Previously IBM Australia’s youngest employee', 'As seen on Channel 9']}
+    getTitle="What you get here"
+    get={[
+      { title: 'The same person, start to finish', text: 'You explain the problem once. The person you speak to is the person who fixes it.' },
+      { title: 'The real fault, found first', text: 'We diagnose before we quote, starting with the cheapest likely causes.' },
+      { title: 'Honest advice', text: 'If free, reputable software does the job, we’ll tell you. If a repair isn’t worth the money, we’ll say that too.' },
+      { title: 'Someone to call afterwards', text: 'Free advice once you’re a customer. We don’t disappear when the invoice is paid.' },
     ]}
-    facts={[
-      { big: '20 years', text: 'fixing PCs, laptops and Macs on the Gold Coast' },
-      { big: 'Microsoft', text: 'Certified Professional' },
-      { big: 'Ex-IBM', text: 'previously IBM Australia’s youngest employee' },
-      { big: 'Channel 9', text: 'featured on the news' },
+    notTitle="What you won’t get"
+    not={[
+      { title: 'A call centre script', text: 'You talk to a technician who knows computers, not someone reading from a screen.' },
+      { title: 'A different contractor every visit', text: 'No starting from scratch each time something goes wrong.' },
+      { title: 'Surprise add-ons', text: 'You get the price before the work, and nothing starts until you’ve said yes.' },
+      { title: 'A call-out fee', text: 'Not anywhere on the Gold Coast.' },
     ]}
+    footer='It’s not just repairs. We install new hardware, make sure your network is set up properly, and get a new computer fully configured before we leave. Need a <a href="/laptop-repairs-gold-coast">laptop repair</a> or a <a href="/mac-repairs-gold-coast">MacBook repair</a>? We do those too.'
   />
 
   <ServiceReviews
