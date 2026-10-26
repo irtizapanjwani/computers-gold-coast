@@ -11,6 +11,8 @@ import ServiceReviews from '../components/service/ServiceReviews.astro';
 import Areas from '../components/redesign/Areas.astro';
 import Faq from '../components/redesign/Faq.astro';
 import CtaBand from '../components/redesign/CtaBand.astro';
+import PriceSection from '../components/service/PriceSection.astro';
+import { laptopPrices } from '../data/pricing';
 import { SITE, businessSchema, faqSchema } from '../data/site';
 import type { Problem } from '../components/service/WorthFixing.astro';
 
@@ -119,6 +121,13 @@ const schema = [
     title="Is your laptop worth fixing?"
     intro="Pick what’s wrong and how old the laptop is. You’ll get the usual answer, what the repair normally involves, and a link to the details."
     problems={problems}
+  />
+
+  <PriceSection
+    eyebrow="Pricing"
+    title="Laptop repair prices."
+    intro="Typical starting prices for the laptop repairs we do most. Tell us your make and model and we’ll confirm the exact price before any work starts."
+    list={laptopPrices}
   />
 
   <HowItWorks

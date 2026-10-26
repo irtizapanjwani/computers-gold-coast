@@ -1,0 +1,55 @@
+---
+// Pricing section: explanation on the left, the price list in a navy panel on the right.
+// Prices come from src/data/pricing.ts so they're edited in one place. No icons.
+import { PRICE_NOTES, type PriceList } from '../../data/pricing';
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  list: PriceList;
+  /** Optional extra line under the notes (HTML, links allowed). */
+  extra?: string;
+}
+const { eyebrow, title, intro, list, extra } = Astro.props;
+---
+<section class="sec ps" aria-labelledby="svc-ps-title">
+  <div class="wrap ps-grid">
+    <div class="ps-copy">
+      <p class="svc-eyebrow">{eyebrow}</p>
+      <h2 id="svc-ps-title">{title}</h2>
+      <p class="ps-intro">{intro}</p>
+      <ol class="ps-notes">
+        {PRICE_NOTES.map((n, i) => <li><span class="ps-n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><span>{n}</span></li>)}
+      </ol>
+      {extra && <p class="ps-extra prose" set:html={extra} />}
+      <div class="ps-actions">
+        <a class="btn btn-primary" href="#quote">Get your exact price</a>
+        <a class="ps-call" href="tel:+61447266455">or call 0447 266 455</a>
+      </div>
+    </div>
+
+    <div class="ps-panel">
+      <div class="ps-panel-head">
+        <p class="ps-panel-title">{list.title}</p>
+        <p class="ps-panel-sub">Gold Coast · AUD</p>
+      </div>
+      <ul class="ps-list">
+        {list.items.map((it) => (
+          <li class="ps-row">
+            <div class="ps-row-top">
+              <span class="ps-name">
+                {it.href ? <a href={it.href}>{it.name}</a> : it.name}
+                {it.badge && <em class="ps-badge">{it.badge}</em>}
+              </span>
+              <span class="ps-leader" aria-hidden="true"></span>
+              <span class="ps-price">{it.price}</span>
+            </div>
+            <p class="ps-note">{it.note}</p>
+          </li>
+        ))}
+      </ul>
+      <p class="ps-foot">A guide only. You’ll get the exact price for your model before we start.</p>
+    </div>
+  </div>
+</section>

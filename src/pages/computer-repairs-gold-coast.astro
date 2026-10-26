@@ -11,6 +11,8 @@ import ServiceReviews from '../components/service/ServiceReviews.astro';
 import Areas from '../components/redesign/Areas.astro';
 import Faq from '../components/redesign/Faq.astro';
 import CtaBand from '../components/redesign/CtaBand.astro';
+import PriceSection from '../components/service/PriceSection.astro';
+import { computerPrices } from '../data/pricing';
 import { SITE, businessSchema, faqSchema } from '../data/site';
 
 const path = '/computer-repairs-gold-coast';
@@ -135,6 +137,13 @@ const schema = [
     intro="Every computer goes through the same steps when you switch it on. Pick the step where yours gets stuck, and we’ll tell you what it usually means and how we fix it."
     stages={bootStages}
     links={jobLinks}
+  />
+
+  <PriceSection
+    eyebrow="Pricing"
+    title="Computer repair prices."
+    intro="We diagnose first and give you the exact price before any work starts. These are typical starting prices for the jobs Gold Coast customers book most."
+    list={computerPrices}
   />
 
   <HowItWorks

@@ -13,6 +13,8 @@ import ServiceReviews from '../components/service/ServiceReviews.astro';
 import Areas from '../components/redesign/Areas.astro';
 import Faq from '../components/redesign/Faq.astro';
 import CtaBand from '../components/redesign/CtaBand.astro';
+import PriceSection from '../components/service/PriceSection.astro';
+import { macPrices } from '../data/pricing';
 import { SITE, businessSchema, faqSchema } from '../data/site';
 import type { MacModel } from '../components/service/MacPicker.astro';
 
@@ -166,6 +168,14 @@ const schema = [
       { label: 'The usual fix', title: 'Replace the whole board', points: ['The most expensive outcome', 'Waiting on a whole new part', 'A good board thrown away for one fault'] },
       { label: 'Our fix', title: 'Repair the failed component', points: ['Board-level and BGA chip work', 'Usually a smaller bill', 'Usually a faster turnaround'], ours: true },
     ]}
+  />
+
+  <PriceSection
+    eyebrow="Pricing"
+    title="Mac repair prices."
+    intro="Typical starting prices for MacBook and Mac repairs. Prices vary by model and year, so tell us yours and we’ll confirm the exact price before we start."
+    list={macPrices}
+    extra="Most jobs come in under what you’d pay booking through Apple directly, and every repair has a one-year guarantee on parts and labour."
   />
 
   <HowItWorks
