@@ -885,6 +885,7 @@ textarea.field{min-height:96px; resize:vertical;}
 
 /* ---------- FAQ ---------- */
 .faq-split{display:grid; grid-template-columns:.8fr 1.2fr; gap:72px; align-items:start;}
+.faq-aside{position:sticky; top:120px;}
 .faq-aside p{margin-top:14px; color:var(--soft);}
 .faq-aside .link{margin-top:20px;}
 .faq{border-top:1px solid var(--line);}
@@ -1014,6 +1015,7 @@ textarea.field{min-height:96px; resize:vertical;}
 /* ---------- Responsive ---------- */
 @media (max-width:960px){
   .sec{padding:72px 0;}
+  .faq-aside{position:static;}
   .hero-page .wrap,.hero-grid,.about-hero-grid,.story-grid,.scan-grid,.prep,.tips-grid,.split,.faq-split,.leave,.rev-feature{grid-template-columns:1fr; gap:40px;}
   .hero-shell{padding:12px 0 28px 12px;}
   .hero-card{border-radius:24px 0 0 0; padding:44px 0 80px;}

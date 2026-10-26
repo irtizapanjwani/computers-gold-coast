@@ -3,6 +3,8 @@ import Icon from './Icon.astro';
 import type { Faq } from '../../data/site';
 interface Props { title: string; intro: string; items: readonly Faq[] }
 const { title, intro, items } = Astro.props;
+// Shared name makes the questions an exclusive accordion: opening one closes the others.
+const group = `faq-${Math.random().toString(36).slice(2, 8)}`;
 ---
 <div class="faq-split">
   <div class="faq-aside">
@@ -10,12 +12,26 @@ const { title, intro, items } = Astro.props;
     <p>{intro}</p>
     <a class="link" href="tel:+61447266455"><Icon name="phone" /> Call 0447 266 455</a>
   </div>
-  <div class="faq">
+  <div class="faq" data-faq>
     {items.map(({ q, a }) => (
-      <details>
+      <details name={group}>
         <summary>{q}<Icon name="plus" /></summary>
         <p set:html={a} />
       </details>
     ))}
   </div>
 </div>
+
+<script is:inline>(function(){
+  // Fallback for browsers without <details name> support: close the others when one opens.
+  document.querySelectorAll('[data-faq]').forEach(function(list){
+    if(list.dataset.faqReady)return;list.dataset.faqReady='1';
+    var items=[].slice.call(list.querySelectorAll('details'));
+    items.forEach(function(d){
+      d.addEventListener('toggle',function(){
+        if(!d.open)return;
+        items.forEach(function(o){if(o!==d&&o.open)o.open=false;});
+      });
+    });
+  });
+})();</script>
