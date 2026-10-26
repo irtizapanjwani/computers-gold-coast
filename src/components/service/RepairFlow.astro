@@ -1,0 +1,96 @@
+---
+// "How it works" as a repair flow you can switch between onsite, remote and drop-off.
+// The four steps stay the same; what you do, what we do and what you get at each step
+// change with the chosen method. All three versions are in the HTML (CSS shows the active
+// one), so the page works without JavaScript and search engines see every version.
+import Icon from '../redesign/Icon.astro';
+
+export type Mode = 'onsite' | 'remote' | 'dropoff';
+type ByMode = string | Record<Mode, string>;
+export interface FlowStep { title: string; you: ByMode; us: ByMode; get: ByMode }
+export interface FlowMode { id: Mode; label: string; icon: string; bestFor: string }
+interface Props {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  modes: FlowMode[];
+  steps: FlowStep[];
+  note: string;
+}
+const { eyebrow, title, intro, modes, steps, note } = Astro.props;
+const ids = modes.map((m) => m.id);
+const each = (v: ByMode) => (typeof v === 'string' ? null : ids.map((id) => [id, v[id]] as const));
+---
+<section class="sec rf" aria-labelledby="svc-rf-title" data-rf data-mode={ids[0]}>
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="svc-eyebrow">{eyebrow}</p>
+      <h2 id="svc-rf-title">{title}</h2>
+      <p class="lede">{intro}</p>
+    </div>
+
+    <div class="rf-bar">
+      <div class="rf-switch" role="radiogroup" aria-label="How would you like the repair done?">
+        <span class="rf-switch-thumb" aria-hidden="true"></span>
+        {modes.map((m, i) => (
+          <button type="button" role="radio" class="rf-opt" aria-checked={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} data-rf-mode={m.id}>
+            <Icon name={m.icon} />{m.label}
+          </button>
+        ))}
+      </div>
+      <p class="rf-best">
+        <span class="rf-best-label">Best for</span>
+        {modes.map((m) => <span class="rf-v" data-m={m.id}>{m.bestFor}</span>)}
+      </p>
+    </div>
+
+    <ol class="rf-steps">
+      {steps.map((s, i) => (
+        <li class="rf-step">
+          <div class="rf-node"><span>{String(i + 1).padStart(2, '0')}</span></div>
+          <h3>{s.title}</h3>
+          <dl class="rf-rows">
+            <div class="rf-row">
+              <dt><Icon name="user" />You</dt>
+              <dd>{each(s.you) ? each(s.you)!.map(([id, t]) => <span class="rf-v" data-m={id}>{t}</span>) : s.you}</dd>
+            </div>
+            <div class="rf-row">
+              <dt><Icon name="wrench" />Us</dt>
+              <dd>{each(s.us) ? each(s.us)!.map(([id, t]) => <span class="rf-v" data-m={id}>{t}</span>) : s.us}</dd>
+            </div>
+          </dl>
+          <p class="rf-get">
+            <span class="rf-get-label">You get</span>
+            <span class="rf-get-text">{each(s.get) ? each(s.get)!.map(([id, t]) => <span class="rf-v" data-m={id}>{t}</span>) : s.get}</span>
+          </p>
+        </li>
+      ))}
+    </ol>
+
+    <div class="rf-foot">
+      <p class="rf-pay"><Icon name="dollar" /><span><strong>You pay nothing until you’ve approved the price.</strong> No call-out fee, and no surprise add-ons.</span></p>
+      <p class="rf-note"><Icon name="clock" />{note}</p>
+    </div>
+  </div>
+</section>
+
+<script is:inline>(function(){
+  var root=document.querySelector('[data-rf]');
+  if(!root)return;
+  var opts=[].slice.call(root.querySelectorAll('[data-rf-mode]'));
+  function set(i,focus){
+    opts.forEach(function(o,j){var on=j===i;o.setAttribute('aria-checked',on?'true':'false');o.tabIndex=on?0:-1;});
+    root.setAttribute('data-mode',opts[i].getAttribute('data-rf-mode'));
+    root.style.setProperty('--rf-i',i);
+    if(focus)opts[i].focus();
+  }
+  opts.forEach(function(o,i){
+    o.addEventListener('click',function(){set(i);});
+    o.addEventListener('keydown',function(e){
+      var n=null;
+      if(e.key==='ArrowRight'||e.key==='ArrowDown')n=(i+1)%opts.length;
+      if(e.key==='ArrowLeft'||e.key==='ArrowUp')n=(i-1+opts.length)%opts.length;
+      if(n!==null){e.preventDefault();set(n,true);}
+    });
+  });
+})();</script>

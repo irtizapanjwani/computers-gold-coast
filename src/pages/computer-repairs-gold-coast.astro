@@ -6,7 +6,7 @@ import PageLayout from '../layouts/PageLayout.astro';
 import ServiceHero from '../components/redesign/ServiceHero.astro';
 import ServiceIntro from '../components/service/ServiceIntro.astro';
 import BootCheck from '../components/service/BootCheck.astro';
-import ServiceWays from '../components/service/ServiceWays.astro';
+import RepairFlow from '../components/service/RepairFlow.astro';
 import ServiceReviews from '../components/service/ServiceReviews.astro';
 import Areas from '../components/redesign/Areas.astro';
 import Faq from '../components/redesign/Faq.astro';
@@ -42,10 +42,38 @@ const jobLinks = [
   { label: 'Mac repairs', href: '/mac-repairs-gold-coast' },
 ];
 
-const ways = [
-  { icon: 'home', title: 'Onsite at your home or office', text: 'A technician comes to you anywhere on the Gold Coast, with no call-out fee. You see what’s wrong and what it costs before any work starts.', bestFor: ['Computers that won’t start', 'Network and printer problems', 'New computer setups'], featured: true },
-  { icon: 'monitor', title: 'Remote support', text: 'Many software problems can be fixed over the internet, so you don’t have to leave home or wait for a visit.', bestFor: ['Viruses and pop-ups', 'Slow computers', 'Email and software issues'] },
-  { icon: 'box', title: 'Drop-off', text: 'For bigger hardware jobs you can drop the computer off, and we’ll call you with the cause and the price before going ahead.', bestFor: ['Hardware part replacements', 'Data recovery', 'Bigger upgrades'] },
+// "How it works": the same four steps, shown for onsite, remote or drop-off.
+const flowModes = [
+  { id: 'onsite', label: 'Onsite', icon: 'home', bestFor: 'Computers that won’t start, network and printer problems, new setups' },
+  { id: 'remote', label: 'Remote', icon: 'monitor', bestFor: 'Viruses and pop-ups, slow computers, email and software issues' },
+  { id: 'dropoff', label: 'Drop-off', icon: 'box', bestFor: 'Hardware part replacements, data recovery, bigger upgrades' },
+] as const;
+
+const flowSteps = [
+  {
+    title: 'Tell us what’s wrong',
+    you: 'Call, or send the quote form with your computer and what it’s doing. A photo of any error message helps.',
+    us: { onsite: 'Work out what the visit needs and book a time at your home or office.', remote: 'Check it’s a software problem we can fix remotely, then book a session.', dropoff: 'Check it’s a job for the bench and arrange a time for you to drop it off.' },
+    get: { onsite: 'A booked visit, with no call-out fee', remote: 'A remote session, no travel needed', dropoff: 'A drop-off time that suits you' },
+  },
+  {
+    title: 'We find the fault',
+    you: { onsite: 'Show the technician the problem. Stay and watch if you like.', remote: 'Let us connect to your computer. You can watch everything on screen.', dropoff: 'Drop the computer off and get on with your day.' },
+    us: { onsite: 'Test it at your place, starting with the cheapest likely causes.', remote: 'Diagnose it over the internet while you’re connected.', dropoff: 'Test it properly on the bench, starting with the cheapest likely causes.' },
+    get: 'The cause, explained in plain English',
+  },
+  {
+    title: 'You approve the price',
+    you: 'Decide whether to go ahead. Nothing starts until you’ve said yes.',
+    us: { onsite: 'Give you the price before any work, and say so if a repair isn’t worth it.', remote: 'Give you the price before any work, and say so if a repair isn’t worth it.', dropoff: 'Call you with the cause and the price, and say so if a repair isn’t worth it.' },
+    get: 'The price before the work, no surprises',
+  },
+  {
+    title: 'Fixed and explained',
+    you: { onsite: 'Check it’s working before the technician leaves.', remote: 'Check it’s working before we disconnect.', dropoff: 'Collect it when we call to say it’s ready.' },
+    us: { onsite: 'Fix it on the spot where we can, or order the part if one is needed.', remote: 'Fix it remotely and show you what was wrong.', dropoff: 'Fix it, test it and let you know it’s ready to collect.' },
+    get: 'A working computer, plus free advice afterwards',
+  },
 ];
 
 const faqs = [
@@ -128,12 +156,13 @@ const schema = [
     links={jobLinks}
   />
 
-  <ServiceWays
+  <RepairFlow
     eyebrow="How it works"
-    title="Onsite, remote or drop-off. Your choice."
-    intro="Your local Gold Coast computer repair technicians, whichever way suits you best."
-    ways={ways}
-    note="Open 7 days a week, 7AM to 10PM. A problem doesn’t wait for business hours, and neither do we."
+    title="From the first call to a fixed computer."
+    intro="Onsite, remote or drop-off, every repair follows the same four steps. Choose how you’d like it done and see exactly how yours would go."
+    modes={flowModes}
+    steps={flowSteps}
+    note="Open 7 days a week, 7AM to 10PM, including weekends and public holidays."
   />
 
   <ServiceReviews
