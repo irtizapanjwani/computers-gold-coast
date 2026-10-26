@@ -1,0 +1,62 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/setup-new-equipment-gold-coast",
+      "destination": "/new-computer-setup-gold-coast",
+      "statusCode": 301
+    },
+    {
+      "source": "/apple-mac-repairs-gold-coast",
+      "destination": "/mac-repairs-gold-coast",
+      "statusCode": 301
+    },
+    {
+      "source": "/cctv-security-cameras-gold-coast",
+      "destination": "/services/cctv-security-cameras-gold-coast",
+      "statusCode": 301
+    },
+    {
+      "source": "/network-setup-gold-coast",
+      "destination": "/wireless-networks-setup-gold-coast",
+      "statusCode": 301
+    },
+    {
+      "source": "/training-gold-coast",
+      "destination": "/computer-training-gold-coast",
+      "statusCode": 301
+    },
+    {
+      "source": "/computer-setup-gold-coast",
+      "destination": "/new-computer-setup-gold-coast",
+      "statusCode": 301
+    },
+    {
+      "source": "/virus-removal-gold-coast",
+      "destination": "/virus-spyware-removal-gold-coast",
+      "statusCode": 301
+    },
+    {
+      "source": "/website-design-gold-coast",
+      "destination": "/new-website-design-gold-coast",
+      "statusCode": 301
+    },
+    {
+      "source": "/smart-seo-services-gold-coast",
+      "destination": "/seo-services-gold-coast",
+      "statusCode": 301
+    },
+    {
+      "source": "/quote",
+      "destination": "/contact",
+      "statusCode": 301
+    },
+    {
+      "source": "/index.php",
+      "destination": "/",
+      "statusCode": 301
+    }
+  ]
+}
