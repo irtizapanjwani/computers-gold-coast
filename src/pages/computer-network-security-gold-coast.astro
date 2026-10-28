@@ -6,7 +6,7 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import ServiceHero from '../components/redesign/ServiceHero.astro';
 import SecurityCheck from '../components/service/SecurityCheck.astro';
-import ServiceProblems from '../components/service/ServiceProblems.astro';
+import AttackDefence from '../components/service/AttackDefence.astro';
 import HowItWorks from '../components/service/HowItWorks.astro';
 import ServiceReviews from '../components/service/ServiceReviews.astro';
 import Areas from '../components/redesign/Areas.astro';
@@ -16,6 +16,7 @@ import PriceSection from '../components/service/PriceSection.astro';
 import { securityPrices } from '../data/pricing';
 import { SITE, businessSchema, faqSchema } from '../data/site';
 import type { SecurityItem } from '../components/service/SecurityCheck.astro';
+import type { Pair } from '../components/service/AttackDefence.astro';
 
 const path = '/computer-network-security-gold-coast';
 const url = `${SITE}${path}`;
@@ -36,15 +37,15 @@ const checks: SecurityItem[] = [
   { id: 'backup', question: 'Is there a backup of your files that isn’t plugged in all the time?', gap: 'No safe backup', fix: 'Ransomware encrypts anything it can reach, including a drive that’s always connected. We set up cloud or rotated backups it can’t get to.', href: '/cloud-backup-storage-gold-coast', linkText: 'Cloud backup & storage' },
 ];
 
-const covers = [
-  { icon: 'shield', title: 'Antivirus & malware protection', text: 'Real-time protection from software like Bitdefender or Norton, ransomware protection, and scans for spyware and keyloggers.', href: '/virus-spyware-removal-gold-coast', linkText: 'Virus removal' },
-  { icon: 'wifi', title: 'Wi-Fi & network security', text: 'Secure Wi-Fi with WPA3 encryption, a guest network for visitors, and a check for devices that shouldn’t be connected.', href: '/wireless-networks-setup-gold-coast', linkText: 'Wireless networks' },
-  { icon: 'zap', title: 'Firewalls & segmentation', text: 'Hardware and software firewalls configured, and smart devices kept on their own network, away from business computers.', href: '/business-it-support-gold-coast', linkText: 'Business IT support' },
-  { icon: 'lock', title: 'Passwords, 2FA & encryption', text: 'A password manager, two-factor authentication on key accounts, and drive encryption with BitLocker (Windows) or FileVault (Mac).', href: '/password-manager-2fa-setup-gold-coast', linkText: 'Passwords & 2FA' },
-  { icon: 'chat', title: 'Email & phishing protection', text: 'Spam and phishing filters, plus how to spot fake emails, texts and calls before you click or hand anything over.', href: '/email-setup-problems-gold-coast', linkText: 'Email help' },
-  { icon: 'drive', title: 'Backup & recovery', text: 'Automatic cloud backups (OneDrive, Google Drive, Dropbox or private cloud), local backups and a plan for getting files back.', href: '/data-backup-transfer-gold-coast', linkText: 'Backup & transfer' },
-  { icon: 'briefcase', title: 'Security audits for business', text: 'Vulnerability checks across Windows and macOS computers and a risk assessment of your business network.', href: '/business-it-support-gold-coast', linkText: 'Business IT support' },
-  { icon: 'trending', title: 'Protection without the slowdown', text: 'Security software tuned so it doesn’t drag the computer down, safe browsing with secure DNS, and alerts that matter.', href: '/computer-tune-up-gold-coast', linkText: 'Computer tune-ups' },
+const pairs: Pair[] = [
+  { threat: 'Phishing', layer: 'Email', attack: 'A scam email or text asks you to log in', defence: 'Spam and phishing filters, and how to spot fake emails, texts and calls before you click or hand anything over.', href: '/email-setup-problems-gold-coast', linkText: 'Email help' },
+  { threat: 'Leaked password', layer: 'Accounts', attack: 'Your password leaks from another website', defence: 'A password manager so every account has its own password, and two-factor authentication on the accounts that matter.', href: '/password-manager-2fa-setup-gold-coast', linkText: 'Passwords & 2FA' },
+  { threat: 'Malware', layer: 'Devices', attack: 'Malware slips in through a download or a dodgy ad', defence: 'Real-time protection from software like Bitdefender or Norton, ransomware protection, and scans for spyware and keyloggers.', href: '/virus-spyware-removal-gold-coast', linkText: 'Virus removal' },
+  { threat: 'Default login', layer: 'Router', attack: 'The router still has its factory login', defence: 'A new admin password, updated firmware, the firewall switched on and remote management you don’t need turned off.', href: '/wireless-networks-setup-gold-coast', linkText: 'Wireless networks' },
+  { threat: 'Wi-Fi intrusion', layer: 'Wi-Fi', attack: 'Someone nearby gets onto your Wi-Fi', defence: 'WPA3 encryption with a strong password, a guest network for visitors, and a check for devices that shouldn’t be connected.', href: '/wireless-networks-setup-gold-coast', linkText: 'Wireless networks' },
+  { threat: 'Smart device', layer: 'Network', attack: 'A cheap smart device becomes the way in', defence: 'Smart TVs, cameras and gadgets kept on their own network, away from the computers, with hardware and software firewalls in between.', href: '/business-it-support-gold-coast', linkText: 'Business IT support' },
+  { threat: 'Theft', layer: 'Encryption', attack: 'A laptop is lost or stolen', defence: 'Drive encryption with BitLocker (Windows) or FileVault (Mac), so the files can’t be read without your password.', href: '/password-manager-2fa-setup-gold-coast', linkText: 'Passwords & encryption' },
+  { threat: 'Ransomware', layer: 'Backups', attack: 'Ransomware locks up your files', defence: 'Automatic backups it can’t reach, in the cloud (OneDrive, Google Drive, Dropbox or private cloud) or on a local drive, and a plan for getting files back.', href: '/data-backup-transfer-gold-coast', linkText: 'Backup & transfer' },
 ];
 
 const faqs = [
@@ -103,19 +104,19 @@ const schema = [
     formPlaceholder="e.g. Clicked a link in a scam text, want my laptop checked"
   />
 
+  <AttackDefence
+    eyebrow="What we cover"
+    title="How they get in, and how we shut the door."
+    intro="Antivirus is only one part of it. An attacker only needs one way in, so we look at your computers, network, accounts and backups together."
+    pairs={pairs}
+    footer={'For businesses we also run vulnerability checks and network risk assessments through <a href="/business-it-support-gold-coast">business IT support</a>, and we tune security software so it doesn’t slow your computers down. Already infected? Start with <a href="/virus-spyware-removal-gold-coast">virus &amp; spyware removal</a>.'}
+  />
+
   <SecurityCheck
     eyebrow="Security check-up"
     title="How exposed are you?"
     intro="Eight questions about the basics that stop most attacks. Answer honestly. Each gap shows what we’d do about it."
     items={checks}
-  />
-
-  <ServiceProblems
-    eyebrow="What we cover"
-    title="Security, tailored to your home or business."
-    intro="Antivirus is only one part of it. We look at your computers, your network, your accounts and your backups together, because an attacker only needs one way in."
-    items={covers}
-    footer={'Already infected? Start with <a href="/virus-spyware-removal-gold-coast">virus &amp; spyware removal</a> before we lock things down.'}
   />
 
   <HowItWorks

@@ -1,0 +1,110 @@
+---
+// "How they get in / What we put in place": each row acts out an attack being blocked. When a row
+// scrolls into view (once), a red dot runs along the dashed line at the spine, a green ring pulses
+// as the dot breaks apart, the check pops in, the threat is struck through and greys out, the green
+// connector draws out to the fix, and the fix fades in. The thin spine fills green row by row and
+// the "X of 8 blocked" counter counts up, pulsing green at 8.
+// Without JS everything renders in the final blocked state. With reduced motion there's no dot or
+// bounce: rows fade in already blocked. Only red (threat) and green (protected) are used as accents.
+
+export interface Pair { threat: string; attack: string; layer: string; defence: string; href: string; linkText: string }
+interface Props {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  pairs: Pair[];
+  /** Optional closing line of HTML (e.g. links to related services). */
+  footer?: string;
+}
+const { eyebrow, title, intro, pairs, footer } = Astro.props;
+---
+<section class="sec sec-alt ad" aria-labelledby="svc-ad-title" data-ad>
+  <div class="wrap">
+    <div class="ad-head">
+      <div>
+        <p class="svc-eyebrow">{eyebrow}</p>
+        <h2 id="svc-ad-title">{title}</h2>
+      </div>
+      <p class="ad-intro">{intro}</p>
+    </div>
+
+    <div class="ad-cols">
+      <span class="ad-col-bad" aria-hidden="true">How they get in</span>
+      <p class="ad-count" aria-live="polite"><b data-ad-count>{pairs.length}</b> of {pairs.length} blocked</p>
+      <span class="ad-col-good" aria-hidden="true">What we put in place</span>
+    </div>
+    <ol class="ad-list">
+      {pairs.map((p) => (
+        <li class="ad-row">
+          <div class="ad-attack">
+            <span class="ad-tag">{p.threat}</span>
+            <p><span class="sr-only">Risk: </span><span class="ad-strike">{p.attack}</span></p>
+          </div>
+          <div class="ad-hit" aria-hidden="true">
+            <span class="ad-spine"></span>
+            <span class="ad-track"></span>
+            <span class="ad-out"></span>
+            <span class="ad-packet"></span>
+            <span class="ad-burst"></span>
+            <span class="ad-ring"></span>
+            <span class="ad-mark"></span>
+          </div>
+          <div class="ad-defence">
+            <p><strong class="ad-lead">{p.layer}.</strong> <span class="sr-only">What we do: </span>{p.defence}</p>
+            <a class="ad-more" href={p.href}>{p.linkText} →</a>
+          </div>
+        </li>
+      ))}
+    </ol>
+    {footer && <p class="svc-related prose" set:html={footer} />}
+  </div>
+</section>
+
+<script is:inline>(function(){
+  var root=document.querySelector('[data-ad]');
+  if(!root||!('IntersectionObserver' in window))return;
+  var calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var rows=[].slice.call(root.querySelectorAll('.ad-row'));
+  var count=root.querySelector('[data-ad-count]');
+  var n=0, queue=[], busy=false;
+  root.classList.add('ad-live');
+  if(calm)root.classList.add('ad-calm');
+  count.textContent='0';
+
+  // Rows are blocked one after another (even when several arrive at once) so each one plays out.
+  function run(){
+    if(busy||!queue.length)return;
+    busy=true;
+    var r=queue.shift();
+    r.classList.add('is-safe');
+    setTimeout(function(){
+      count.textContent=++n;
+      if(n===rows.length)root.classList.add('ad-done');
+    },calm?0:550);
+    setTimeout(function(){busy=false;run();},calm?80:220);
+  }
+  function block(r){
+    if(r.hasAttribute('data-q'))return;
+    // Anything above this row that hasn't gone yet goes first, so the order is always top to bottom.
+    for(var i=0;i<rows.indexOf(r);i++)if(!rows[i].hasAttribute('data-q')){rows[i].setAttribute('data-q','');queue.push(rows[i]);}
+    r.setAttribute('data-q','');queue.push(r);
+    io.unobserve(r);
+    run();
+  }
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      // Also catches rows already scrolled past (e.g. the page opened further down).
+      if(e.isIntersecting||e.boundingClientRect.bottom<(e.rootBounds?e.rootBounds.top:0))block(e.target);
+    });
+  },{rootMargin:'0px 0px -35% 0px'});
+  rows.forEach(function(r){io.observe(r);});
+  // A jump straight past the list (a link to a section further down) never makes a row intersect,
+  // so a light scroll check sweeps up anything left above the screen.
+  function sweep(){
+    rows.forEach(function(r){if(!r.hasAttribute('data-q')&&r.getBoundingClientRect().bottom<0)block(r);});
+    if(rows.every(function(r){return r.hasAttribute('data-q');}))removeEventListener('scroll',onScroll);
+  }
+  var ticking=false;
+  function onScroll(){if(!ticking){ticking=true;requestAnimationFrame(function(){ticking=false;sweep();});}}
+  addEventListener('scroll',onScroll,{passive:true});
+})();</script>
