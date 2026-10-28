@@ -52,6 +52,21 @@ export const laptopPrices: PriceList = {
   ],
 };
 
+// TODO(client): placeholder prices from typical Australian market rates, to be corrected.
+export const securityPrices: PriceList = {
+  title: 'Security price list',
+  items: [
+    { name: 'Call-out', price: '$0', note: 'Onsite anywhere on the Gold Coast' },
+    { name: 'Antivirus setup', price: 'from $99', note: 'Installed, configured and checked it’s updating', href: '/virus-spyware-removal-gold-coast' },
+    { name: 'Router & Wi-Fi lockdown', price: 'from $129', note: 'Admin password, firmware, WPA2/WPA3, guest network', href: '/wireless-networks-setup-gold-coast' },
+    { name: 'Password manager & 2FA', price: 'from $129', note: 'Set up on your devices and key accounts', href: '/password-manager-2fa-setup-gold-coast' },
+    { name: 'Home security check-up', price: 'from $149', note: 'Every computer, the router and your backups', badge: 'Most booked' },
+    { name: 'Backup setup', price: 'from $149', note: 'Cloud or local, so ransomware can’t hold files hostage', href: '/cloud-backup-storage-gold-coast' },
+    { name: 'Virus & malware removal', price: '$250 fixed', note: 'Full clean-up, often done remotely', badge: 'Fixed fee', href: '/virus-spyware-removal-gold-coast' },
+    { name: 'Small business security audit', price: 'from $390', note: 'Computers, network, accounts and backups checked', href: '/business-it-support-gold-coast' },
+  ],
+};
+
 export const macPrices: PriceList = {
   title: 'Mac repair price list',
   items: [

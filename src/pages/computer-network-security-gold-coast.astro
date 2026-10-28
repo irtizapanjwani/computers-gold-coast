@@ -1,5 +1,175 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import data from '../data/pages/computer-network-security-gold-coast.json';
+// Computer & Network Security service page, fully redesigned. Content is the page's original copy
+// (antivirus, Wi-Fi and firewalls, passwords and 2FA, backups, audits, email security, related
+// services, areas), rewritten in sentence case, plus practical security advice. Business claims
+// are only ones already on the site.
+import PageLayout from '../layouts/PageLayout.astro';
+import ServiceHero from '../components/redesign/ServiceHero.astro';
+import SecurityCheck from '../components/service/SecurityCheck.astro';
+import ServiceProblems from '../components/service/ServiceProblems.astro';
+import HowItWorks from '../components/service/HowItWorks.astro';
+import ServiceReviews from '../components/service/ServiceReviews.astro';
+import Areas from '../components/redesign/Areas.astro';
+import Faq from '../components/redesign/Faq.astro';
+import CtaBand from '../components/redesign/CtaBand.astro';
+import PriceSection from '../components/service/PriceSection.astro';
+import { securityPrices } from '../data/pricing';
+import { SITE, businessSchema, faqSchema } from '../data/site';
+import type { SecurityItem } from '../components/service/SecurityCheck.astro';
+
+const path = '/computer-network-security-gold-coast';
+const url = `${SITE}${path}`;
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Services', href: '/services' },
+  { label: 'Computer & Network Security' },
+];
+
+const checks: SecurityItem[] = [
+  { id: 'av', question: 'Is antivirus running and up to date on every computer?', gap: 'Antivirus missing or out of date', fix: 'We install real-time protection, check it’s actually updating, and scan for anything already hiding on the machine.', href: '/virus-spyware-removal-gold-coast', linkText: 'Virus & spyware removal' },
+  { id: 'updates', question: 'Do Windows or macOS updates install automatically?', gap: 'Updates not installing', fix: 'Missed updates leave known holes open. We catch the computer up and switch automatic updates back on.', href: '/operating-system-install-repair-gold-coast', linkText: 'Operating system install & repair' },
+  { id: 'router', question: 'Have you changed the router’s admin password from the one it came with?', gap: 'Router still on its default login', fix: 'We set a new admin password, update the router’s firmware and turn off remote management you don’t need.', href: '/wireless-networks-setup-gold-coast', linkText: 'Wireless network setup' },
+  { id: 'wifi', question: 'Is your Wi-Fi on WPA2 or WPA3 with a strong password?', gap: 'Weak Wi-Fi security', fix: 'We switch the network to WPA2 or WPA3 encryption with a strong password, and check what’s already connected.', href: '/wireless-networks-setup-gold-coast', linkText: 'Wireless network setup' },
+  { id: 'guest', question: 'Are visitors and smart devices on a separate guest network?', gap: 'Everything on one network', fix: 'A guest network keeps visitors, smart TVs and cameras away from the computers that hold your files and banking.', href: '/network-optimisation-mesh-wifi-gold-coast', linkText: 'Network optimisation & mesh Wi-Fi' },
+  { id: 'passwords', question: 'Do you use a different password for every important account?', gap: 'Reused passwords', fix: 'One leaked password shouldn’t open everything. We set up a password manager like Bitwarden or 1Password and help you change the important ones.', href: '/password-manager-2fa-setup-gold-coast', linkText: 'Password manager & 2FA setup' },
+  { id: '2fa', question: 'Is two-factor authentication (2FA) on for your email and banking?', gap: 'No 2FA on key accounts', fix: 'With 2FA, a stolen password on its own isn’t enough. Your email comes first, because it can reset everything else.', href: '/password-manager-2fa-setup-gold-coast', linkText: 'Password manager & 2FA setup' },
+  { id: 'backup', question: 'Is there a backup of your files that isn’t plugged in all the time?', gap: 'No safe backup', fix: 'Ransomware encrypts anything it can reach, including a drive that’s always connected. We set up cloud or rotated backups it can’t get to.', href: '/cloud-backup-storage-gold-coast', linkText: 'Cloud backup & storage' },
+];
+
+const covers = [
+  { icon: 'shield', title: 'Antivirus & malware protection', text: 'Real-time protection from software like Bitdefender or Norton, ransomware protection, and scans for spyware and keyloggers.', href: '/virus-spyware-removal-gold-coast', linkText: 'Virus removal' },
+  { icon: 'wifi', title: 'Wi-Fi & network security', text: 'Secure Wi-Fi with WPA3 encryption, a guest network for visitors, and a check for devices that shouldn’t be connected.', href: '/wireless-networks-setup-gold-coast', linkText: 'Wireless networks' },
+  { icon: 'zap', title: 'Firewalls & segmentation', text: 'Hardware and software firewalls configured, and smart devices kept on their own network, away from business computers.', href: '/business-it-support-gold-coast', linkText: 'Business IT support' },
+  { icon: 'lock', title: 'Passwords, 2FA & encryption', text: 'A password manager, two-factor authentication on key accounts, and drive encryption with BitLocker (Windows) or FileVault (Mac).', href: '/password-manager-2fa-setup-gold-coast', linkText: 'Passwords & 2FA' },
+  { icon: 'chat', title: 'Email & phishing protection', text: 'Spam and phishing filters, plus how to spot fake emails, texts and calls before you click or hand anything over.', href: '/email-setup-problems-gold-coast', linkText: 'Email help' },
+  { icon: 'drive', title: 'Backup & recovery', text: 'Automatic cloud backups (OneDrive, Google Drive, Dropbox or private cloud), local backups and a plan for getting files back.', href: '/data-backup-transfer-gold-coast', linkText: 'Backup & transfer' },
+  { icon: 'briefcase', title: 'Security audits for business', text: 'Vulnerability checks across Windows and macOS computers and a risk assessment of your business network.', href: '/business-it-support-gold-coast', linkText: 'Business IT support' },
+  { icon: 'trending', title: 'Protection without the slowdown', text: 'Security software tuned so it doesn’t drag the computer down, safe browsing with secure DNS, and alerts that matter.', href: '/computer-tune-up-gold-coast', linkText: 'Computer tune-ups' },
+];
+
+const faqs = [
+  { q: 'I clicked a link in a scam email or text. What should I do?', a: 'Don’t enter anything else. If you typed in a password, change it straight away from a different device, and turn on two-factor authentication for that account. If you gave card or bank details, call your bank now. Then get the computer or phone checked for anything that was installed. You can report it at <a href="https://www.cyber.gov.au/report-and-recover/report" rel="noopener">cyber.gov.au</a> and <a href="https://www.scamwatch.gov.au" rel="noopener">Scamwatch</a>.' },
+  { q: 'Someone rang saying they’re from Microsoft, Telstra or my bank and asked for remote access. Is that real?', a: 'No. Legitimate companies don’t cold-call you to fix your computer. Hang up. If you already let them connect, switch off the internet, don’t log in to your banking, and get the computer checked before you use it again. Call your bank on the number on your card, not one they gave you.' },
+  { q: 'Is the free Windows Security antivirus good enough?', a: 'For most home users, kept up to date and combined with sensible habits, it’s a solid base. Paid suites add things like web filtering, parental controls and cover for phones and Macs. We’ll recommend what fits how you use your devices, not the most expensive option.' },
+  { q: 'Do Macs need antivirus?', a: 'macOS has good protection built in, and keeping it updated matters most. But Mac owners get the same phishing emails, fake sites and adware as everyone else, and Macs can still pass infected files to Windows PCs. We’ll check yours and tell you honestly whether you need more.' },
+  { q: 'Why would anyone bother hacking my home Wi-Fi?', a: 'Usually it isn’t personal. Automated tools scan for routers still using default logins and old firmware, then use them to spy on traffic or attack others. Changing the admin password, updating the firmware and using WPA2 or WPA3 closes most of that off.' },
+  { q: 'Can you set up security remotely?', a: 'Much of it, yes: antivirus, updates, password managers, 2FA and backups can all be done over a remote session. Router and network work is usually best done onsite, so we can see every device that’s connected. If you’re already infected, start with <a href="/virus-spyware-removal-gold-coast">virus &amp; spyware removal</a>.' },
+  { q: 'Do you help small businesses with security?', a: 'Yes. Separate accounts for staff, firewalls, network segmentation, backups and phishing awareness make the biggest difference for a small office. See <a href="/business-it-support-gold-coast">business IT support</a>.' },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        '@id': `${url}#service`,
+        name: 'Computer & Network Security Gold Coast',
+        serviceType: 'Computer and network security',
+        url,
+        description: 'Computer and network security across the Gold Coast: antivirus and malware protection, secure Wi-Fi and firewalls, password managers and 2FA, backups, email security and business security audits. Onsite or remote.',
+        provider: businessSchema,
+        areaServed: businessSchema.areaServed,
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${url}#breadcrumb`,
+        itemListElement: breadcrumbs.map((c, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: c.label,
+          item: c.href ? `${SITE}${c.href === '/' ? '/' : c.href}` : url,
+        })),
+      },
+    ],
+  },
+  faqSchema(faqs, url),
+];
 ---
-<Layout headHtml={data.headHtml} bodyHtml={data.bodyHtml} footerHtml={data.footerHtml ?? null} bare={data.bare ?? false} />
+<PageLayout
+  title="Computer & Network Security Gold Coast | Computers Gold Coast"
+  description="Computer and network security on the Gold Coast. Antivirus, secure Wi-Fi and firewalls, password managers and 2FA, backups and business security audits. Onsite or remote."
+  shareDescription="Antivirus, secure Wi-Fi, passwords and 2FA, and backups for Gold Coast homes and businesses. Onsite or remote."
+  path={path}
+  schema={schema}
+>
+  <ServiceHero
+    eyebrow="Computer & network security · Gold Coast"
+    title="Computer and network security on the Gold Coast."
+    highlight="Keep your devices and data safe."
+    intro="Ransomware, phishing and identity theft are on the rise. We protect the computers, Wi-Fi and accounts of Gold Coast homes and businesses, onsite or remotely."
+    breadcrumbs={breadcrumbs}
+    path={path}
+    formPlaceholder="e.g. Clicked a link in a scam text, want my laptop checked"
+  />
+
+  <SecurityCheck
+    eyebrow="Security check-up"
+    title="How exposed are you?"
+    intro="Eight questions about the basics that stop most attacks. Answer honestly. Each gap shows what we’d do about it."
+    items={checks}
+  />
+
+  <ServiceProblems
+    eyebrow="What we cover"
+    title="Security, tailored to your home or business."
+    intro="Antivirus is only one part of it. We look at your computers, your network, your accounts and your backups together, because an attacker only needs one way in."
+    items={covers}
+    footer={'Already infected? Start with <a href="/virus-spyware-removal-gold-coast">virus &amp; spyware removal</a> before we lock things down.'}
+  />
+
+  <HowItWorks
+    eyebrow="How it works"
+    title="From worried to locked down."
+    intro="Tell us what’s worrying you, or just ask for a check-up. We find the gaps first, then fix the ones that matter."
+    steps={[
+      { title: 'Tell us what’s happening', text: 'Call, or send the quote form. A suspicious email, a strange login alert, or just wanting peace of mind are all good reasons.' },
+      { title: 'We check everything', text: 'Onsite at your home or office with no call-out fee, or remotely. We look at your computers, router, Wi-Fi, accounts and backups.' },
+      { title: 'Approve the fixes', text: 'You get a plain-English list of the gaps and the price. Nothing starts until you’ve said yes, and you get free advice afterwards.' },
+    ]}
+    example={{
+      problem: 'Strange sign-in alert on my email',
+      checks: ['Antivirus', 'Router', 'Wi-Fi', 'Email account'],
+      faultLabel: 'Exposed',
+      cause: 'Reused password, no 2FA',
+      fix: 'New passwords, 2FA switched on',
+    }}
+  />
+
+  <PriceSection
+    eyebrow="Pricing"
+    title="Security prices."
+    intro="Typical starting prices for the security work we do most. Tell us how many devices you have and we’ll confirm the exact price before any work starts."
+    list={securityPrices}
+  />
+
+  <ServiceReviews
+    title="What customers say about our service."
+    intro="In Gold Coast customers’ own words."
+    picks={[2, 1, 4]}
+  />
+
+  <section class="sec" aria-labelledby="svc-areas-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="svc-eyebrow">Where we work</p>
+        <h2 id="svc-areas-title">Computer and network security across the Gold Coast.</h2>
+        <p class="lede">Onsite or remote, from Coomera to Coolangatta and up to Tamborine Mountain, for homes and businesses alike. Not sure if we cover your suburb? <a class="link" href="tel:+61447266455">Give us a call</a>.</p>
+      </div>
+      <Areas />
+    </div>
+  </section>
+
+  <section class="sec sec-alt" aria-label="Frequently asked questions">
+    <div class="wrap">
+      <Faq title="Security questions, answered." intro="Practical answers to what Gold Coast customers ask us most about staying safe online. Can’t see yours? Call and you’ll talk to a technician, not a call centre." items={faqs} />
+    </div>
+  </section>
+
+  <CtaBand
+    title="Lock down your computers and network."
+    text="Book an onsite visit or connect remotely. You’ll get a plain-English list of the gaps and the price before any work starts."
+    href="#quote"
+    label="Get a free quote"
+  />
+</PageLayout>

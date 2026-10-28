@@ -1,0 +1,119 @@
+---
+// "How exposed are you?" Eight yes / no / not sure questions about the basics (antivirus,
+// updates, router, Wi-Fi, guest network, passwords, 2FA, backups). A meter fills with each
+// "yes", and every gap shows what we'd do about it with a link to that service. "Not sure"
+// counts as a gap, because it usually is one. Every fix is in the HTML so search engines can
+// read it.
+
+export interface SecurityItem { id: string; question: string; gap: string; fix: string; href: string; linkText: string }
+interface Props { eyebrow: string; title: string; intro: string; items: SecurityItem[] }
+const { eyebrow, title, intro, items } = Astro.props;
+
+const answers = [
+  { value: 'yes', label: 'Yes' },
+  { value: 'no', label: 'No' },
+  { value: 'unsure', label: 'Not sure' },
+];
+// verdict by score: 0 wide open (0–4), 1 a few gaps (5–7), 2 well covered (8)
+const verdicts = [
+  { title: 'Wide open in places', text: 'Several of the basics are missing. That’s common, and most of it can be fixed in a single visit or remote session.' },
+  { title: 'A few gaps to close', text: 'You’ve covered a lot already. The gaps below are the usual ways in, so they’re worth closing.' },
+  { title: 'Nicely locked down', text: 'You’ve got the basics covered. A check-up every year or so keeps it that way as devices and accounts change.' },
+];
+---
+<section class="sec sc" aria-labelledby="svc-sc-title" data-sc data-total={items.length}>
+  <div class="wrap">
+    <div class="wf-head">
+      <div>
+        <p class="svc-eyebrow">{eyebrow}</p>
+        <h2 id="svc-sc-title">{title}</h2>
+      </div>
+      <p class="wf-intro">{intro}</p>
+    </div>
+
+    <div class="wf-grid">
+      <ol class="sc-list">
+        {items.map((it, i) => (
+          <li class="sc-q">
+            <fieldset>
+              <legend><span class="sc-n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>{it.question}</legend>
+              <div class="sc-seg">
+                {answers.map((a) => (
+                  <label>
+                    <input type="radio" name={`sc-${it.id}`} value={a.value} checked={a.value === 'unsure'} />
+                    <span>{a.label}</span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          </li>
+        ))}
+      </ol>
+
+      <div class="wf-result sc-result" aria-live="polite">
+        <div class="sc-score">
+          <p><strong data-sc-score>0</strong> of {items.length} covered</p>
+          <div class="sc-meter" aria-hidden="true">
+            {items.map(() => <span></span>)}
+          </div>
+        </div>
+        {verdicts.map((v, i) => (
+          <div class="wf-verdict" data-sc-verdict={i} hidden={i !== 0}>
+            <p class="wf-verdict-title">{v.title}</p>
+            <p class="wf-verdict-text">{v.text}</p>
+          </div>
+        ))}
+        <div class="sc-gaps">
+          <p class="wf-what-label">Your gaps and what we’d do</p>
+          <ul>
+            {items.map((it) => (
+              <li data-sc-gap={it.id}>
+                <strong>{it.gap}</strong>
+                <p>{it.fix}</p>
+                <a class="link" href={it.href}>{it.linkText} →</a>
+              </li>
+            ))}
+          </ul>
+          <p class="sc-none" data-sc-none hidden>No gaps. Nice work.</p>
+        </div>
+        <div class="wf-foot">
+          <a class="btn btn-primary" href="#quote" data-sc-quote>Fix my gaps</a>
+          <p>A quick self-check, not a full audit. Nothing you tick here is saved or sent anywhere.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>(function(){
+  var root=document.querySelector('[data-sc]');
+  if(!root)return;
+  var total=+root.getAttribute('data-total');
+  var bars=root.querySelectorAll('.sc-meter span');
+  function gaps(){
+    var out=[];
+    root.querySelectorAll('[data-sc-gap]').forEach(function(li){
+      var a=root.querySelector('input[name="sc-'+li.getAttribute('data-sc-gap')+'"]:checked');
+      if(!a||a.value!=='yes')out.push(li);
+    });
+    return out;
+  }
+  function update(){
+    var g=gaps(), score=total-g.length;
+    var v=score===total?2:score>=5?1:0;
+    root.querySelector('[data-sc-score]').textContent=score;
+    bars.forEach(function(b,i){b.classList.toggle('on',i<score);});
+    root.querySelectorAll('[data-sc-gap]').forEach(function(li){li.hidden=g.indexOf(li)<0;});
+    root.querySelector('[data-sc-none]').hidden=g.length>0;
+    root.querySelectorAll('[data-sc-verdict]').forEach(function(el){el.hidden=+el.getAttribute('data-sc-verdict')!==v;});
+    root.setAttribute('data-verdict',v);
+  }
+  root.addEventListener('change',update);
+  root.querySelector('[data-sc-quote]').addEventListener('click',function(){
+    var msg=document.getElementById('q-message');
+    var g=gaps().map(function(li){return li.querySelector('strong').textContent.toLowerCase();});
+    if(msg&&!msg.value&&g.length){msg.value='Security check-up. Gaps: '+g.join('; ')+'. ';}
+    setTimeout(function(){var n=document.getElementById('q-name');if(n)n.focus({preventScroll:true});},450);
+  });
+  update();
+})();</script>
