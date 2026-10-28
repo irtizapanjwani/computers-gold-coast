@@ -67,6 +67,20 @@ export const securityPrices: PriceList = {
   ],
 };
 
+// TODO(client): placeholder prices from typical Australian market rates, to be corrected.
+export const setupPrices: PriceList = {
+  title: 'Setup price list',
+  items: [
+    { name: 'Call-out', price: '$0', note: 'Onsite anywhere on the Gold Coast' },
+    { name: 'Printer & Wi-Fi setup', price: 'from $79', note: 'Connected, tested with a real page' },
+    { name: 'Old computer wipe', price: 'from $79', note: 'Data securely erased before you sell or recycle it' },
+    { name: 'New computer setup', price: 'from $149', note: 'Updates, bloatware removed, accounts and antivirus', badge: 'Most booked' },
+    { name: 'Data transfer only', price: 'from $149', note: 'Files, photos and settings moved across', href: '/data-backup-transfer-gold-coast' },
+    { name: 'Business workstation setup', price: 'from $199', note: 'Per computer: accounts, shared drives, printers and security', href: '/business-it-support-gold-coast' },
+    { name: 'Setup + data transfer', price: 'from $249', note: 'The full setup, with everything moved from your old computer' },
+  ],
+};
+
 export const macPrices: PriceList = {
   title: 'Mac repair price list',
   items: [

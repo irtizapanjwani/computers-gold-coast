@@ -1,0 +1,101 @@
+---
+// "Out of the box vs. set up properly": a before/after slider over a mock desktop. Drag it (or use
+// the arrow keys) to wipe from a brand-new computer as it arrives (trial antivirus nagging, updates
+// pending, trial offers, printer missing) to the same computer after our setup. The mock screens are
+// decorative; the list underneath carries the same comparison as text. Plays one sweep when it first
+// scrolls into view (not with reduced motion). No icons.
+
+export interface Contrast { before: string; after: string; href?: string; linkText?: string }
+interface Props { eyebrow: string; title: string; intro: string; rows: Contrast[] }
+const { eyebrow, title, intro, rows } = Astro.props;
+
+const junk = [
+  { label: 'Free trial', c: '#f97316' }, { label: 'Game offer', c: '#a855f7' }, { label: 'Photo trial', c: '#ef4444' },
+  { label: 'Bonus app', c: '#eab308' }, { label: 'Deals', c: '#22c55e' }, { label: 'Recycle bin', c: '#94a3b8' },
+];
+const tidy = [
+  { label: 'Documents', c: '#38bdf8' }, { label: 'Photos', c: '#7dd3fc' }, { label: 'Office', c: '#0ea5e9' }, { label: 'Recycle bin', c: '#94a3b8' },
+];
+---
+<section class="sec sx" aria-labelledby="svc-sx-title" data-sx>
+  <div class="wrap">
+    <div class="sx-head">
+      <div>
+        <p class="svc-eyebrow">{eyebrow}</p>
+        <h2 id="svc-sx-title">{title}</h2>
+      </div>
+      <p class="sx-intro">{intro}</p>
+    </div>
+
+    <div class="sx-frame" style="--pos:50">
+      <div class="sx-screen" aria-hidden="true">
+        <div class="sx-layer sx-before">
+          <ul class="sx-icons">{junk.map((i) => <li><span style={`background:${i.c}`}></span>{i.label}</li>)}</ul>
+          <div class="sx-pop">
+            <b>Sign in to back up all your files</b>
+            <span>Turn on cloud sync for your desktop, documents and pictures?</span>
+            <em>Turn on</em>
+          </div>
+          <div class="sx-toasts">
+            <p class="sx-toast sx-warn"><i></i>Your antivirus trial ends in 30 days <em>Renew</em></p>
+            <p class="sx-toast"><i></i>Restart to install 14 updates</p>
+            <p class="sx-toast sx-warn"><i></i>Printer not found</p>
+          </div>
+          <div class="sx-bar">{Array.from({ length: 11 }).map((_, i) => <span style={`opacity:${0.35 + (i % 4) * 0.15}`}></span>)}</div>
+        </div>
+        <div class="sx-layer sx-after">
+          <ul class="sx-icons">{tidy.map((i) => <li><span style={`background:${i.c}`}></span>{i.label}</li>)}</ul>
+          <div class="sx-toasts">
+            <p class="sx-toast sx-ok"><i></i>Protected and up to date</p>
+            <p class="sx-toast sx-ok"><i></i>Your files are here</p>
+            <p class="sx-toast sx-ok"><i></i>Backup complete</p>
+            <p class="sx-toast sx-ok"><i></i>Printer ready</p>
+          </div>
+          <div class="sx-bar">{Array.from({ length: 5 }).map(() => <span></span>)}</div>
+        </div>
+        <span class="sx-tag sx-tag-l">Out of the box</span>
+        <span class="sx-tag sx-tag-r">Set up by us</span>
+        <span class="sx-handle"><span></span></span>
+      </div>
+      <input class="sx-range" type="range" min="0" max="100" value="50" aria-label="Compare a computer out of the box with one we’ve set up" data-sx-range />
+    </div>
+
+    <div class="sx-cols" aria-hidden="true"><span>Out of the box</span><span>After our setup</span></div>
+    <ul class="sx-list">
+      {rows.map((r) => (
+        <li>
+          <p class="sx-b"><span class="sr-only">Out of the box: </span>{r.before}</p>
+          <p class="sx-a"><span class="sr-only">After our setup: </span>{r.after}{r.href && <> <a href={r.href}>{r.linkText} →</a></>}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<script is:inline>(function(){
+  var root=document.querySelector('[data-sx]');
+  if(!root)return;
+  var frame=root.querySelector('.sx-frame'), range=root.querySelector('[data-sx-range]');
+  var touched=false;
+  function set(v){frame.style.setProperty('--pos',v);}
+  range.addEventListener('input',function(){touched=true;set(range.value);});
+  range.addEventListener('pointerdown',function(){touched=true;});
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver' in window))return;
+  // One sweep on first view: show the cluttered screen, wipe across to the set-up one, settle in the middle.
+  var io=new IntersectionObserver(function(es){
+    if(!es[0].isIntersecting)return;
+    io.disconnect();
+    var keys=[[0,92],[700,92],[1700,10],[2500,50]], t0=null;
+    function ease(t){return t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;}
+    function step(ts){
+      if(touched)return;
+      if(t0===null)t0=ts;
+      var t=ts-t0, v=50;
+      for(var i=1;i<keys.length;i++){if(t<=keys[i][0]){var a=keys[i-1],b=keys[i];v=a[1]+(b[1]-a[1])*ease((t-a[0])/(b[0]-a[0]));break;}}
+      set(v);range.value=Math.round(v);
+      if(t<keys[keys.length-1][0])requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  },{threshold:.5});
+  io.observe(frame);
+})();</script>

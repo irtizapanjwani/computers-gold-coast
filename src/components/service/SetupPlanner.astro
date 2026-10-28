@@ -1,0 +1,125 @@
+---
+// "Plan your setup": pick what you bought, what you're moving from and what else you need, and the
+// card on the right lists the setup steps in the order we'd do them. "Book this setup" prefills the
+// hero quote form with the plan. Every step is in the HTML (all shown without JS) so search engines
+// can read it. Reuses the dark "Is it worth fixing?" layout (.wf-*). No icons.
+
+export interface PlanStep {
+  id: string;
+  title: string;
+  text: string;
+  /** When the step shows: always, when an extra is ticked, or only when moving from an old computer. */
+  when: 'always' | 'moving' | string;
+  /** Only for this kind of new computer. */
+  only?: 'windows' | 'mac';
+}
+interface Option { value: string; label: string }
+interface Extra { value: string; label: string; only?: 'windows' | 'mac'; checked?: boolean }
+interface Props {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  machines: Option[];
+  sources: Option[];
+  extras: Extra[];
+  steps: PlanStep[];
+  /** Shown under the file transfer step when switching between Windows and Mac. */
+  switchNote: string;
+  footnote: string;
+}
+const { eyebrow, title, intro, machines, sources, extras, steps, switchNote, footnote } = Astro.props;
+---
+<section class="sec wf sp" aria-labelledby="svc-sp-title" data-sp>
+  <div class="wrap">
+    <div class="wf-head">
+      <div>
+        <p class="svc-eyebrow">{eyebrow}</p>
+        <h2 id="svc-sp-title">{title}</h2>
+      </div>
+      <p class="wf-intro">{intro}</p>
+    </div>
+
+    <div class="wf-grid">
+      <div class="wf-pick">
+        <fieldset class="wf-set">
+          <legend><span>1</span>What did you buy?</legend>
+          <div class="wf-chips">
+            {machines.map((m, i) => (
+              <label class="wf-chip"><input type="radio" name="sp-machine" value={m.value} checked={i === 0} /><span>{m.label}</span></label>
+            ))}
+          </div>
+        </fieldset>
+        <fieldset class="wf-set">
+          <legend><span>2</span>What are you moving from?</legend>
+          <div class="wf-chips">
+            {sources.map((s, i) => (
+              <label class="wf-chip"><input type="radio" name="sp-from" value={s.value} checked={i === 0} /><span>{s.label}</span></label>
+            ))}
+          </div>
+        </fieldset>
+        <fieldset class="wf-set">
+          <legend><span>3</span>What else do you need?</legend>
+          <div class="wf-chips">
+            {extras.map((x) => (
+              <label class="wf-chip" data-only={x.only}><input type="checkbox" name="sp-extra" value={x.value} checked={x.checked} /><span>{x.label}</span></label>
+            ))}
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="wf-result sp-card" aria-live="polite">
+        <p class="sp-kicker">Your setup plan</p>
+        <p class="sp-summary" data-sp-summary hidden></p>
+        <ol class="sp-steps">
+          {steps.map((s) => (
+            <li data-when={s.when} data-only={s.only}>
+              <strong>{s.title}</strong>
+              <p>{s.text}</p>
+              {s.when === 'moving' && <p class="sp-switch" data-sp-switch hidden>{switchNote}</p>}
+            </li>
+          ))}
+        </ol>
+        <div class="wf-foot">
+          <a class="btn btn-primary" href="#quote" data-sp-quote>Book this setup</a>
+          <p>{footnote}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>(function(){
+  var root=document.querySelector('[data-sp]');
+  if(!root)return;
+  function val(n){var el=root.querySelector('input[name='+n+']:checked');return el?el.value:'';}
+  function label(n){var el=root.querySelector('input[name='+n+']:checked');return el?el.nextElementSibling.textContent:'';}
+  function extras(){return [].slice.call(root.querySelectorAll('input[name=sp-extra]:checked')).filter(function(i){return !i.closest('[hidden]');});}
+  function update(){
+    var machine=val('sp-machine'), from=val('sp-from'), on={};
+    // Extras that only apply to one kind of computer (e.g. bloatware on Windows) hide for the other.
+    root.querySelectorAll('.wf-chip[data-only]').forEach(function(c){c.hidden=c.getAttribute('data-only')!==machine;});
+    extras().forEach(function(i){on[i.value]=true;});
+    var n=0;
+    root.querySelectorAll('.sp-steps li').forEach(function(li){
+      var w=li.getAttribute('data-when'), only=li.getAttribute('data-only');
+      var show=(w==='always'||(w==='moving'?from!=='none':on[w]))&&(!only||only===machine);
+      li.hidden=!show; if(show)n++;
+    });
+    var sw=root.querySelector('[data-sp-switch]');
+    if(sw)sw.hidden=!(from!=='none'&&from!==machine);
+    var s=root.querySelector('[data-sp-summary]');
+    s.hidden=false;
+    s.textContent=label('sp-machine')+' · '+n+' steps';
+  }
+  root.addEventListener('change',update);
+  root.querySelector('[data-sp-quote]').addEventListener('click',function(){
+    var msg=document.getElementById('q-message');
+    if(msg&&!msg.value){
+      var need=extras().map(function(i){return i.nextElementSibling.textContent;});
+      var from=val('sp-from')==='none'?'my first computer':'moving from '+label('sp-from').replace(/^An /,'an ');
+      msg.value='New computer setup: '+label('sp-machine')+', '+from+'.'+(need.length?' Also need: '+need.join(', ')+'.':'')+' ';
+    }
+    setTimeout(function(){var n=document.getElementById('q-name');if(n)n.focus({preventScroll:true});},450);
+  });
+  update();
+})();</script>

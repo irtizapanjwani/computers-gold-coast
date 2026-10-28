@@ -1,5 +1,198 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import data from '../data/pages/new-computer-setup-gold-coast.json';
+// New Computer Setup service page, fully redesigned. Content is the page's original copy (OS setup,
+// data transfer, software, antivirus, network and printer, performance, personalisation, setup
+// process, FAQs, related services, areas), rewritten in sentence case, plus practical setup advice.
+// Business claims are only ones already on the site.
+import PageLayout from '../layouts/PageLayout.astro';
+import ServiceHero from '../components/redesign/ServiceHero.astro';
+import SetupCompare from '../components/service/SetupCompare.astro';
+import SetupPlanner from '../components/service/SetupPlanner.astro';
+import HowItWorks from '../components/service/HowItWorks.astro';
+import ServiceReviews from '../components/service/ServiceReviews.astro';
+import Areas from '../components/redesign/Areas.astro';
+import Faq from '../components/redesign/Faq.astro';
+import CtaBand from '../components/redesign/CtaBand.astro';
+import PriceSection from '../components/service/PriceSection.astro';
+import { setupPrices } from '../data/pricing';
+import { SITE, businessSchema, faqSchema } from '../data/site';
+import type { Contrast } from '../components/service/SetupCompare.astro';
+import type { PlanStep } from '../components/service/SetupPlanner.astro';
+
+const path = '/new-computer-setup-gold-coast';
+const url = `${SITE}${path}`;
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Services', href: '/services' },
+  { label: 'New Computer Setup' },
+];
+
+const contrasts: Contrast[] = [
+  { before: 'A trial antivirus that nags for a few weeks, then stops protecting you.', after: 'Proper protection, configured and updating from day one.', href: '/computer-network-security-gold-coast', linkText: 'Security' },
+  { before: 'Hours of updates and drivers still waiting to install.', after: 'Fully updated, with the right drivers for your hardware.' },
+  { before: 'Trial software, games and offers you never asked for.', after: 'Bloatware removed and startup trimmed, so it’s fast out of the box.', href: '/windows-debloat-customisation-gold-coast', linkText: 'Windows debloat' },
+  { before: 'Your files, photos and email still on the old computer.', after: 'Everything moved across and checked on the new one.', href: '/data-backup-transfer-gold-coast', linkText: 'Data transfer' },
+  { before: 'Printer, scanner and Wi-Fi not connected yet.', after: 'Connected and tested, so it all just works.' },
+  { before: 'Cloud sync and privacy settings left on their defaults.', after: 'Set the way you want, not the way the manufacturer chose.', href: '/onedrive-removal-gold-coast', linkText: 'OneDrive help' },
+];
+
+const steps: PlanStep[] = [
+  { id: 'updates', when: 'always', title: 'Connected and updated', text: 'On your Wi-Fi, every update installed and drivers checked before anything else, so you start on a current system.' },
+  { id: 'bloat', when: 'bloat', only: 'windows', title: 'Bloatware cleared out', text: 'Trial software and offers removed and startup apps trimmed, so it’s as fast as it should be.' },
+  { id: 'accounts', when: 'always', title: 'Your accounts and settings', text: 'Signed in with your Microsoft account or Apple ID, with privacy and cloud settings set the way you want.' },
+  { id: 'security', when: 'security', title: 'Security', text: 'Antivirus set up and updating, and sign-in with your fingerprint or face if your computer supports it.' },
+  { id: 'files', when: 'moving', title: 'Your files moved across', text: 'Documents, photos, music and desktop files copied from your old computer and checked on the new one.' },
+  { id: 'email', when: 'email', title: 'Email', text: 'Your email accounts added, with old messages and contacts brought across where possible.' },
+  { id: 'office', when: 'office', title: 'Microsoft Office', text: 'Microsoft 365 or Office installed and activated with your licence, plus any other software you rely on.' },
+  { id: 'passwords', when: 'passwords', title: 'Passwords and bookmarks', text: 'Browser bookmarks and saved passwords brought across, ideally into a proper password manager.' },
+  { id: 'printer', when: 'printer', title: 'Printer and scanner', text: 'Installed with the right drivers and tested with a real page and a real scan.' },
+  { id: 'backup', when: 'backup', title: 'Backups', text: 'Automatic backups set up, so the new computer never becomes the only copy of your files.' },
+  { id: 'handover', when: 'always', title: 'Handover', text: 'We walk you through the new computer and how you like to work, and answer your questions. Free advice afterwards.' },
+];
+
+const faqs = [
+  { q: 'How long does a new computer setup take?', a: 'Most setups take 1 to 2 hours, depending on how much software needs installing and how much data is coming across from the old computer.' },
+  { q: 'Can you move everything from my old computer?', a: 'Your files, photos, music, documents, email, bookmarks and most settings, yes. Programs usually need to be installed fresh on the new computer rather than copied, so we install the ones you use. Keep the old computer until you’ve checked everything is there. See <a href="/data-backup-transfer-gold-coast">data backup &amp; transfer</a>.' },
+  { q: 'I’m switching from Windows to a Mac (or the other way). Can you help?', a: 'Yes. We set up Windows PCs and Macs, and Linux too. Your files, photos and email can all come across. Some programs are Windows-only or Mac-only, so we’ll find the version or alternative that does the same job, then show you where everything lives on the new system.' },
+  { q: 'Does my new computer really need antivirus?', a: 'It needs protection, but not necessarily a paid trial. Many new computers come with a trial that stops protecting you after a few weeks unless you pay. We set up protection that suits how you use the computer and make sure it’s actually updating. See <a href="/computer-network-security-gold-coast">computer &amp; network security</a>.' },
+  { q: 'What should I do with my old computer?', a: 'Don’t throw it out until your files are confirmed on the new one. After that, the drive should be securely wiped before you sell, give away or recycle it. Deleting files or emptying the bin doesn’t actually remove them.' },
+  { q: 'Can you install Microsoft Office and my other software?', a: 'Yes. Microsoft 365 or Office, Zoom, browsers, accounting software and whatever else you rely on, installed and activated with your licences. See <a href="/software-install-setup-gold-coast">software install &amp; setup</a>.' },
+  { q: 'Can you set up a new computer remotely?', a: 'Most of it, yes, once the computer is on the internet. Moving files from an old computer and connecting printers is usually quicker onsite, at your home or office.' },
+  { q: 'Do you set up computers for businesses?', a: 'Yes, for businesses and people working from home as well as home users: user accounts, shared drives, printers, email and security. See <a href="/business-it-support-gold-coast">business IT support</a>.' },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        '@id': `${url}#service`,
+        name: 'New Computer Setup Gold Coast',
+        serviceType: 'New computer setup',
+        url,
+        description: 'New computer setup across the Gold Coast: Windows and macOS setup, data transfer from your old computer, software and Microsoft Office, antivirus, printer and Wi-Fi, bloatware removal and personalisation. Onsite or remote.',
+        provider: businessSchema,
+        areaServed: businessSchema.areaServed,
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${url}#breadcrumb`,
+        itemListElement: breadcrumbs.map((c, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: c.label,
+          item: c.href ? `${SITE}${c.href === '/' ? '/' : c.href}` : url,
+        })),
+      },
+    ],
+  },
+  faqSchema(faqs, url),
+];
 ---
-<Layout headHtml={data.headHtml} bodyHtml={data.bodyHtml} footerHtml={data.footerHtml ?? null} bare={data.bare ?? false} />
+<PageLayout
+  title="New Computer Setup Gold Coast | Computers Gold Coast"
+  description="Fast, secure new computer setup on the Gold Coast. Windows & macOS setup, data transfer, antivirus, printer & network setup, onsite or remote. Free phone quote."
+  shareDescription="New PCs, Macs and laptops set up properly: updates, data transfer, software, security and printers. Onsite or remote on the Gold Coast."
+  path={path}
+  schema={schema}
+>
+  <ServiceHero
+    eyebrow="New computer setup · Gold Coast"
+    title="New computer setup on the Gold Coast."
+    highlight="Done right, from the first boot."
+    intro="Got a new PC, Mac or laptop? We set it up, move your files across, secure it and tune it, so it’s ready to use from day one. Onsite or remotely, from Coomera to Coolangatta."
+    breadcrumbs={breadcrumbs}
+    path={path}
+    formPlaceholder="e.g. New laptop, need files moved from my old PC"
+  />
+
+  <SetupCompare
+    eyebrow="Out of the box"
+    title="A new computer isn’t ready to use yet."
+    intro="Updates to install, trials to remove, files still on the old one and security settings left off. Most people guess their way through it. Drag the slider to see the difference a proper setup makes."
+    rows={contrasts}
+  />
+
+  <SetupPlanner
+    eyebrow="Plan your setup"
+    title="What does your setup need?"
+    intro="Tell us what you bought and what you’re moving from. You’ll see every step in the order we’d do it, and you can send the plan with your quote request."
+    machines={[
+      { value: 'windows', label: 'Windows PC or laptop' },
+      { value: 'mac', label: 'Mac or MacBook' },
+    ]}
+    sources={[
+      { value: 'windows', label: 'An old Windows PC' },
+      { value: 'mac', label: 'An old Mac' },
+      { value: 'none', label: 'Nothing, it’s my first' },
+    ]}
+    extras={[
+      { value: 'email', label: 'Email accounts', checked: true },
+      { value: 'office', label: 'Microsoft Office', checked: true },
+      { value: 'printer', label: 'Printer or scanner', checked: true },
+      { value: 'security', label: 'Antivirus & security', checked: true },
+      { value: 'bloat', label: 'Remove bloatware', only: 'windows', checked: true },
+      { value: 'passwords', label: 'Passwords & bookmarks' },
+      { value: 'backup', label: 'Backups' },
+    ]}
+    steps={steps}
+    switchNote="Switching between Windows and Mac? Everything that can come across does, and we show you where it all lives now."
+    footnote="Most setups take 1 to 2 hours, depending on how much software and data there is."
+  />
+
+  <HowItWorks
+    eyebrow="How it works"
+    title="From box to ready to use."
+    intro="Tell us what you bought and what you need. We plan it with you first, then set it up the way you like to work."
+    steps={[
+      { title: 'Tell us what you’ve got', text: 'Call, or send the quote form with the new computer, the old one, and the software you use. We talk through your preferences first.' },
+      { title: 'We set it up', text: 'Onsite at your home or office with no call-out fee, or remotely. Updates, software, your files, security, printer and Wi-Fi.' },
+      { title: 'Check it together', text: 'We confirm everything works, show you around the new setup, and you get free advice afterwards.' },
+    ]}
+    example={{
+      problem: 'New laptop, files still on the old PC',
+      checks: ['Windows updates', 'Drivers', 'Antivirus', 'Files & email'],
+      faultLabel: 'To move',
+      cause: 'Files and email on the old PC',
+      fix: 'Moved across, apps installed',
+    }}
+  />
+
+  <PriceSection
+    eyebrow="Pricing"
+    title="Setup prices."
+    intro="Typical starting prices for the setups we do most. Tell us what you’ve bought and what’s coming across, and we’ll confirm the exact price before any work starts."
+    list={setupPrices}
+    extra={'Building a computer from scratch instead? See <a href="/custom-computer-builds-gold-coast">custom computer builds</a>. Setting up a phone or tablet too? See <a href="/mobile-device-setup-gold-coast">mobile device setup</a>.'}
+  />
+
+  <ServiceReviews
+    title="What customers say about our service."
+    intro="In Gold Coast customers’ own words."
+    picks={[5, 1, 4]}
+  />
+
+  <section class="sec" aria-labelledby="svc-areas-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="svc-eyebrow">Where we work</p>
+        <h2 id="svc-areas-title">New computer setup across the Gold Coast.</h2>
+        <p class="lede">Onsite or remote, from Coomera to Coolangatta and up to Tamborine Mountain, for homes and businesses alike. Not sure if we cover your suburb? <a class="link" href="tel:+61447266455">Give us a call</a>.</p>
+      </div>
+      <Areas />
+    </div>
+  </section>
+
+  <section class="sec sec-alt" aria-label="Frequently asked questions">
+    <div class="wrap">
+      <Faq title="New computer questions, answered." intro="Practical answers to what Gold Coast customers ask us most about setting up a new computer. Can’t see yours? Call and you’ll talk to a technician, not a call centre." items={faqs} />
+    </div>
+  </section>
+
+  <CtaBand
+    title="Start fresh with a properly set up computer."
+    text="Book an onsite visit or connect remotely. Tell us what you’ve bought and we’ll confirm the price before any work starts."
+    href="#quote"
+    label="Get a free quote"
+  />
+</PageLayout>
