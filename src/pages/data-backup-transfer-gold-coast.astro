@@ -1,5 +1,234 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import data from '../data/pages/data-backup-transfer-gold-coast.json';
+// Data Backup & Transfer service page, fully redesigned. Content is the page's original copy (local,
+// cloud and hybrid backup, scheduled backups, PC-to-PC and Mac migration, verify and test, OneDrive
+// and Google Drive sync fixes, 3-2-1 backups, FAQs), rewritten in sentence case, plus a ransomware
+// restore demo, a "what actually comes across?" transfer guide and practical backup advice.
+// Business claims are only ones already on the site.
+import PageLayout from '../layouts/PageLayout.astro';
+import ServiceHero from '../components/redesign/ServiceHero.astro';
+import BackupRewind from '../components/service/BackupRewind.astro';
+import TransferManifest from '../components/service/TransferManifest.astro';
+import HowItWorks from '../components/service/HowItWorks.astro';
+import PriceSection from '../components/service/PriceSection.astro';
+import ServiceReviews from '../components/service/ServiceReviews.astro';
+import Areas from '../components/redesign/Areas.astro';
+import Faq from '../components/redesign/Faq.astro';
+import CtaBand from '../components/redesign/CtaBand.astro';
+import { backupPrices } from '../data/pricing';
+import { SITE, businessSchema, faqSchema } from '../data/site';
+import type { Snapshot, Tool, Reach } from '../components/service/BackupRewind.astro';
+import type { Item } from '../components/service/TransferManifest.astro';
+
+const path = '/data-backup-transfer-gold-coast';
+const url = `${SITE}${path}`;
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Services', href: '/services' },
+  { label: 'Data Backup & Transfer' },
+];
+
+const snapshots: Snapshot[] = [
+  { label: 'Now', locked: true },
+  { label: '1 hour ago' },
+  { label: 'Yesterday' },
+  { label: 'Last week' },
+  { label: '2 months ago' },
+];
+
+// How far back each tool can restore, by snapshot index (1 hour ago is 1, 2 months ago is 4).
+// Defaults as of 2026: File History saves hourly and keeps versions forever; Time Machine keeps
+// hourly for 24 hours, daily for a month, then weekly; OneDrive's "Restore your OneDrive" (Microsoft
+// 365) and Google Drive version history go back 30 days; iCloud Drive only recovers deleted files;
+// cloud backup services keep 30 days by default, longer if set.
+const tools: Tool[] = [
+  { name: 'Windows File History', back: 4, yes: 'Saves every hour and keeps old versions forever by default.', no: '' },
+  { name: 'Mac Time Machine', back: 4, yes: 'Hourly for a day, daily for a month, then weekly.', no: '' },
+  { name: 'OneDrive', back: 3, yes: 'Restore your whole OneDrive to any point in the last 30 days, on Microsoft 365.', no: 'Only goes back 30 days.' },
+  { name: 'Google Drive', back: 3, yes: 'Keeps versions for 30 days, but you restore one file at a time.', no: 'Old versions are gone after 30 days.' },
+  { name: 'iCloud Drive', back: 0, yes: '', no: 'Can’t undo scrambled files. It only recovers deleted ones.' },
+  { name: 'Cloud backup service', back: 4, yes: 'Keeps 30 days by default. We set it to a year or more.', no: '' },
+];
+
+const reach: Reach[] = [
+  { name: 'This computer', ok: false, note: 'Every file it can open, scrambled in minutes.' },
+  { name: 'A backup drive left plugged in', ok: false, note: 'If the computer can see it, so can ransomware. Unplug it between backups.' },
+  { name: 'OneDrive, iCloud and Google Drive', ok: false, note: 'Sync uploads the scrambled files to every device.' },
+  { name: 'A drive unplugged and put away', ok: true, note: 'Out of reach. Safe, up to the day you last backed up.' },
+  { name: 'A cloud backup with versions', ok: true, note: 'The old versions sit untouched. Go back to before it hit.' },
+];
+
+// What moves to a new computer and how. Routes: ww Windows to Windows, wm Windows to Mac,
+// mw Mac to Windows, mm Mac to Mac.
+const moving: Item[] = [
+  { name: 'Documents, desktop and downloads', tray: 'across', note: 'Copied folder for folder, then checked on the new computer.' },
+  {
+    name: 'Photos and videos', tray: 'across', note: 'Every album, at full quality.',
+    routes: { wm: { note: 'Every album, brought into the Photos app on your Mac.' }, mw: { note: 'Exported out of the Photos library first, then copied across.' } },
+  },
+  { name: 'Music and bookmarks', tray: 'across', note: 'Your music files, and browser bookmarks exported and imported.' },
+  { name: 'Email', tray: 'signin', note: 'Your accounts added again. Mail on the server downloads itself.' },
+  { name: 'OneDrive, iCloud and Google Drive', tray: 'signin', note: 'Sign in and it syncs back down. Nothing to copy.' },
+  { name: 'Microsoft 365', tray: 'signin', note: 'Installed, then activated by signing in to your Microsoft account.' },
+  { name: 'Saved passwords', tray: 'signin', note: 'Come back if your browser syncs them. If not, we export them first.' },
+  {
+    name: 'Programs', tray: 'fresh', note: 'Programs can’t be copied. Each one is installed fresh.',
+    routes: {
+      mm: { tray: 'across', note: 'Migration Assistant brings most apps across with your files.' },
+      wm: { note: 'Windows programs don’t run on a Mac. We find the Mac version or a good alternative.' },
+      mw: { note: 'Mac apps don’t run on Windows. We find the Windows version or a good alternative.' },
+    },
+  },
+  { name: 'Printer and scanner', tray: 'fresh', note: 'The right drivers for the new computer, tested with a real page.' },
+  { name: 'Accounting software', tray: 'fresh', note: 'The program installed fresh, your company file moved and opened to check.' },
+  {
+    name: 'Old emails kept on the computer', tray: 'forget', note: 'Outlook can keep years of mail in a file that only lives on that computer. We find it and bring it across.',
+    routes: { wm: { note: 'Outlook keeps years of mail in a file on the old PC. We bring it across into Outlook for Mac.' }, mm: false, mw: { note: 'Mail kept only on the Mac is exported and brought into the new mail app.' } },
+  },
+  { name: 'Licence keys', tray: 'forget', note: 'Software bought once needs its key to install again. We find them before the old computer goes.' },
+  {
+    name: 'Files saved in odd places', tray: 'forget', note: 'Files saved outside your folders, like straight onto the C: drive.',
+    routes: { mm: { note: 'Files saved outside your user folders, where a quick copy misses them.' }, mw: { note: 'Files saved outside your user folders, where a quick copy misses them.' } },
+  },
+  {
+    name: 'Your backup drive', tray: 'forget', note: 'Backups set up again for the new computer, so it’s covered from day one.',
+    routes: { wm: { note: 'A drive formatted for Windows is read-only on a Mac. We reformat it or set up a new backup.' }, mw: { note: 'A Time Machine drive won’t work on Windows. We reformat it and set up Windows backups.' } },
+  },
+];
+
+const faqs = [
+  { q: 'What’s the best way to back up my computer?', a: 'Follow the 3-2-1 rule: three copies of your files (the original plus two backups), on two different kinds of storage, with one kept somewhere other than your house. In practice that’s usually an automatic backup to a drive at home plus a cloud backup. Both should keep older versions, so you can go back to before something went wrong.' },
+  { q: 'Isn’t OneDrive or iCloud already a backup?', a: 'Not quite. They sync, which means a deleted, overwritten or ransomware-scrambled file changes on every device straight away. OneDrive can roll your whole OneDrive back up to 30 days on Microsoft 365, but iCloud Drive can’t undo scrambled files at all. Sync is great for getting to your files anywhere, and it works best alongside a real backup.' },
+  { q: 'How often should my backup run?', a: 'Every hour suits most people, and it costs nothing once it’s set up. A backup that runs once a week can lose a week of work, and one you run by hand usually stops happening after a month or two. We set backups to run on their own and check they’re actually working.' },
+  { q: 'How much does data backup or transfer cost on the Gold Coast?', a: 'Backup setup and data transfer to a new computer both start from $149, a Windows to Mac transfer from $199, and a full new computer setup with transfer from $249. There’s no call-out fee anywhere on the Gold Coast, and we confirm the exact price over the phone before anything’s booked.' },
+  { q: 'How long does a data transfer take?', a: 'Most take 1 to 3 hours. It depends on how much there is to move: a laptop of documents is quick, while years of photos and video, or email stored on the computer, take longer.' },
+  { q: 'Can you move everything from my old computer?', a: 'Your files, photos, music, email, bookmarks and most settings, yes. Programs can’t be copied and are installed fresh on the new computer, except Mac to Mac, where Migration Assistant brings most apps across. Keep the old computer until you’ve checked everything is there. See <a href="/new-computer-setup-gold-coast">new computer setup</a>.' },
+  { q: 'Can you move my files from Windows to a Mac, or the other way?', a: 'Yes. Documents, photos, music and email all come across. Some programs only run on one system, so we find the version or alternative that does the same job, then show you where everything lives on the new computer.' },
+  { q: 'My old computer won’t turn on. Can you still get my files?', a: 'Usually, yes. If the drive itself is healthy we can take it out and copy your files straight off it. If the drive has failed, that’s a job for <a href="/data-recovery-gold-coast">data recovery</a>.' },
+  { q: 'Why won’t OneDrive or Google Drive sync?', a: 'Common causes are files saved outside the synced folder, a full cloud account, file names or paths that are too long, a paused sync after an update, or the app signed in to the wrong account. Restarting the sync app fixes some of it. When it’s still stuck, or files have started duplicating, we sort it out, usually remotely.' },
+  { q: 'What kind of backup drive should I buy?', a: 'An external drive with at least twice the space your files take up, so it can keep older versions. Keep it unplugged between backups or set it to connect only while backing up, so ransomware can’t reach it. If your house is the only place it lives, add a cloud backup too.' },
+  { q: 'Is cloud backup safe?', a: 'With a reputable service, yes. Your files are encrypted on the way and while stored. The weak point is usually the account, so protect it with a strong password and two-factor sign-in. See <a href="/password-manager-2fa-setup-gold-coast">password manager &amp; 2FA setup</a> and <a href="/cloud-backup-storage-gold-coast">cloud backup &amp; storage</a>.' },
+  { q: 'Do you set up backups for small businesses?', a: 'Yes: automatic backups for every computer, shared files backed up off site, and a restore test so you know it works. For a whole office, a <a href="/nas-file-server-setup-gold-coast">NAS or file server</a> often makes sense. See <a href="/business-it-support-gold-coast">business IT support</a>.' },
+  { q: 'What should I do with my old computer afterwards?', a: 'Keep it until your files are confirmed on the new one. Then have the drive securely wiped before you sell, give away or recycle it. Deleting files or emptying the bin doesn’t actually remove them.' },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        '@id': `${url}#service`,
+        name: 'Data Backup & Transfer Gold Coast',
+        serviceType: 'Data backup and transfer',
+        url,
+        description: 'Data backup and transfer across the Gold Coast: local, cloud and hybrid backups set up to run automatically, files moved PC to PC, Mac to Mac or between the two, and OneDrive and Google Drive sync problems fixed. Onsite or remote, for homes and small businesses.',
+        provider: businessSchema,
+        areaServed: businessSchema.areaServed,
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${url}#breadcrumb`,
+        itemListElement: breadcrumbs.map((c, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: c.label,
+          item: c.href ? `${SITE}${c.href === '/' ? '/' : c.href}` : url,
+        })),
+      },
+    ],
+  },
+  faqSchema(faqs, url),
+];
 ---
-<Layout headHtml={data.headHtml} bodyHtml={data.bodyHtml} footerHtml={data.footerHtml ?? null} bare={data.bare ?? false} />
+<PageLayout
+  title="Data Backup & Transfer Gold Coast | Computers Gold Coast"
+  description="Data backup and transfer on the Gold Coast. Automatic local and cloud backups, PC and Mac file transfers, OneDrive and Google Drive sync fixes. Onsite or remote. Free phone quote."
+  shareDescription="Automatic backups set up and checked, files moved safely to your new computer, and cloud sync problems fixed. Onsite or remote on the Gold Coast."
+  path={path}
+  schema={schema}
+>
+  <ServiceHero
+    eyebrow="Data backup & transfer · Gold Coast"
+    title="Data backup and transfer on the Gold Coast."
+    highlight="Every photo, every file, safe."
+    intro="If your laptop died tonight, what would you lose? We set up backups that run on their own, move your files to a new computer without leaving anything behind, and fix OneDrive and Google Drive when they stop syncing. Onsite or remote, for homes and small businesses."
+    breadcrumbs={breadcrumbs}
+    path={path}
+    formPlaceholder="e.g. New laptop, need 15 years of photos moved off the old one"
+  />
+
+  <BackupRewind
+    eyebrow="See a restore"
+    title="Ransomware hit 40 minutes ago. Go back an hour."
+    intro="A real backup isn’t just a second copy. It keeps older versions, so when files get scrambled, deleted or saved over, you go back to before it happened. Step back on the right to see which backups reach that far."
+    snapshots={snapshots}
+    tools={tools}
+    reach={reach}
+    lockNote="Pay to get the key, or lose them."
+    note="Most people find out their backup only goes back 30 days on the day they need more. We set up backups that run every hour, keep versions for a year or more, and sit where ransomware can’t reach."
+  />
+
+  <TransferManifest
+    eyebrow="Moving to a new computer"
+    title="What actually comes across?"
+    intro="Files copy. Programs don’t. Email and cloud storage need signing back in. Pick your old and new computer to see what moves, what needs a hand, and what people forget."
+    items={moving}
+    foot="Keep the old computer until everything’s checked on the new one. Then have it wiped properly before you sell or recycle it."
+  />
+
+  <HowItWorks
+    eyebrow="How it works"
+    title="From at risk to backed up."
+    intro="Tell us what you’ve got and what you’re worried about losing. We set it up onsite or remotely, then prove it works before we finish."
+    steps={[
+      { title: 'Tell us what you’ve got', text: 'Call, or send the quote form with your computers, where your files are now, and anything you’re moving. You get a straight quote over the phone first.' },
+      { title: 'We back it up or move it', text: 'Onsite at your home or office with no call-out fee, or remotely. Backups set to run on their own, or files moved to your new computer.' },
+      { title: 'We prove it works', text: 'We restore a file from the backup, or check every folder on the new computer with you. Then you know it works before you need it.' },
+    ]}
+    example={{
+      problem: 'Nothing backed up anywhere',
+      checks: ['Files & photos', 'Email', 'Cloud sync', 'Backup drive'],
+      faultLabel: 'Missing',
+      cause: 'No backup with old versions',
+      fix: 'Hourly backup, kept off site',
+    }}
+  />
+
+  <PriceSection
+    eyebrow="Pricing"
+    title="Backup and transfer prices."
+    intro="Typical starting prices for the jobs we do most. Tell us what you’ve got and how much there is, and we’ll confirm the exact price over the phone before anything’s booked."
+    list={backupPrices}
+    extra={'Files already gone? See <a href="/data-recovery-gold-coast">data recovery</a>. Want one place for the whole household’s files? Ask about a <a href="/nas-file-server-setup-gold-coast">NAS or home file server</a>.'}
+  />
+
+  <ServiceReviews
+    title="What customers say about our service."
+    intro="In Gold Coast customers’ own words."
+    picks={[6, 3, 0]}
+  />
+
+  <section class="sec" aria-labelledby="svc-areas-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="svc-eyebrow">Where we work</p>
+        <h2 id="svc-areas-title">Data backup and transfer across the Gold Coast.</h2>
+        <p class="lede">Onsite or remote, from Coomera to Coolangatta and up to Tamborine Mountain, for homes and businesses alike. Not sure if we cover your suburb? <a class="link" href="tel:+61447266455">Give us a call</a>.</p>
+      </div>
+      <Areas />
+    </div>
+  </section>
+
+  <section class="sec sec-alt" aria-label="Frequently asked questions">
+    <div class="wrap">
+      <Faq title="Backup and transfer questions, answered." intro="Straight answers to what Gold Coast customers ask us most about backing up and moving their files. Can’t see yours? Call and you’ll talk to a technician, not a call centre." items={faqs} />
+    </div>
+  </section>
+
+  <CtaBand
+    title="Back it up before you need it."
+    text="Book an onsite visit or connect remotely. Tell us what you’ve got and we’ll confirm the price before any work starts."
+    href="#quote"
+    label="Get a free quote"
+  />
+</PageLayout>

@@ -1,0 +1,100 @@
+---
+// "What actually comes across?": a mock transfer window. Pick the old and new computer (Windows or
+// Mac) in its title row and everything you'd move sorts into four trays: copies straight across,
+// sign back in, installed fresh, and easy to forget, each with a one-line reason. Some items change
+// tray or wording by route (e.g. Mac to Mac brings apps across). Rows for the default route are in
+// the HTML; changing the route redraws them. "Book a transfer" prefills the hero quote form.
+// No icons.
+
+export type Route = 'ww' | 'wm' | 'mw' | 'mm';
+export type Tray = 'across' | 'signin' | 'fresh' | 'forget';
+export interface Item { name: string; tray: Tray; note: string; routes?: Partial<Record<Route, { tray?: Tray; note?: string } | false>> }
+interface Props { eyebrow: string; title: string; intro: string; items: Item[]; foot: string }
+const { eyebrow, title, intro, items, foot } = Astro.props;
+
+const trays: { id: Tray; label: string }[] = [
+  { id: 'across', label: 'Copies straight across' },
+  { id: 'signin', label: 'Sign back in' },
+  { id: 'fresh', label: 'Installed fresh' },
+  { id: 'forget', label: 'Easy to forget' },
+];
+// The default route, worked out here so the rows are in the HTML before the script runs.
+const resolve = (route: Route) => items.flatMap((it) => {
+  const o = it.routes?.[route];
+  if (o === false) return [];
+  return [{ name: it.name, tray: o?.tray ?? it.tray, note: o?.note ?? it.note }];
+});
+const start = resolve('ww');
+---
+<section class="sec tm" aria-labelledby="svc-tm-title" data-tm>
+  <div class="wrap">
+    <div class="tm-head">
+      <div>
+        <p class="svc-eyebrow">{eyebrow}</p>
+        <h2 id="svc-tm-title">{title}</h2>
+      </div>
+      <p class="tm-intro">{intro}</p>
+    </div>
+
+    <div class="tm-win">
+      <div class="tm-route">
+        <label class="tm-end">
+          <span>Old computer</span>
+          <select data-tm-from aria-label="Old computer"><option value="w">Windows PC</option><option value="m">Mac</option></select>
+        </label>
+        <div class="tm-pipe" aria-hidden="true"><i></i><i></i><i></i></div>
+        <label class="tm-end">
+          <span>New computer</span>
+          <select data-tm-to aria-label="New computer"><option value="w">Windows PC</option><option value="m">Mac</option></select>
+        </label>
+      </div>
+
+      <div class="tm-trays" aria-live="polite">
+        {trays.map((t) => {
+          const rows = start.filter((r) => r.tray === t.id);
+          return (
+            <div class={`tm-tray is-${t.id}`} data-tray={t.id}>
+              <p class="tm-tray-head"><b>{t.label}</b><span data-tm-count>{rows.length}</span></p>
+              <ul>{rows.map((r, i) => <li style={`--i:${i}`}><b>{r.name}</b>{r.note}</li>)}</ul>
+            </div>
+          );
+        })}
+      </div>
+
+      <div class="tm-foot">
+        <p>{foot}</p>
+        <a class="btn btn-primary" href="#quote" data-tm-quote>Book a transfer</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline define:vars={{ items }}>(function(){
+  var root=document.querySelector('[data-tm]');
+  if(!root)return;
+  var from=root.querySelector('[data-tm-from]'), to=root.querySelector('[data-tm-to]');
+  var names={w:'Windows PC',m:'Mac'};
+  function draw(){
+    var route=from.value+to.value, rows={across:[],signin:[],fresh:[],forget:[]};
+    items.forEach(function(it){
+      var o=it.routes&&it.routes[route];
+      if(o===false)return;
+      rows[(o&&o.tray)||it.tray].push({name:it.name,note:(o&&o.note)||it.note});
+    });
+    root.querySelectorAll('[data-tray]').forEach(function(t){
+      var ul=t.querySelector('ul'), list=rows[t.getAttribute('data-tray')];
+      ul.textContent='';
+      list.forEach(function(r,i){
+        var li=document.createElement('li'), b=document.createElement('b');
+        li.style.setProperty('--i',i);b.textContent=r.name;li.appendChild(b);li.appendChild(document.createTextNode(r.note));ul.appendChild(li);
+      });
+      t.querySelector('[data-tm-count]').textContent=list.length;
+    });
+  }
+  from.addEventListener('change',draw);to.addEventListener('change',draw);
+  root.querySelector('[data-tm-quote]').addEventListener('click',function(){
+    var msg=document.getElementById('q-message');
+    if(msg&&!msg.value)msg.value='Data transfer: from a '+names[from.value]+' to a new '+names[to.value]+'. ';
+    setTimeout(function(){var n=document.getElementById('q-name');if(n)n.focus({preventScroll:true});},450);
+  });
+})();</script>

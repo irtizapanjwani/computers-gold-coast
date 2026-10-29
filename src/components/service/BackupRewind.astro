@@ -1,0 +1,90 @@
+---
+// "Go back to before it happened": a stack of backup windows. The one in front is now, just hit by
+// ransomware, and lists what ransomware reaches (encrypted or safe). Behind it sit older restore
+// points; step back along the timeline and each comes forward listing which real backup tools can
+// restore from that far back, and their limits. The timeline is radios, so arrow keys work; every
+// window is in the HTML. No icons.
+
+export interface Snapshot { label: string; locked?: boolean }
+/** A backup tool and how far back it can restore (index of the oldest snapshot it reaches). */
+export interface Tool { name: string; back: number; yes: string; no: string }
+/** What ransomware does to each place, shown in the "now" window. */
+export interface Reach { name: string; ok: boolean; note: string }
+interface Props { eyebrow: string; title: string; intro: string; snapshots: Snapshot[]; tools: Tool[]; reach: Reach[]; note: string; lockNote: string }
+const { eyebrow, title, intro, snapshots, tools, reach, note, lockNote } = Astro.props;
+// Each window's rows: what ransomware reaches now, then which tools restore from each older point.
+const wins = snapshots.map((s, i) => ({
+  ...s,
+  rows: s.locked
+    ? reach.map((r) => ({ name: r.name, ok: r.ok, note: r.note, status: r.ok ? 'Safe' : 'Encrypted' }))
+    : tools.map((t) => ({ name: t.name, ok: i <= t.back, note: i <= t.back ? t.yes : t.no, status: i <= t.back ? 'Can restore' : 'Can’t reach' })),
+}));
+---
+<section class="sec bv" aria-labelledby="svc-bv-title" data-bv>
+  <div class="wrap">
+    <div class="bv-head">
+      <div>
+        <p class="svc-eyebrow">{eyebrow}</p>
+        <h2 id="svc-bv-title">{title}</h2>
+      </div>
+      <p class="bv-intro">{intro}</p>
+    </div>
+
+    <div class="bv-stage">
+      <div class="bv-stack">
+        {wins.map((w, i) => (
+          <div class={w.locked ? 'bv-win is-locked' : 'bv-win'} data-snap={i} style={`--d:${i}`}>
+            <p class="bv-bar"><span>{w.locked ? 'Your files' : 'Restore point'}</span><em>{w.locked ? 'Now' : w.label}</em></p>
+            {w.locked
+              ? <p class="bv-ransom"><b>Your files are encrypted.</b>{lockNote}</p>
+              : <p class="bv-point">Going back to <b>{w.label.toLowerCase()}</b>. Which backups reach this far?</p>}
+            <ul class="bv-rows">
+              {w.rows.map((r) => (
+                <li class={r.ok ? 'is-ok' : 'is-no'}>
+                  <i aria-hidden="true"></i>
+                  <span class="bv-name"><b>{r.name}</b>{r.note}</span>
+                  <span class="bv-status">{r.status}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <fieldset class="bv-time">
+        <legend>Go back to</legend>
+        <ol>
+          {snapshots.map((s, i) => (
+            <li>
+              <label class={s.locked ? 'is-locked' : undefined}>
+                <input type="radio" name="bv-when" value={i} checked={i === 0} />
+                <span>{s.locked ? 'Now (encrypted)' : s.label}</span>
+              </label>
+            </li>
+          ))}
+        </ol>
+      </fieldset>
+    </div>
+
+    <div class="bv-act">
+      <a class="btn btn-dark" href="#quote" data-bv-quote>Set up my backup</a>
+      <p class="bv-note">{note}</p>
+    </div>
+  </div>
+</section>
+
+<script is:inline>(function(){
+  var root=document.querySelector('[data-bv]');
+  if(!root)return;
+  var wins=[].slice.call(root.querySelectorAll('[data-snap]'));
+  root.addEventListener('change',function(){
+    // The chosen restore point sits in front; older ones stack behind it, newer ones lift away.
+    var s=+root.querySelector('input[name=bv-when]:checked').value;
+    wins.forEach(function(w,i){w.style.setProperty('--d',i-s);w.classList.toggle('is-gone',i<s);});
+  });
+  root.querySelector('[data-bv-quote]').addEventListener('click',function(){
+    var msg=document.getElementById('q-message');
+    if(msg&&!msg.value)msg.value='Data backup. I’d like automatic backups that keep old versions. ';
+    setTimeout(function(){var n=document.getElementById('q-name');if(n)n.focus({preventScroll:true});},450);
+  });
+})();</script>

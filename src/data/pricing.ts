@@ -97,6 +97,22 @@ export const tunePrices: PriceList = {
   ],
 };
 
+// TODO(client): the sync fix, Windows-Mac transfer and business backup lines are set from Gold
+// Coast and Brisbane competitors' published prices (Oct 2026: transfers $79–$225, onsite hourly
+// $205–$225), to be confirmed. The other lines reuse prices already on the site.
+export const backupPrices: PriceList = {
+  title: 'Backup & transfer price list',
+  items: [
+    { name: 'Call-out', price: '$0', note: 'Onsite anywhere on the Gold Coast' },
+    { name: 'Old computer wipe', price: 'from $79', note: 'Data securely erased before you sell or recycle it' },
+    { name: 'OneDrive or Google Drive sync fix', price: 'from $99', note: 'Stuck, duplicated or missing files sorted, often remotely' },
+    { name: 'Backup setup', price: 'from $149', note: 'Automatic, versioned and out of ransomware’s reach', badge: 'Most booked', href: '/cloud-backup-storage-gold-coast' },
+    { name: 'Data transfer to a new computer', price: 'from $149', note: 'Files, photos, email and settings moved and checked' },
+    { name: 'Windows to Mac transfer', price: 'from $199', note: 'Or Mac to Windows, with replacements for programs that don’t cross over' },
+    { name: 'Setup + data transfer', price: 'from $249', note: 'The full new computer setup, with everything moved across', href: '/new-computer-setup-gold-coast' },
+  ],
+};
+
 export const macPrices: PriceList = {
   title: 'Mac repair price list',
   items: [
