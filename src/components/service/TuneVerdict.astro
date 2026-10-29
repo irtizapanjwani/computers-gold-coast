@@ -1,0 +1,43 @@
+---
+// "Will a tune-up fix it?": an honest sorting board. Three lanes on a dark board (a tune-up fixes
+// it / a tune-up plus one more thing / a tune-up won't fix it), each holding problem tags that say
+// what the problem usually is and link to the service that deals with it. Static HTML, no script.
+// No icons.
+
+export interface Verdict { says: string; why: string; href?: string; linkText?: string }
+export interface Lane { tone: 'yes' | 'plus' | 'no'; label: string; title: string; items: Verdict[] }
+interface Props { eyebrow: string; title: string; intro: string; lanes: Lane[]; note: string }
+const { eyebrow, title, intro, lanes, note } = Astro.props;
+---
+<section class="sec tv" aria-labelledby="svc-tv-title">
+  <div class="wrap">
+    <div class="tv-head">
+      <div>
+        <p class="svc-eyebrow">{eyebrow}</p>
+        <h2 id="svc-tv-title">{title}</h2>
+      </div>
+      <p class="tv-intro">{intro}</p>
+    </div>
+
+    <div class="tv-board">
+      {lanes.map((l) => (
+        <div class={`tv-lane tv-${l.tone}`}>
+          <div class="tv-lane-head">
+            <span>{l.label}</span>
+            <h3>{l.title}</h3>
+          </div>
+          <ul>
+            {l.items.map((v, i) => (
+              <li style={`--tilt:${[-1.2, 0.8, -0.4, 1.1][i % 4]}deg`}>
+                <p class="tv-says">“{v.says}”</p>
+                <p class="tv-why">{v.why}</p>
+                {v.href && <a href={v.href}>{v.linkText} →</a>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+    <p class="tv-note" set:html={note} />
+  </div>
+</section>

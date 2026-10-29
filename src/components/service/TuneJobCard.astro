@@ -1,0 +1,98 @@
+---
+// "Tell us what it's doing": a workshop job card for the tune-up. Tick what the computer is doing
+// and the card writes the job up: each line of work gets a pen note naming the complaints it deals
+// with, and the card is stamped once there's something on it. "Book this tune-up" prefills the hero
+// quote form. Every line of work is in the HTML (and all shown without JS) so search engines can
+// read it. No icons.
+
+export interface Complaint { id: string; label: string }
+export interface Job { title: string; text: string; /** Complaint ids this line deals with; empty means always done. */ fixes: string[] }
+interface Props { eyebrow: string; title: string; intro: string; complaints: Complaint[]; jobs: Job[]; footnote: string }
+const { eyebrow, title, intro, complaints, jobs, footnote } = Astro.props;
+---
+<section class="sec jc" aria-labelledby="svc-jc-title" data-jc>
+  <div class="wrap">
+    <div class="jc-head">
+      <div>
+        <p class="svc-eyebrow">{eyebrow}</p>
+        <h2 id="svc-jc-title">{title}</h2>
+      </div>
+      <p class="jc-intro">{intro}</p>
+    </div>
+
+    <div class="jc-grid">
+      <fieldset class="jc-pick">
+        <legend>What’s it doing?</legend>
+        <p class="jc-hint">Tick everything that sounds familiar.</p>
+        <div class="jc-chips">
+          {complaints.map((c) => (
+            <label class="jc-chip"><input type="checkbox" name="jc-complaint" value={c.id} /><span>{c.label}</span></label>
+          ))}
+        </div>
+      </fieldset>
+
+      <div class="jc-card" aria-live="polite">
+        <div class="jc-top">
+          <p><span>Job card</span>Computer tune-up</p>
+          <p class="jc-count" data-jc-count>{jobs.length} lines of work</p>
+        </div>
+        <div class="jc-complaint">
+          <span>Customer says</span>
+          <p data-jc-says>Running slow.</p>
+        </div>
+        <ol class="jc-jobs">
+          {jobs.map((j) => (
+            <li data-fixes={j.fixes.join(' ')}>
+              <i aria-hidden="true"></i>
+              <div>
+                <strong>{j.title}</strong>
+                <p>{j.text}</p>
+                <em class="jc-note" hidden></em>
+              </div>
+            </li>
+          ))}
+        </ol>
+        <div class="jc-foot">
+          <a class="btn btn-dark" href="#quote" data-jc-quote>Book this tune-up</a>
+          <p>{footnote}</p>
+        </div>
+        <span class="jc-stamp" aria-hidden="true">Files<br />untouched</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>(function(){
+  var root=document.querySelector('[data-jc]');
+  if(!root)return;
+  var card=root.querySelector('.jc-card');
+  function ticked(){return [].slice.call(root.querySelectorAll('input[name=jc-complaint]:checked'));}
+  function text(i){return i.nextElementSibling.textContent;}
+  function update(){
+    var on=ticked(), ids={}, names={};
+    on.forEach(function(i){ids[i.value]=true;names[i.value]=text(i).toLowerCase();});
+    var hit=0, all=root.querySelectorAll('.jc-jobs li').length;
+    root.querySelectorAll('.jc-jobs li').forEach(function(li){
+      var f=(li.getAttribute('data-fixes')||'').split(' ').filter(Boolean);
+      var mine=f.filter(function(id){return ids[id];}).map(function(id){return names[id];});
+      var note=li.querySelector('.jc-note');
+      li.classList.toggle('is-on',mine.length>0);
+      if(mine.length)hit++;
+      note.hidden=!mine.length;
+      note.textContent=mine.length?'For: '+mine.join(', '):'';
+    });
+    root.querySelector('[data-jc-says]').textContent=on.length?on.map(text).join('. ')+'.':'Running slow.';
+    root.querySelector('[data-jc-count]').textContent=on.length?hit+' of '+all+' lines aimed at your problems':all+' lines of work';
+    card.classList.toggle('is-stamped',on.length>0);
+  }
+  root.addEventListener('change',update);
+  root.querySelector('[data-jc-quote]').addEventListener('click',function(){
+    var msg=document.getElementById('q-message');
+    if(msg&&!msg.value){
+      var on=ticked().map(text);
+      msg.value='Computer tune-up.'+(on.length?' It: '+on.join(', ').toLowerCase()+'.':'')+' ';
+    }
+    setTimeout(function(){var n=document.getElementById('q-name');if(n)n.focus({preventScroll:true});},450);
+  });
+  update();
+})();</script>

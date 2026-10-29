@@ -81,6 +81,22 @@ export const setupPrices: PriceList = {
   ],
 };
 
+// TODO(client): the three tune-up packages are set from Gold Coast competitors' published prices
+// (Oct 2026: tune-ups $100–$225, hourly $120–$150 onsite), mid-market, to be confirmed. The other
+// lines reuse prices already on the site.
+export const tunePrices: PriceList = {
+  title: 'Tune-up price list',
+  items: [
+    { name: 'Call-out', price: '$0', note: 'Onsite anywhere on the Gold Coast' },
+    { name: 'Basic tune-up', price: 'from $129', note: 'Clean-up, startup trimmed, updates and a speed boost', badge: 'Most booked' },
+    { name: 'Clean and re-paste', price: 'from $129', note: 'For the loud fan: dust out, fresh thermal paste', href: '/preventative-maintenance-gold-coast' },
+    { name: 'Security tune-up', price: 'from $159', note: 'The basic tune-up plus a full malware scan and protection updates' },
+    { name: 'Advanced optimisation', price: 'from $219', note: 'Everything: clean-up, security scans and full performance work' },
+    { name: 'SSD upgrade', price: 'from $199', note: 'For the clean-but-still-slow computer, files moved across', href: '/hardware-installs-upgrades-gold-coast' },
+    { name: 'Virus & malware removal', price: '$250 fixed', note: 'When the scan finds an active infection', badge: 'Fixed fee', href: '/virus-spyware-removal-gold-coast' },
+  ],
+};
+
 export const macPrices: PriceList = {
   title: 'Mac repair price list',
   items: [

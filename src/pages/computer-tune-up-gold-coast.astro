@@ -1,5 +1,209 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import data from '../data/pages/computer-tune-up-gold-coast.json';
+// Computer Tune-Up service page, fully redesigned. Content is the page's original copy (assessment,
+// junk and program clean-up, malware scan, updates, startup, final check, 1 to 2 hours, onsite or
+// remote, FAQs), rewritten in sentence case, plus an honest "will a tune-up fix it?" guide and
+// practical slow-computer advice. Business claims are only ones already on the site.
+import PageLayout from '../layouts/PageLayout.astro';
+import ServiceHero from '../components/redesign/ServiceHero.astro';
+import TuneJobCard from '../components/service/TuneJobCard.astro';
+import { SITE, businessSchema, faqSchema } from '../data/site';
+import TuneVerdict from '../components/service/TuneVerdict.astro';
+import HowItWorks from '../components/service/HowItWorks.astro';
+import PriceSection from '../components/service/PriceSection.astro';
+import ServiceReviews from '../components/service/ServiceReviews.astro';
+import Areas from '../components/redesign/Areas.astro';
+import Faq from '../components/redesign/Faq.astro';
+import CtaBand from '../components/redesign/CtaBand.astro';
+import { tunePrices } from '../data/pricing';
+import type { Complaint, Job } from '../components/service/TuneJobCard.astro';
+import type { Lane } from '../components/service/TuneVerdict.astro';
+
+const path = '/computer-tune-up-gold-coast';
+const url = `${SITE}${path}`;
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Services', href: '/services' },
+  { label: 'Computer Tune-Up' },
+];
+
+const complaints: Complaint[] = [
+  { id: 'boot', label: 'Takes ages to start up' },
+  { id: 'apps', label: 'Slow to open programs' },
+  { id: 'freeze', label: 'Freezes or crashes' },
+  { id: 'hot', label: 'Fan’s loud and it runs hot' },
+  { id: 'popups', label: 'Pop-ups and odd ads' },
+  { id: 'browser', label: 'The browser crawls' },
+  { id: 'full', label: 'Drive is nearly full' },
+];
+
+const jobs: Job[] = [
+  { title: 'Health check first', text: 'Diagnostics on the drive, memory and system, so we know what’s really slowing it down before we touch anything.', fixes: ['freeze', 'hot'] },
+  { title: 'Junk and unwanted programs out', text: 'Temporary files and caches cleared, and software you don’t use or never asked for uninstalled.', fixes: ['apps', 'full', 'browser', 'popups'] },
+  { title: 'Malware and adware scan', text: 'Spyware, adware and viruses that quietly eat your speed. Active infections get our full virus removal.', fixes: ['popups', 'browser', 'freeze', 'hot'] },
+  { title: 'Updates and drivers', text: 'Your operating system and software brought up to date, for speed and security.', fixes: ['freeze', 'boot'] },
+  { title: 'Startup trimmed', text: 'Programs that launch with the computer and run in the background switched off, so it boots and responds faster.', fixes: ['boot', 'apps', 'hot'] },
+  { title: 'Final check, with you', text: 'We test it runs properly and you approve the result before we finish.', fixes: [] },
+];
+
+const lanes: Lane[] = [
+  {
+    tone: 'yes', label: 'Tune-up', title: 'A tune-up fixes this',
+    items: [
+      { says: 'It takes forever to start.', why: 'Usually too many programs launching with it. Trimming startup is part of every tune-up.' },
+      { says: 'Everything feels sluggish.', why: 'Years of temporary files, leftover programs and background apps. Exactly what a clean-up clears.' },
+      { says: 'It’s years behind on updates.', why: 'Updates and drivers brought current, which fixes a lot of freezing and odd behaviour.' },
+    ],
+  },
+  {
+    tone: 'plus', label: 'Tune-up +', title: 'A tune-up, plus one more thing',
+    items: [
+      { says: 'Windows still feels bloated.', why: 'A full de-bloat strips out built-in apps, tracking and background services for good.', href: '/windows-debloat-customisation-gold-coast', linkText: 'Windows de-bloat' },
+      { says: 'Pop-ups won’t go away.', why: 'The tune-up scan finds adware. An active infection needs proper removal.', href: '/virus-spyware-removal-gold-coast', linkText: 'Virus removal' },
+      { says: 'I’ve never backed it up.', why: 'Get a backup sorted before any big clean-up, so nothing can be lost.', href: '/data-backup-transfer-gold-coast', linkText: 'Data backup' },
+    ],
+  },
+  {
+    tone: 'no', label: 'Something else', title: 'A tune-up won’t fix this',
+    items: [
+      { says: 'It crashes, boot-loops or won’t load.', why: 'Usually deep system corruption. A repair or clean install is the real fix.', href: '/operating-system-install-repair-gold-coast', linkText: 'OS install & repair' },
+      { says: 'It’s clean, but still slow.', why: 'An old hard drive or too little memory. An SSD or RAM upgrade does what no clean-up can.', href: '/hardware-installs-upgrades-gold-coast', linkText: 'Hardware upgrades' },
+      { says: 'It clicks, beeps or shuts off.', why: 'Sounds like failing hardware. It needs diagnosing, not tuning.', href: '/hardware-repair-diagnostics-gold-coast', linkText: 'Hardware diagnostics' },
+    ],
+  },
+];
+
+const faqs = [
+  { q: 'Why is my computer so slow?', a: 'The usual culprits are too many programs starting with the computer, a drive that’s nearly full, years of leftover software, missing updates, or adware running in the background. On older computers it’s often the hardware itself: a spinning hard drive instead of an SSD, or not enough memory. A tune-up deals with the software side. If it’s the hardware, we’ll tell you.' },
+  { q: 'What does a computer tune-up include?', a: 'A health check of the drive, memory and system, then junk files and unwanted programs removed, a malware and adware scan, your operating system and software updated, and startup programs trimmed. We finish with a performance check and you approve the result.' },
+  { q: 'Will I lose any files or programs?', a: 'No. Your documents, photos, email and the programs you use stay exactly where they are. We only remove temporary files, clutter and software you’ve agreed you don’t need. If your files aren’t backed up anywhere, it’s still worth sorting that out, and we can do it at the same visit. See <a href="/data-backup-transfer-gold-coast">data backup &amp; transfer</a>.' },
+  { q: 'How much does a computer tune-up cost on the Gold Coast?', a: 'A basic tune-up starts from $129, a security tune-up with a full malware scan from $159, and advanced optimisation from $219. There’s no call-out fee anywhere on the Gold Coast, and we confirm the exact price over the phone before anything’s booked.' },
+  { q: 'How long does a tune-up take?', a: 'Most take 1 to 2 hours, depending on the computer’s condition. A computer that’s years behind on updates or full of unwanted software takes longer than one that just needs startup trimmed.' },
+  { q: 'Is it worth tuning up an old computer?', a: 'Often, yes. But if the computer still has a spinning hard drive, or 4GB to 8GB of memory running Windows 11, a tune-up can only do so much. An <a href="/hardware-installs-upgrades-gold-coast">SSD or memory upgrade</a> usually makes a far bigger difference and costs much less than a new computer. If yours isn’t worth spending money on, we’ll say so before you pay for anything.' },
+  { q: 'Do PC cleaner and “speed up” apps actually work?', a: 'Mostly not. Many free cleaner apps find a scary list of “problems” and then ask you to pay to fix them, and registry cleaners rarely make a noticeable difference. Some even run in the background and slow the computer down further. Removing them is often part of a tune-up.' },
+  { q: 'What’s the difference between a tune-up and a factory reset?', a: 'A tune-up speeds up the computer you have, with your files and programs left in place. A factory reset or clean install wipes everything and starts from scratch. That’s the right fix for deep system corruption, crashes or boot loops, but your files have to be backed up first and programs reinstalled afterwards. See <a href="/operating-system-install-repair-gold-coast">operating system install &amp; repair</a>.' },
+  { q: 'Can you tune up a Mac?', a: 'Yes. Macs slow down for many of the same reasons: too many login items, a nearly full drive, apps left running and macOS updates waiting. A Mac with very little free storage can slow right down, so clearing space is often the biggest win. See <a href="/mac-repairs-gold-coast">Mac repairs</a> for hardware faults.' },
+  { q: 'Can a tune-up be done remotely?', a: 'Yes, for most tune-ups. We connect to your computer securely over the internet and you can get on with your day. If the computer won’t get online, or the problem sounds like hardware such as a loud fan, clicking or shutting off, onsite is the better choice.' },
+  { q: 'Will a tune-up remove viruses?', a: 'The tune-up scans for and removes adware, spyware and other junk that slows the computer down. An active infection, like ransomware, hijacked browsers or pop-ups that keep coming back, needs our full <a href="/virus-spyware-removal-gold-coast">virus &amp; spyware removal</a>, which is a $250 fixed fee.' },
+  { q: 'Why is my computer’s fan so loud?', a: 'Either something is working the processor hard in the background, which a tune-up finds and switches off, or the fan and vents are clogged with dust and the thermal paste has dried out. For that, a <a href="/preventative-maintenance-gold-coast">clean and re-paste</a> runs from $129 and makes it quieter and cooler.' },
+  { q: 'How often should I get a computer tune-up?', a: 'Once a year suits most home computers, or every six months if you use it heavily for work. Keeping on top of updates and not installing software you don’t need helps it stay fast in between.' },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        '@id': `${url}#service`,
+        name: 'Computer Tune-Up Gold Coast',
+        serviceType: 'Computer tune-up',
+        url,
+        description: 'Computer tune-up and clean-up across the Gold Coast: junk files and unwanted programs removed, malware scan, updates, startup programs trimmed and a final performance check. PC and Mac, onsite or remote.',
+        provider: businessSchema,
+        areaServed: businessSchema.areaServed,
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${url}#breadcrumb`,
+        itemListElement: breadcrumbs.map((c, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: c.label,
+          item: c.href ? `${SITE}${c.href === '/' ? '/' : c.href}` : url,
+        })),
+      },
+    ],
+  },
+  faqSchema(faqs, url),
+];
 ---
-<Layout headHtml={data.headHtml} bodyHtml={data.bodyHtml} footerHtml={data.footerHtml ?? null} bare={data.bare ?? false} />
+<PageLayout
+  title="Computer Tune-Up Gold Coast | Speed Up a Slow PC or Mac"
+  description="Slow PC or Mac? Our Gold Coast computer tune-up removes junk and bloat, scans for malware, trims startup and updates your system. Onsite or remote. Free phone quote."
+  shareDescription="Slow computer sped up: junk and bloat removed, malware scan, updates and startup trimmed, files untouched. Onsite or remote on the Gold Coast."
+  path={path}
+  schema={schema}
+>
+  <ServiceHero
+    eyebrow="Computer tune-up · Gold Coast"
+    title="Computer tune-up on the Gold Coast."
+    highlight="Fast again, files untouched."
+    intro="Takes forever to start? Fan roaring when all you’ve got open is email? We clear out what’s slowing it down, check it for malware and bring it up to date. Your files stay exactly where they are. PC or Mac, onsite or remote."
+    breadcrumbs={breadcrumbs}
+    path={path}
+    formPlaceholder="e.g. Laptop takes 5 minutes to start and the fan is always loud"
+  />
+
+  <TuneJobCard
+    eyebrow="Your job card"
+    title="Tell us what it’s doing. We’ll write up the job."
+    intro="Every tune-up covers the same six things, but what’s wrong with your computer decides where the time goes. Tick what sounds familiar and see which lines of work deal with it."
+    complaints={complaints}
+    jobs={jobs}
+    footnote="Most tune-ups take 1 to 2 hours, depending on the computer’s condition."
+  />
+
+  <TuneVerdict
+    eyebrow="Straight answer"
+    title="Will a tune-up fix it?"
+    intro="Usually, but not always. Here’s where a tune-up does the job, where it needs a hand, and where it’s the wrong fix. If yours is in the last column, we’ll tell you before you pay for one."
+    lanes={lanes}
+    note={'Not sure which column you’re in? <a href="tel:+61447266455">Call us</a> and describe what it’s doing. We’ll tell you over the phone before anything’s booked.'}
+  />
+
+  <HowItWorks
+    eyebrow="How it works"
+    title="From slow to sorted."
+    intro="Tell us what it’s doing. We tune it up onsite or remotely, then check the result with you before we finish."
+    steps={[
+      { title: 'Tell us what it’s doing', text: 'Call, or send the quote form with what the computer is doing. You get a straight quote over the phone before anything’s booked.' },
+      { title: 'We tune it up', text: 'Onsite at your home or office with no call-out fee, or remotely over a secure connection. Clean-up, malware scan, updates and startup.' },
+      { title: 'Check it together', text: 'We test it runs properly and you approve the result before we finish. Your files stay exactly where they were.' },
+    ]}
+    example={{
+      problem: 'Laptop takes ages to start up',
+      checks: ['Startup programs', 'Junk files', 'Malware', 'Updates'],
+      faultLabel: 'Slowing it',
+      cause: 'Too many startup programs',
+      fix: 'Startup trimmed, junk cleared',
+    }}
+  />
+
+  <PriceSection
+    eyebrow="Pricing"
+    title="Tune-up prices."
+    intro="Typical starting prices for the tune-ups we do most. Tell us what the computer is doing and we’ll confirm the exact price over the phone before anything’s booked."
+    list={tunePrices}
+    extra={'Want it to stay fast? Ask about <a href="/preventative-maintenance-gold-coast">preventative maintenance</a>. Windows still bloated after a tune-up? See <a href="/windows-debloat-customisation-gold-coast">Windows de-bloat &amp; customisation</a>.'}
+  />
+
+  <ServiceReviews
+    title="What customers say about our service."
+    intro="In Gold Coast customers’ own words, including the one whose computer was past saving."
+    picks={[2, 4, 5]}
+  />
+
+  <section class="sec" aria-labelledby="svc-areas-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="svc-eyebrow">Where we work</p>
+        <h2 id="svc-areas-title">Computer tune-ups across the Gold Coast.</h2>
+        <p class="lede">Onsite or remote, from Coomera to Coolangatta and up to Tamborine Mountain, for homes and businesses alike. Not sure if we cover your suburb? <a class="link" href="tel:+61447266455">Give us a call</a>.</p>
+      </div>
+      <Areas />
+    </div>
+  </section>
+
+  <section class="sec sec-alt" aria-label="Frequently asked questions">
+    <div class="wrap">
+      <Faq title="Computer tune-up questions, answered." intro="Straight answers to what Gold Coast customers ask us most about slow computers. Can’t see yours? Call and you’ll talk to a technician, not a call centre." items={faqs} />
+    </div>
+  </section>
+
+  <CtaBand
+    title="Get your computer fast again."
+    text="Book an onsite visit or connect remotely. Tell us what it’s doing and we’ll confirm the price before any work starts."
+    href="#quote"
+    label="Get a free quote"
+  />
+</PageLayout>

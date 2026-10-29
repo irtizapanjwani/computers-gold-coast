@@ -22,6 +22,8 @@ export const services = [
   { icon: 'command', name: 'Mac Repairs', text: 'MacBook, iMac and Mac mini faults diagnosed and fixed.', href: '/mac-repairs-gold-coast' },
   { icon: 'lock', name: 'Computer & Network Security', text: 'Antivirus, firewalls, secure Wi-Fi, passwords and 2FA.', href: '/computer-network-security-gold-coast' },
   { icon: 'monitor', name: 'New Computer Setup', text: 'New PCs, Macs and laptops set up, transferred and secured.', href: '/new-computer-setup-gold-coast' },
+  { icon: 'zap', name: 'Computer Tune-Up', text: 'Slow PCs and laptops cleaned up and running fast again.', href: '/computer-tune-up-gold-coast' },
+  { icon: 'box', name: 'Data Backup & Transfer', text: 'Files backed up and moved safely to a new computer or drive.', href: '/data-backup-transfer-gold-coast' },
   { icon: 'screen', name: 'Laptop Screen Replacement', text: 'Cracked, flickering or dead laptop screens replaced.', href: '/laptop-screen-replacement-gold-coast' },
   { icon: 'shield', name: 'Virus & Spyware Removal', text: 'Pop-ups, hijacked browsers and suspicious slowdowns cleaned up.', href: '/virus-spyware-removal-gold-coast' },
   { icon: 'drive', name: 'Data Recovery', text: 'Files back from failed drives, deleted folders and dead laptops.', href: '/data-recovery-gold-coast' },
