@@ -802,7 +802,7 @@ textarea.field{min-height:96px; resize:vertical;}
 
 /* "Tell us what it's doing" tune-up job card (TuneJobCard.astro). A paper workshop card on a
    pale desk; ticked complaints mark lines of work in pen and stamp the card. */
-.jc{background:linear-gradient(180deg,#fff 0%,var(--sky-50) 100%);}
+.jc{background:linear-gradient(180deg,#fff 0%,var(--sky-50) 100%); overflow-x:clip;}
 .jc-head{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,.8fr); gap:20px 56px; align-items:end; margin-bottom:48px;}
 .jc-intro{font-size:1.0625rem; line-height:1.7; color:#334155;}
 .jc-grid{display:grid; grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr); gap:56px; align-items:start;}
@@ -1642,6 +1642,9 @@ textarea.field{min-height:96px; resize:vertical;}
 
 /* ---------- How it works: step timeline + phone thread (homepage) ---------- */
 /* Base styles = the complete, static state (no JS / reduced motion). `.is-js` adds the playback states. */
+/* The phone glow spills past the phone on purpose; clip it at the page edge so it never adds a
+   horizontal scrollbar on narrow screens. */
+.rt{overflow-x:clip;}
 .rt-grid{display:grid; grid-template-columns:minmax(0,1fr) minmax(300px,400px); gap:96px; align-items:center;}
 .rt-left .lede{margin-top:14px;}
 .rt-steps{list-style:none; margin:40px 0 0; padding:0;}
