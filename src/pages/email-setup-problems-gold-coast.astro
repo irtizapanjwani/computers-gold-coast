@@ -1,5 +1,150 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import data from '../data/pages/email-setup-problems-gold-coast.json';
+// Email Setup & Problems service page, fully redesigned. Content is the page's original copy (can't
+// send or receive, settings, locked accounts, sync, ISP email such as Telstra Bigpond, migration,
+// business domain email; onsite, remote and drop-off; FAQs), rewritten in sentence case, plus a
+// mail-app problem finder, provider settings and new FAQs. Business claims are only ones already on
+// the site, or marked TODO(client).
+import PageLayout from '../layouts/PageLayout.astro';
+import ServiceHero from '../components/redesign/ServiceHero.astro';
+import EmailInbox from '../components/service/EmailInbox.astro';
+import MailSettings from '../components/service/MailSettings.astro';
+import HowItWorks from '../components/service/HowItWorks.astro';
+import PriceSection from '../components/service/PriceSection.astro';
+import ServiceReviews from '../components/service/ServiceReviews.astro';
+import Areas from '../components/redesign/Areas.astro';
+import Faq from '../components/redesign/Faq.astro';
+import CtaBand from '../components/redesign/CtaBand.astro';
+import { emailPrices } from '../data/pricing';
+import { SITE, businessSchema, faqSchema } from '../data/site';
+
+const path = '/email-setup-problems-gold-coast';
+const url = `${SITE}${path}`;
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Services', href: '/services' },
+  { label: 'Email Setup & Problems' },
+];
+
+// What Gold Coast customers ask most. Facts as of October 2026: Telstra says Bigpond email isn't
+// shutting down; you keep a Bigpond address after leaving Telstra only if you ask before closing
+// the account (fees have changed over the years, so we don't quote one); Gmail, Yahoo and Outlook
+// check SPF, DKIM and DMARC.
+const faqs = [
+  { q: 'How much does it cost to fix my email on the Gold Coast?', a: 'Most email problems are fixed remotely from $99. Setting up email on a new phone or computer starts from $79, an onsite fix from $129, and moving to a new email provider from $199. There’s no call-out fee, and you get the price before any work starts.' },
+  { q: 'Can you fix my email remotely?', a: 'Usually, yes. If the computer turns on and the internet works, we can connect with your permission and fix the settings, password prompts or sync problems while you watch. If it’s a phone or several devices, an onsite visit is often quicker.' },
+  { q: 'Can I keep my Bigpond email if I leave Telstra?', a: 'Often, yes, but you have to ask Telstra to keep it before you close your Telstra account, and check what it will cost. If you don’t, the address can be suspended and later deleted. If you’d rather move on, we can copy all your mail, contacts and calendar to a new address first.' },
+  { q: 'Is Telstra shutting down Bigpond email?', a: 'No. Telstra says existing Bigpond addresses are still supported, and they now run as Telstra Mail. What does change is the server settings, which is why older setups suddenly stop working. The fix is updating the settings, not getting a new address.' },
+  { q: 'Will I lose my emails if I change email provider?', a: 'Not if it’s moved properly. We copy every folder, your contacts and your calendar to the new account, check the numbers match, and set up forwarding from the old address so nothing gets missed while people catch up.' },
+  { q: 'What’s the difference between POP and IMAP?', a: 'IMAP keeps your mail on the server, so your phone, tablet and computer all show the same inbox. POP downloads mail onto one device and often deletes it from the server, so other devices never see it. For almost everyone, IMAP is the right choice. Switching from POP needs care, because the older mail may only exist on that one computer.' },
+  { q: 'Why does Outlook keep asking for my password?', a: 'Usually because the password was changed on another device, or because your provider has switched off the older sign-in method that version of Outlook uses. Typing the password again won’t fix it. The account needs setting up with the provider’s current sign-in, and sometimes a newer version of Outlook.' },
+  { q: 'Why are my emails going to people’s spam folders?', a: 'Their mail server doesn’t trust your email. For a business address, it’s usually because your domain is missing its SPF, DKIM or DMARC records, which Gmail, Yahoo and Outlook all check. We add them and test delivery. See <a href="/domain-custom-emails-gold-coast">domain &amp; custom email</a>.' },
+  { q: 'Someone is sending emails from my account. What do I do?', a: 'Change your password from a different, trusted device, then turn on two-step verification. Check your rules and forwarding too, because attackers often add a rule that copies or hides your mail. Don’t reply to or click anything in the strange emails. See <a href="/password-manager-2fa-setup-gold-coast">password manager &amp; 2FA setup</a>.' },
+  { q: 'Do I need Microsoft 365 or Google Workspace for business email?', a: 'If you want an address like you@yourbusiness.com.au with shared calendars and proper security, one of the two is the usual choice. Both work well. It mostly comes down to whether your team lives in Outlook and Word or in Gmail and Google Docs. See <a href="/google-workspace-office-365-gold-coast">Google Workspace &amp; Office 365</a>.' },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        '@id': `${url}#service`,
+        name: 'Email Setup & Problems Gold Coast',
+        serviceType: 'Email setup and troubleshooting',
+        url,
+        description: 'Email setup and repairs across the Gold Coast: email that won’t send or receive, wrong server settings, locked accounts, Outlook, Gmail and Apple Mail sync problems, Telstra Bigpond and other ISP email, moving to a new provider, and business email on your own domain. Onsite, remote or drop-off, for homes and small businesses.',
+        provider: businessSchema,
+        areaServed: businessSchema.areaServed,
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${url}#breadcrumb`,
+        itemListElement: breadcrumbs.map((c, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: c.label,
+          item: c.href ? `${SITE}${c.href === '/' ? '/' : c.href}` : url,
+        })),
+      },
+    ],
+  },
+  faqSchema(faqs, url),
+];
 ---
-<Layout headHtml={data.headHtml} bodyHtml={data.bodyHtml} footerHtml={data.footerHtml ?? null} bare={data.bare ?? false} />
+<PageLayout
+  title="Email Setup & Problems Gold Coast | Computers Gold Coast"
+  description="Expert email setup and troubleshooting on the Gold Coast. New account setup, migration, sync fixes and business domain email, onsite, remote and drop-off."
+  shareDescription="Email that won’t send or receive, Outlook and Bigpond problems, new accounts and business email set up properly. Onsite, remote or drop-off on the Gold Coast."
+  path={path}
+  schema={schema}
+>
+  <ServiceHero
+    eyebrow="Email setup & problems · Gold Coast"
+    title="Email setup and repairs on the Gold Coast."
+    highlight="Sending and receiving again."
+    intro="Can’t send? Nothing arriving? Outlook asking for your password every five minutes? We fix email in Outlook, Gmail, Apple Mail and on your phone, including Telstra Bigpond, Optus and TPG accounts, and set up new and business email properly. Onsite, remote or drop-off, usually the same day."
+    breadcrumbs={breadcrumbs}
+    path={path}
+    formPlaceholder="e.g. Bigpond email stopped sending from my iPhone after a password change"
+  />
+
+  <EmailInbox />
+
+  <MailSettings />
+
+  <HowItWorks
+    eyebrow="How it works"
+    title="From stuck to sending."
+    intro="Tell us what your email is doing. Most problems are fixed remotely while you watch, and anything onsite comes with no call-out fee."
+    steps={[
+      { title: 'Tell us what’s happening', text: 'Call, or send the quote form with the error you’re seeing and which devices are affected. You get a straight price on the phone first.' },
+      { title: 'We trace and fix it', text: 'Remotely, or onsite at your home or office. We find where your email is getting stuck and fix it on the account and every device.' },
+      { title: 'Tested both ways', text: 'We send and receive a test on each device before we finish, so you know it works on your phone as well as the computer.' },
+    ]}
+    example={{
+      problem: 'Outlook won’t send',
+      checks: ['Internet', 'Account sign-in', 'Outgoing server', 'Mail app'],
+      faultLabel: 'Out of date',
+      cause: 'Old Bigpond server in Outlook',
+      fix: 'Telstra settings, tested on every device',
+    }}
+  />
+
+  <PriceSection
+    eyebrow="Pricing"
+    title="Email setup and repair prices."
+    intro="Typical starting prices for the email jobs we do most. Tell us what’s going on and how many devices are involved, and we’ll confirm the price before anything’s booked."
+    list={emailPrices}
+    extra={'Want an address on your own business domain? See <a href="/domain-custom-emails-gold-coast">domain &amp; custom email</a>. Account keeps getting locked or hacked? Ask about <a href="/password-manager-2fa-setup-gold-coast">password manager &amp; 2FA setup</a>.'}
+  />
+
+  <ServiceReviews
+    title="What customers say about our service."
+    intro="In Gold Coast customers’ own words."
+    picks={[4, 2, 1]}
+  />
+
+  <section class="sec" aria-labelledby="svc-areas-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="svc-eyebrow">Where we work</p>
+        <h2 id="svc-areas-title">Email help across the Gold Coast.</h2>
+        <p class="lede">Onsite, remote or drop-off, from Coomera to Coolangatta and up to Tamborine Mountain, for homes and businesses alike. Not sure if we cover your suburb? <a class="link" href="tel:+61447266455">Give us a call</a>.</p>
+      </div>
+      <Areas />
+    </div>
+  </section>
+
+  <section class="sec sec-alt" aria-label="Frequently asked questions">
+    <div class="wrap">
+      <Faq title="Email questions, answered." intro="What Gold Coast customers ask us most about their email. Can’t see yours? Call and you’ll talk to a technician, not a call centre." items={faqs} />
+    </div>
+  </section>
+
+  <CtaBand
+    title="Get back to sending and receiving."
+    text="Most email problems are fixed remotely, often the same day. Tell us what’s happening and we’ll confirm the price first."
+    href="#quote"
+    label="Get a free quote"
+  />
+</PageLayout>

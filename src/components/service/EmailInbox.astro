@@ -1,0 +1,233 @@
+---
+// "What's wrong with my email?": the section is a mail app window. Folder sidebar, message list and
+// reading pane. Each message is an email problem as people actually see it; opening one marks it read
+// and shows the technician's reply, kept short: one sentence, an attached delivery report (the route
+// with the step where the email gets stuck), two things to try, one don't, and a reply bar.
+// Folders open the matching message. On phones it behaves like a phone mail app: list first, the
+// reply full screen with a back button, folders in a dropdown. Every reply is in the HTML.
+import { business } from '../../config/business';
+
+const SEND = ['Mail app', 'Your account', 'Sending server', 'Their inbox'];
+const RECEIVE = ['Sender', 'Your account', 'Mail app', 'Your screen'];
+
+// Edit content here. `route` is the path the email takes and `at` the step where it gets stuck.
+// `folder` is the folder highlighted while the message is open.
+const messages = [
+  {
+    id: 'outbox', folder: 'outbox', from: 'Outbox', subject: '3 messages waiting to send', time: '9:41 am', unread: false,
+    preview: 'Last attempt failed: cannot connect to the outgoing (SMTP) server.',
+    body: 'Your email reaches the sending server and gets turned away, usually because of a setting in your mail app.',
+    try: ['Send a test from your email in a web browser.', 'If that works, it’s your mail app’s settings.'],
+    dont: 'Delete the stuck messages yet.',
+    route: SEND, at: 2,
+  },
+  {
+    id: 'nothing', folder: 'inbox', from: 'Inbox', subject: 'No new mail since Tuesday', time: '8:30 am', unread: true,
+    preview: 'Last message received Tuesday, 4:12 pm.',
+    body: 'Your mailbox is probably full and turning mail away, or a rule is moving it before you see it.',
+    try: ['Sign in to webmail and look for the new mail.', 'Check your storage, rules and forwarding.'],
+    dont: 'Bulk-delete old mail to make room.',
+    route: RECEIVE, at: 1,
+  },
+  {
+    id: 'password', folder: 'inbox', from: 'Outlook', subject: 'Enter your password', time: '8:02 am', unread: true,
+    preview: 'Outlook needs the password for this account.',
+    body: 'Your mail app can’t sign in, usually because the password was changed on another device.',
+    try: ['Sign in to webmail to check the password works.', 'Update your mail app, then enter it once.'],
+    dont: 'Keep retyping it. You can get locked out.',
+    route: SEND, at: 1,
+  },
+  {
+    id: 'bounce', folder: 'sent', from: 'Mail Delivery Subsystem', subject: 'Undeliverable: Re: Quote', time: 'Yesterday', unread: true,
+    preview: '550 5.1.1 The email account that you tried to reach does not exist.',
+    body: 'Their server refused it. “550 5.1.1” means the address doesn’t exist, which is usually a typo.',
+    try: ['Check the address letter by letter.', 'Read the reason line in the bounce.'],
+    dont: 'Resend it over and over.',
+    route: SEND, at: 3,
+  },
+  {
+    id: 'junk', folder: 'spam', from: 'A customer', subject: 'Found your email in my junk folder', time: 'Mon', unread: true,
+    preview: 'Just letting you know your quote went to my junk folder again.',
+    body: 'It arrives, but their server doesn’t trust it, usually because your domain’s sender records are missing.',
+    try: ['Ask them to mark it “Not spam”.', 'Then let us check your domain’s settings.'],
+    dont: 'Switch providers yet. The problem follows you.',
+    route: SEND, at: 3,
+  },
+  {
+    id: 'phone', folder: 'inbox', from: 'Note to self', subject: 'Works on my phone, not the PC', time: 'Sun', unread: false,
+    preview: 'Mail comes in on my phone, but Outlook on the PC hasn’t updated since Friday.',
+    body: 'Your account is fine. The mail app on the computer has old or mismatched settings.',
+    try: ['Compare the settings on your phone and computer.', 'Make sure both use IMAP.'],
+    dont: 'Remove a POP account. It may hold your only copy.',
+    route: SEND, at: 0,
+  },
+  {
+    id: 'bigpond', folder: 'inbox', from: 'Mail', subject: 'Can’t sign in to your Bigpond account', time: 'Sat', unread: true,
+    preview: 'The server rejected the password for your Bigpond account.',
+    body: 'Older Bigpond setups stop signing in when Telstra changes its settings. Your mail is still there.',
+    try: ['Sign in to Telstra Mail on the web.', 'If your mail’s there, update your app’s settings.'],
+    dont: 'Click “password expired” links in emails.',
+    route: SEND, at: 1,
+  },
+  {
+    id: 'pst', folder: 'inbox', from: 'Outlook', subject: 'Cannot open your default email folders', time: '12 Oct', unread: false,
+    preview: 'The set of folders cannot be opened. The file is not an Outlook data file (.pst).',
+    body: 'Outlook’s data file is too big or damaged. Your mail is usually still inside.',
+    try: ['Hold Ctrl as you open Outlook to start it in safe mode.', 'If it opens, an add-in is the problem.'],
+    dont: 'Delete the .pst file. It may be your only copy.',
+    route: RECEIVE, at: 2,
+  },
+];
+const start = 'outbox';
+// Folders that open a message. Deleted is there for realism and isn't clickable.
+const folders = [
+  { id: 'inbox', name: 'Inbox', opens: 'nothing' },
+  { id: 'outbox', name: 'Outbox', opens: 'outbox', count: 3 },
+  { id: 'sent', name: 'Sent', opens: 'bounce' },
+  { id: 'spam', name: 'Spam', opens: 'junk', count: 1 },
+];
+const unread = messages.filter((m) => m.unread && m.id !== start).length;
+const first = messages.find((m) => m.id === start)!;
+const icons = {
+  reply: '<path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/>',
+  forward: '<path d="m15 14 5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/>',
+  delete: '<path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/>',
+  move: '<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+  clip: '<path d="m21 11-8.6 8.6a5 5 0 0 1-7-7L14 4a3.3 3.3 0 0 1 4.7 4.7l-8.6 8.6a1.7 1.7 0 0 1-2.4-2.4L15.6 7"/>',
+  search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
+  folder: '<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+};
+---
+<section class="sec ix" aria-labelledby="svc-ix-title" data-ix>
+  <div class="wrap">
+    <div class="ix-win" data-ix-win>
+      <div class="ix-titlebar">
+        <span class="ix-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div class="ix-search">
+          <svg viewBox="0 0 24 24" aria-hidden="true" set:html={icons.search} />
+          <h2 id="svc-ix-title">Search: what’s wrong with my email?</h2>
+        </div>
+      </div>
+      <div class="ix-toolbar">
+        <span class="ix-tools" aria-hidden="true">
+          {(['reply', 'forward', 'delete', 'move'] as const).map((k) => <span><svg viewBox="0 0 24 24" set:html={icons[k]} />{k[0].toUpperCase() + k.slice(1)}</span>)}
+        </span>
+        <p class="ix-eyebrow">What’s wrong with your email?</p>
+      </div>
+
+      <div class="ix-body">
+        <nav class="ix-folders" aria-label="Folders">
+          {folders.map((f) => (
+            <button type="button" class="ix-folder" aria-pressed={f.id === first.folder ? 'true' : 'false'} data-ix-folder={f.id} data-opens={f.opens}>
+              <svg viewBox="0 0 24 24" aria-hidden="true" set:html={icons.folder} />
+              <span>{f.name}</span>
+              <b data-ix-count={f.id}>{f.id === 'inbox' ? unread : f.count ?? ''}</b>
+            </button>
+          ))}
+          <span class="ix-folder is-static"><svg viewBox="0 0 24 24" aria-hidden="true" set:html={icons.delete} /><span>Deleted</span></span>
+          <label class="ix-folder-select">
+            <span class="sr-only">Folder</span>
+            <select data-ix-select>
+              {folders.map((f) => <option value={f.id} selected={f.id === first.folder}>{f.name}{f.id === 'inbox' ? ` (${unread})` : f.count ? ` (${f.count})` : ''}</option>)}
+            </select>
+          </label>
+        </nav>
+
+        <div class="ix-list">
+          <p class="ix-list-head"><b>Inbox</b><span>Sorted by date</span></p>
+          <div role="group" aria-label="Messages">
+            {messages.map((m) => (
+              <button type="button" class:list={['ix-msg', { 'is-unread': m.unread && m.id !== start }]} aria-pressed={m.id === start ? 'true' : 'false'} aria-controls="ix-pane" data-ix-msg={m.id} data-folder={m.folder}>
+                <span class="ix-from">{m.from}<time>{m.time}</time></span>
+                <span class="ix-subject">{m.subject}</span>
+                <span class="ix-preview">{m.preview}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div class="ix-pane" id="ix-pane" aria-live="polite">
+          {messages.map((m) => (
+            <article class="ix-mail" data-ix-mail={m.id} hidden={m.id !== start} aria-labelledby={`ix-h-${m.id}`}>
+              <button type="button" class="ix-back" data-ix-back>← Inbox</button>
+              <header class="ix-mail-head">
+                <h3 id={`ix-h-${m.id}`}>Re: {m.subject}<svg class="ix-clip" viewBox="0 0 24 24" aria-hidden="true" set:html={icons.clip} /></h3>
+                <div class="ix-sender">
+                  <span class="ix-avatar" aria-hidden="true">CG</span>
+                  <p><b>Your technician, Computers Gold Coast</b><span>To: You</span></p>
+                  <time>Just now</time>
+                </div>
+              </header>
+
+              <div class="ix-text">
+                <p class="ix-lead">{m.body}</p>
+
+                <figure class="ix-report">
+                  <figcaption><svg viewBox="0 0 24 24" aria-hidden="true" set:html={icons.clip} />Delivery report<span>Stuck at: {m.route[m.at]}</span></figcaption>
+                  <ol class="ix-route">
+                    {m.route.map((s, i) => <li class={i < m.at ? 'is-ok' : i === m.at ? 'is-stuck' : 'is-never'}><span>{s}</span>{i === m.at && <em>stuck here</em>}</li>)}
+                  </ol>
+                </figure>
+
+                <p class="ix-try"><b>Try this:</b><span>{m.try[0]}</span><span>{m.try[1]}</span></p>
+                <p class="ix-dont"><b>Don’t:</b> {m.dont[0].toLowerCase() + m.dont.slice(1)}</p>
+              </div>
+
+              <footer class="ix-replybar">
+                <a class="btn btn-primary" href="#quote" data-ix-quote={m.subject}>Get my email fixed</a>
+                <a class="ix-phone" href={business.phoneHref}>{business.phone}</a>
+              </footer>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>(function(){
+  var root=document.querySelector('[data-ix]');
+  if(!root)return;
+  var win=root.querySelector('[data-ix-win]'),select=root.querySelector('[data-ix-select]'),inboxCount=root.querySelector('[data-ix-count=inbox]');
+  var msgs=[].slice.call(root.querySelectorAll('[data-ix-msg]')),folders=[].slice.call(root.querySelectorAll('[data-ix-folder]'));
+  var phone=window.matchMedia('(max-width:860px)');
+  var open=function(id,read){
+    var m=root.querySelector('[data-ix-msg="'+id+'"]');
+    msgs.forEach(function(x){x.setAttribute('aria-pressed',String(x===m));});
+    m.classList.remove('is-unread');
+    inboxCount.textContent=root.querySelectorAll('.ix-msg.is-unread').length||'';
+    folders.forEach(function(f){f.setAttribute('aria-pressed',String(f.dataset.ixFolder===m.dataset.folder));});
+    select.value=m.dataset.folder;
+    root.querySelectorAll('[data-ix-mail]').forEach(function(r){r.hidden=r.dataset.ixMail!==id;});
+    // On a phone the reply opens full screen, like a mail app.
+    if(read&&phone.matches){win.classList.add('is-reading');win.scrollIntoView({block:'start'});}
+  };
+  msgs.forEach(function(m,i){
+    m.addEventListener('click',function(){open(m.dataset.ixMsg,true);});
+    // Up and down move through the list, like a mail app.
+    m.addEventListener('keydown',function(e){
+      var d={ArrowDown:1,ArrowUp:-1}[e.key];
+      if(!d)return;
+      e.preventDefault();
+      var n=msgs[(i+d+msgs.length)%msgs.length];n.focus();open(n.dataset.ixMsg,false);
+    });
+  });
+  folders.forEach(function(f){f.addEventListener('click',function(){open(f.dataset.opens,true);});});
+  select.addEventListener('change',function(){
+    var f=folders.filter(function(x){return x.dataset.ixFolder===select.value;})[0];
+    if(f)open(f.dataset.opens,true);
+  });
+  root.querySelectorAll('[data-ix-back]').forEach(function(b){
+    b.addEventListener('click',function(){
+      win.classList.remove('is-reading');
+      var on=root.querySelector('.ix-msg[aria-pressed="true"]');if(on)on.focus();
+    });
+  });
+  root.querySelectorAll('[data-ix-quote]').forEach(function(a){
+    a.addEventListener('click',function(){
+      var msg=document.getElementById('q-message');
+      if(msg&&!msg.value)msg.value='Email problem. '+a.dataset.ixQuote+'. ';
+      setTimeout(function(){var n=document.getElementById('q-name');if(n)n.focus({preventScroll:true});},450);
+    });
+  });
+})();</script>

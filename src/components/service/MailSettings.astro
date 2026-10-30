@@ -1,0 +1,164 @@
+---
+// "Which email do you have?": the email version of the Mac page's picker. A shelf of flat mail
+// illustrations (letterbox, envelopes; no logos), one per provider with its address ending; the
+// chosen one lifts onto a lighter card. Below it, a headline and "the catch" on the left, and a
+// light "Type these in" card with the exact server settings and one Copy all button on the right.
+// Every provider's settings are in the HTML for search.
+//
+// Settings checked October 2026 against provider help pages and setup guides.
+// TODO(client): Optus outgoing port varies by account (587 STARTTLS, 465 SSL or 25 TLS); confirm
+// what works on current Optus accounts.
+
+// Edit content here. `art` picks the illustration below.
+const providers = [
+  {
+    id: 'bigpond', name: 'Telstra Bigpond', domain: '@bigpond.com', art: 'letterbox',
+    imap: ['imap.telstra.com', '993', 'SSL/TLS'], smtp: ['smtp.telstra.com', '465', 'SSL/TLS'],
+    headline: 'Old address, new servers.',
+    catch: 'Old setups point at mail.bigpond.com, which no longer works. Use the Telstra servers and sign in with your full email address.',
+  },
+  {
+    id: 'optus', name: 'Optus', domain: '@optusnet.com.au', art: 'envelope',
+    imap: ['mail.optusnet.com.au', '993', 'SSL/TLS'], smtp: ['mail.optusnet.com.au', '587', 'STARTTLS'],
+    headline: 'Gets mail, won’t send it?',
+    catch: 'Try outgoing port 465 with SSL. Optus accounts don’t all accept the same port.',
+  },
+  {
+    id: 'gmail', name: 'Gmail', domain: '@gmail.com', art: 'stack',
+    imap: ['imap.gmail.com', '993', 'SSL/TLS'], smtp: ['smtp.gmail.com', '587', 'STARTTLS'],
+    headline: 'Your normal password might not work here.',
+    catch: 'Most mail apps refuse it. Choose “Sign in with Google”, or turn on 2-Step Verification and make an app password.',
+  },
+  {
+    id: 'outlook', name: 'Outlook.com & Hotmail', domain: '@outlook.com', art: 'open',
+    imap: ['outlook.office365.com', '993', 'SSL/TLS'], smtp: ['smtp-mail.outlook.com', '587', 'STARTTLS'],
+    headline: 'Sign in the Microsoft way.',
+    catch: 'Plain password sign-in is switched off, so older versions of Outlook and some phone apps can’t connect at all.',
+  },
+  {
+    id: 'icloud', name: 'iCloud Mail', domain: '@icloud.com', art: 'cloud',
+    imap: ['imap.mail.me.com', '993', 'SSL/TLS'], smtp: ['smtp.mail.me.com', '587', 'STARTTLS'],
+    headline: 'Needs its own app password.',
+    catch: 'Outside Apple’s own apps, your Apple ID password is refused. Make an app-specific password at appleid.apple.com.',
+  },
+  {
+    id: 'yahoo', name: 'Yahoo Mail', domain: '@yahoo.com', art: 'key',
+    imap: ['imap.mail.yahoo.com', '993', 'SSL/TLS'], smtp: ['smtp.mail.yahoo.com', '465', 'SSL/TLS'],
+    headline: 'Needs its own app password.',
+    catch: 'Other mail apps need an app password from your Yahoo account’s security settings. Your normal password won’t work.',
+  },
+];
+const start = 'bigpond';
+
+// Flat illustrations in the Mac picker's style (200x130 box): shell, dark and detail fills.
+const envelope = (x: number, y: number, w: number, h: number) =>
+  `<rect class="ms-shell" x="${x}" y="${y}" width="${w}" height="${h}" rx="6"/><path class="ms-glass" d="M${x + 4} ${y + 2}h${w - 8}l-${(w - 8) / 2} ${h * 0.5}z"/>`;
+const art: Record<string, string> = {
+  letterbox: '<path class="ms-shell" d="M58 84V54a28 28 0 0 1 28-28h28a28 28 0 0 1 28 28v30z"/><rect class="ms-glass" x="74" y="48" width="52" height="7" rx="3.5"/><rect class="ms-shell" x="94" y="84" width="12" height="36"/><path class="ms-led" d="M142 62V30h20v12h-20"/><rect class="ms-shadow" x="70" y="120" width="60" height="4" rx="2"/>',
+  envelope: envelope(40, 30, 120, 80) + '<rect class="ms-shadow" x="48" y="116" width="104" height="4" rx="2"/>',
+  stack: '<rect class="ms-back" x="58" y="18" width="112" height="74" rx="6"/>' + envelope(30, 40, 112, 74) + '<rect class="ms-shadow" x="38" y="120" width="96" height="4" rx="2"/>',
+  open: '<rect class="ms-shell" x="40" y="54" width="120" height="62" rx="6"/><path class="ms-glass" d="M40 60 100 20l60 40z"/><rect class="ms-paper" x="58" y="30" width="84" height="58" rx="3"/><path class="ms-lines" d="M64 44h50M64 54h40M64 64h46"/><path class="ms-shell" d="M40 66l60 32 60-32v44a6 6 0 0 1-6 6H46a6 6 0 0 1-6-6z"/><rect class="ms-shadow" x="48" y="120" width="104" height="4" rx="2"/>',
+  cloud: envelope(30, 46, 112, 72) + '<path class="ms-led" d="M128 52h38a14 14 0 0 0 1-28 20 20 0 0 0-38-4 14 14 0 0 0-1 32z"/><rect class="ms-shadow" x="38" y="122" width="96" height="4" rx="2"/>',
+  key: envelope(30, 40, 112, 74) + '<circle class="ms-led" cx="150" cy="44" r="15"/><circle class="ms-hole" cx="150" cy="44" r="5"/><path class="ms-led" d="M146 58h8v40h-8zM154 80h8v6h-8zM154 90h6v6h-6z"/><rect class="ms-shadow" x="38" y="120" width="96" height="4" rx="2"/>',
+};
+const settingsText = (p: (typeof providers)[number]) =>
+  [
+    `${p.name} email settings`,
+    'Account type: IMAP',
+    'Username: your full email address',
+    `Incoming server: ${p.imap[0]}`, `Incoming port: ${p.imap[1]}`, `Incoming security: ${p.imap[2]}`,
+    `Outgoing server: ${p.smtp[0]}`, `Outgoing port: ${p.smtp[1]}`, `Outgoing security: ${p.smtp[2]}`,
+  ].join('\n');
+---
+<section class="sec ms" aria-labelledby="svc-ms-title" data-ms>
+  <div class="wrap">
+    <p class="svc-eyebrow">Setting up email</p>
+    <h2 id="svc-ms-title">Which email do you have?</h2>
+
+    <div class="ms-shelf" role="group" aria-label="Your email provider">
+      {providers.map((p) => (
+        <button type="button" class="ms-tab" aria-pressed={p.id === start ? 'true' : 'false'} aria-controls={`ms-panel-${p.id}`} data-ms-tab={p.id}>
+          <span class="ms-art" aria-hidden="true"><svg viewBox="0 0 200 130" set:html={art[p.art]} /></span>
+          <code class="ms-domain">{p.domain}</code>
+          <span class="ms-name">{p.name}</span>
+        </button>
+      ))}
+    </div>
+
+    <div class="ms-panels" aria-live="polite">
+      {providers.map((p) => (
+        <article class="ms-panel" id={`ms-panel-${p.id}`} data-ms-panel={p.id} hidden={p.id !== start} aria-labelledby={`ms-h-${p.id}`}>
+          <div class="ms-main">
+            <p class="ms-kicker">{p.name}</p>
+            <h3 id={`ms-h-${p.id}`}>{p.headline}</h3>
+            <p class="ms-label">The catch</p>
+            <p class="ms-catch">{p.catch}</p>
+          </div>
+
+          <aside class="ms-card" aria-label={`${p.name} email settings`}>
+            <p class="ms-card-title">Type these in</p>
+            <dl class="ms-rows">
+              <div><dt>Account type</dt><dd>IMAP</dd></div>
+              <div><dt>Username</dt><dd class="is-plain">Your full email address</dd></div>
+            </dl>
+            {([['Incoming', p.imap], ['Outgoing', p.smtp]] as const).map(([label, [host, port, sec]]) => (
+              <>
+                <p class="ms-group">{label}</p>
+                <dl class="ms-rows">
+                  <div><dt>Server</dt><dd>{host}</dd></div>
+                  <div><dt>Port</dt><dd>{port}</dd></div>
+                  <div><dt>Security</dt><dd>{sec}</dd></div>
+                </dl>
+              </>
+            ))}
+            <button type="button" class="ms-copy" data-ms-copy={settingsText(p)}>Copy all settings</button>
+            <span class="ms-copied" role="status" data-ms-copied></span>
+          </aside>
+
+          <div class="ms-act">
+            <p>Rather not fiddle? We’ll set it up on your computer, phone and tablet, and send a test from each.</p>
+            <a class="btn btn-primary" href="#quote" data-ms-quote={p.name}>Set up my email</a>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <p class="ms-note">Settings checked October 2026. Providers do change them, which is often why email suddenly stops working.</p>
+  </div>
+</section>
+
+<script is:inline>(function(){
+  var root=document.querySelector('[data-ms]');
+  if(!root)return;
+  var tabs=[].slice.call(root.querySelectorAll('[data-ms-tab]'));
+  tabs.forEach(function(b,i){
+    b.addEventListener('click',function(){
+      tabs.forEach(function(x){x.setAttribute('aria-pressed',String(x===b));});
+      root.querySelectorAll('[data-ms-panel]').forEach(function(s){s.hidden=s.dataset.msPanel!==b.dataset.msTab;});
+    });
+    // Arrow keys move along the shelf.
+    b.addEventListener('keydown',function(e){
+      var d={ArrowRight:1,ArrowLeft:-1}[e.key];
+      if(!d)return;
+      e.preventDefault();
+      var n=tabs[(i+d+tabs.length)%tabs.length];n.focus();n.click();
+    });
+  });
+  root.querySelectorAll('[data-ms-copy]').forEach(function(c){
+    c.addEventListener('click',function(){
+      var done=c.parentNode.querySelector('[data-ms-copied]');
+      if(!navigator.clipboard){done.textContent='Select the settings above to copy them.';return;}
+      navigator.clipboard.writeText(c.dataset.msCopy).then(function(){
+        done.textContent='Copied';
+        setTimeout(function(){done.textContent='';},1800);
+      });
+    });
+  });
+  root.querySelectorAll('[data-ms-quote]').forEach(function(a){
+    a.addEventListener('click',function(){
+      var msg=document.getElementById('q-message');
+      if(msg&&!msg.value)msg.value='Email setup. '+a.dataset.msQuote+' account. ';
+      setTimeout(function(){var n=document.getElementById('q-name');if(n)n.focus({preventScroll:true});},450);
+    });
+  });
+})();</script>

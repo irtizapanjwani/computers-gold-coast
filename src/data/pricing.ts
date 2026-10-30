@@ -130,6 +130,23 @@ export const recoveryPrices: PriceList = {
   ],
 };
 
+// TODO(client): set from Gold Coast and Brisbane competitors' published prices (Oct 2026: email setup
+// jobs $100–$192, home support from $125, remote $125/hr, onsite $205/hr), pitched just under, and
+// in line with the site's sync fix ($99) and printer setup ($79). Confirm every line.
+export const emailPrices: PriceList = {
+  title: 'Email price list',
+  items: [
+    { name: 'Call-out', price: '$0', note: 'Onsite anywhere on the Gold Coast' },
+    { name: 'Email on a new phone or computer', price: 'from $79', note: 'Set up, matched to your other devices and tested' },
+    { name: 'Email fix, done remotely', price: 'from $99', note: 'Can’t send or receive, password prompts, sync problems', badge: 'Most booked' },
+    { name: 'Email fix, onsite', price: 'from $129', note: 'Outlook, Bigpond and every device in the house sorted' },
+    { name: 'Emails going to spam', price: 'from $149', note: 'SPF, DKIM and DMARC set up on your domain', href: '/domain-custom-emails-gold-coast' },
+    { name: 'Outlook data file repair', price: 'from $149', note: 'Outlook that won’t open, mail recovered from the .pst', href: '/data-recovery-gold-coast' },
+    { name: 'Move to a new email provider', price: 'from $199', note: 'Say, Bigpond to Gmail, with your mail, contacts and calendar' },
+    { name: 'Business email on your domain', price: 'from $249', note: 'Microsoft 365 or Google Workspace, first mailbox', href: '/google-workspace-office-365-gold-coast' },
+  ],
+};
+
 export const macPrices: PriceList = {
   title: 'Mac repair price list',
   items: [
