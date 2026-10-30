@@ -1,0 +1,139 @@
+---
+// "If it held a file, bring it in": what we recover from, as a specimen shelf. Six kinds of storage
+// drawn as line art on one baseline, numbered like lab specimens. Picking one lights it up and opens
+// its datasheet: where it's found, what fails, the signs, how we get files off it, and one amber
+// watch-out. Buttons with aria-pressed; every datasheet is in the HTML (only the chosen one shows).
+
+// Edit content here. `art` is the line drawing, in a 160x100 box standing on y=96.
+const media = [
+  {
+    id: 'hdd', name: 'Hard drive',
+    art: '<rect x="22" y="18" width="116" height="78" rx="5"/><circle cx="68" cy="57" r="29"/><circle cx="68" cy="57" r="5"/><circle cx="118" cy="32" r="6"/><path d="M114 36 86 60"/><circle cx="28" cy="24" r="1.5"/><circle cx="132" cy="24" r="1.5"/><circle cx="28" cy="90" r="1.5"/><circle cx="132" cy="90" r="1.5"/>',
+    found: 'Desktops, older laptops, and most external and backup drives.',
+    fails: 'Spinning disks and moving read heads. Heads wear out, motors seize, and the surface develops patches that can’t be read.',
+    signs: 'Clicking or grinding, long freezes when you open files, a start-up that gets slower every week, or a warning that the drive is failing.',
+    // TODO(client): confirm failing drives are always copied first, and how head replacements are handled.
+    we: 'We copy everything readable onto a healthy drive first, skipping damaged areas so the weak drive works as little as possible, then recover your files from the copy.',
+    watch: 'Don’t run CHKDSK or a disk repair on a clicking drive. It hammers exactly the areas that are failing.',
+  },
+  {
+    id: 'ssd', name: 'SSD',
+    art: '<rect x="10" y="66" width="140" height="26" rx="2"/><path d="M10 72h-4v14h4M14 74v10M18 74v10M22 74v10"/><rect x="36" y="70" width="34" height="18" rx="1"/><rect x="76" y="70" width="34" height="18" rx="1"/><rect x="118" y="72" width="14" height="14" rx="1"/><path d="M150 72a7 7 0 0 0 0 14"/>',
+    found: 'Most laptops and desktops from the last few years, including the thin NVMe sticks.',
+    fails: 'No moving parts, so they rarely fail slowly. When the controller chip fails, the whole drive disappears at once.',
+    signs: '“No boot device”, the drive missing from the computer’s setup screen, or a drive that suddenly turns read-only.',
+    // TODO(client): confirm how SSDs with a failed controller are handled (in-house or a lab partner).
+    we: 'We test whether the drive still responds and copy it if it does. If the controller has failed it needs specialist lab equipment, and we tell you that before anything goes anywhere.',
+    watch: 'Many newer laptops have the SSD soldered to the board, so the board has to work again before the files can be read.',
+  },
+  {
+    id: 'flash', name: 'USB stick & SD card',
+    art: '<rect x="14" y="60" width="72" height="32" rx="5"/><rect x="86" y="68" width="22" height="16" rx="1"/><path d="M92 73h3M99 73h3M92 79h3M99 79h3"/><path d="M122 38h24a4 4 0 0 1 4 4v50a4 4 0 0 1-4 4h-28a4 4 0 0 1-4-4V46z"/><path d="M124 44v8M130 44v8M136 44v8M142 44v8"/>',
+    found: 'Camera and drone cards, USB sticks, and the SD card in a phone or dashcam.',
+    fails: 'Pulled out mid-copy, snapped connectors, worn-out memory, and fake cards that claim more space than they really have.',
+    signs: '“Please insert a disk”, a card that asks to be formatted, 0 bytes free, or photos that open half grey.',
+    we: 'We read the card directly, rebuild its list of files, and pull your photos and videos back out, often even after an accidental format in the camera.',
+    watch: 'Stop shooting on that card. Every new photo can land on top of the ones you lost.',
+  },
+  {
+    id: 'external', name: 'External drive',
+    art: '<rect x="34" y="22" width="80" height="74" rx="10"/><circle cx="74" cy="86" r="2"/><path d="M50 34h48"/><path d="M114 78c18 0 20 12 34 12"/><rect x="140" y="86" width="10" height="8" rx="1"/>',
+    found: 'Portable backup drives, and desktop drives with their own power plug.',
+    fails: 'Often it isn’t the drive at all but the small circuit board inside the case, the cable or the power adapter. A drop while it’s spinning does real damage.',
+    signs: 'The light comes on but the computer can’t see it, it beeps, or it starts clicking after a fall.',
+    we: 'We take the drive out of its case and test it directly, which often brings everything back with no recovery needed at all.',
+    watch: 'Some brands encrypt the drive through the board in the case. Keep the case and its board, even if it looks broken.',
+  },
+  {
+    id: 'nas', name: 'NAS & RAID',
+    art: '<rect x="36" y="12" width="88" height="84" rx="6"/><rect x="46" y="24" width="68" height="16" rx="2"/><rect x="46" y="46" width="68" height="16" rx="2"/><path d="M104 32h4M104 54h4"/><circle cx="52" cy="82" r="2"/><circle cx="62" cy="82" r="2"/><path d="M96 82h18"/>',
+    found: 'Office file servers, Synology and QNAP boxes, and home media servers.',
+    fails: 'One drive fails, then a second fails while the array is rebuilding. Or a firmware update or power cut scrambles how the drives fit together.',
+    signs: '“Volume degraded” or “crashed” warnings, shared folders that have vanished, or the NAS asking to be initialised.',
+    we: 'We copy every drive on its own, then rebuild the array from the copies, so the original drives aren’t put under any more strain.',
+    watch: 'Don’t click Initialise, and don’t swap drives between bays. Label each drive with its slot before anything is taken out.',
+  },
+  {
+    id: 'cloud', name: 'Cloud & email',
+    art: '<path d="M46 90h72a22 22 0 0 0 3-43.8A30 30 0 0 0 64 40a24 24 0 0 0-18 50z"/><rect x="66" y="58" width="34" height="22" rx="2"/><path d="m66 60 17 12 17-12"/>',
+    found: 'OneDrive, Google Drive, Dropbox, iCloud, Outlook and Gmail.',
+    fails: 'A sync deletes files everywhere at once, the bin empties itself, an account gets hacked, or an Outlook data file gets corrupted.',
+    signs: 'Files gone on every device, an empty inbox, or Outlook refusing to open its data file.',
+    we: 'We go through version history, bins and retention settings, restore from Microsoft 365 or Google Workspace admin tools, and repair Outlook data files.',
+    watch: 'If the account was hacked, lock it down first. Recovering files into an account someone else can still get into helps no one.',
+  },
+];
+const start = 'hdd';
+const rows = [
+  { key: 'fails', label: 'What fails' },
+  { key: 'signs', label: 'Signs you’ll notice' },
+  { key: 'we', label: 'How we get files off' },
+] as const;
+interface Props { eyebrow: string; title: string; intro: string; note: string }
+const { eyebrow, title, intro, note } = Astro.props;
+const num = (i: number) => String(i + 1).padStart(2, '0');
+---
+<section class="sec sf" aria-labelledby="svc-sf-title" data-sf>
+  <div class="wrap">
+    <div class="sf-head">
+      <div>
+        <p class="svc-eyebrow">{eyebrow}</p>
+        <h2 id="svc-sf-title">{title}</h2>
+      </div>
+      <p class="sf-intro">{intro}</p>
+    </div>
+
+    <div class="sf-shelf" role="group" aria-label="Pick the kind of storage">
+      {media.map((m, i) => (
+        <button type="button" class="sf-item" aria-pressed={m.id === start ? 'true' : 'false'} aria-controls={`sf-sheet-${m.id}`} data-sf-item={m.id}>
+          <svg viewBox="0 0 160 100" aria-hidden="true" set:html={m.art} />
+          <span class="sf-tag"><b>{num(i)}</b>{m.name}</span>
+        </button>
+      ))}
+    </div>
+
+    {media.map((m, i) => (
+      <article class="sf-sheet" id={`sf-sheet-${m.id}`} data-sf-sheet={m.id} hidden={m.id !== start} aria-labelledby={`sf-h-${m.id}`}>
+        <div class="sf-id">
+          <p class="sf-no">{num(i)} / {num(media.length - 1)}</p>
+          <h3 id={`sf-h-${m.id}`}>{m.name} recovery</h3>
+          <p class="sf-found"><span>Found in</span>{m.found}</p>
+          <a class="btn btn-primary" href="#quote" data-sf-quote={m.name}>Get my files back</a>
+        </div>
+        <dl class="sf-rows">
+          {rows.map((r) => <div><dt>{r.label}</dt><dd>{m[r.key]}</dd></div>)}
+          <div class="is-watch"><dt>Watch out</dt><dd>{m.watch}</dd></div>
+        </dl>
+      </article>
+    ))}
+
+    <p class="sf-note" set:html={note} />
+  </div>
+</section>
+
+<script is:inline>(function(){
+  var root=document.querySelector('[data-sf]');
+  if(!root)return;
+  var items=[].slice.call(root.querySelectorAll('[data-sf-item]'));
+  items.forEach(function(b,i){
+    var pick=function(){
+      items.forEach(function(x){x.setAttribute('aria-pressed',String(x===b));});
+      root.querySelectorAll('[data-sf-sheet]').forEach(function(s){s.hidden=s.dataset.sfSheet!==b.dataset.sfItem;});
+    };
+    b.addEventListener('click',pick);
+    // Arrow keys move along the shelf.
+    b.addEventListener('keydown',function(e){
+      var d={ArrowRight:1,ArrowLeft:-1}[e.key];
+      if(!d)return;
+      e.preventDefault();
+      var n=items[(i+d+items.length)%items.length];n.focus();n.click();
+    });
+  });
+  root.querySelectorAll('[data-sf-quote]').forEach(function(a){
+    a.addEventListener('click',function(){
+      var msg=document.getElementById('q-message');
+      if(msg&&!msg.value)msg.value='Data recovery. '+a.dataset.sfQuote+'. ';
+      setTimeout(function(){var n=document.getElementById('q-name');if(n)n.focus({preventScroll:true});},450);
+    });
+  });
+})();</script>

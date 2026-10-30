@@ -113,6 +113,23 @@ export const backupPrices: PriceList = {
   ],
 };
 
+// TODO(client): set from Gold Coast shops' published prices (Oct 2026: software recovery from
+// $90–$195, clicking drives up to about $990, lab work $800+) and national lab guides (logical
+// $150–$900, RAID from about $800), pitched at local-shop level. Confirm every line, and whether
+// the assessment really is free.
+export const recoveryPrices: PriceList = {
+  title: 'Data recovery price list',
+  items: [
+    { name: 'Assessment and quote', price: '$0', note: 'What’s recoverable, and the price, before any work starts' },
+    { name: 'Cloud or email restore', price: 'from $99', note: 'OneDrive, Google Drive, Outlook and Gmail bins, versions and sync' },
+    { name: 'Deleted file recovery', price: 'from $149', note: 'From a working drive, memory card or USB stick', badge: 'Most booked' },
+    { name: 'Formatted or corrupted drive', price: 'from $199', note: 'Drives and cards that ask to be formatted or show as empty' },
+    { name: 'Failing hard drive', price: 'from $349', note: 'Clicking, freezing or bad sectors, copied before recovery' },
+    { name: 'NAS or RAID recovery', price: 'from $790', note: 'Every drive copied, the array rebuilt from the copies', href: '/nas-file-server-setup-gold-coast' },
+    { name: 'Clean-room or chip-level work', price: 'Quoted first', note: 'Head replacements and failed SSD controllers, priced before anything is sent' },
+  ],
+};
+
 export const macPrices: PriceList = {
   title: 'Mac repair price list',
   items: [

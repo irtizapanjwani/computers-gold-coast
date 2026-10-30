@@ -1,0 +1,220 @@
+---
+// "The rescue clock": data recovery as a stopwatch. T+0 is at 12 o'clock, when the file disappears,
+// and time runs clockwise on a log scale (1 minute to 30 days). Each problem is pinned at how soon
+// you need to act, with a leader line out to its label; one hand sweeps to the chosen problem and the
+// readout in the middle gives what's happening, two do steps and one don't. The recovery-chance gauge
+// sits in the empty arc between 30 days and 12. Left column: intro, a "bring it in with" kit list and
+// the call to action. Under 960px the dial becomes a vertical time ruler with an accordion.
+import { business } from '../../config/business';
+
+// Edit content here. `t` is how soon to act, in minutes, and only sets the position on the dial.
+// `chance` is the recovery chance: 1 low, 2 fair, 3 high.
+const problems = [
+  { id: 'clicking', name: 'Clicking or grinding noise', t: 1.5, chance: 2,
+    happening: 'A part inside the drive is failing. Every minute it runs causes more damage.',
+    do: ['Switch it off now', 'Don’t move or shake it'], dont: 'Restart it “one more time” to grab files.' },
+  { id: 'ssd', name: 'Deleted from an SSD', t: 4, chance: 1,
+    happening: 'SSDs clear deleted data in the background, sometimes very quickly.',
+    do: ['Check the Recycle Bin', 'Shut down and leave it off'], dont: 'Leave it on to see if it comes back.' },
+  { id: 'ransomware', name: 'Ransomware', t: 10, chance: 2,
+    happening: 'Your files are locked, and the infection may still be spreading.',
+    do: ['Disconnect from Wi-Fi and the network', 'Leave the screen as it is and call us'], dont: 'Plug in your backup drives yet.' },
+  { id: 'liquid', name: 'Spilled on / won’t turn on', t: 30, chance: 2,
+    happening: 'The device may be dead, but the drive inside is often fine.',
+    do: ['Unplug it, and remove the battery if you can', 'Leave it off and bring it in'], dont: 'Charge it or turn it on to check.' },
+  { id: 'deleted', name: 'Deleted by accident', t: 240, chance: 3,
+    happening: 'The file is still there until something new is saved over it.',
+    do: ['Check the Recycle Bin and cloud trash', 'Not there? Shut down'], dont: 'Install recovery software on the same drive.' },
+  { id: 'cloud', name: 'Emails or cloud files gone', t: 720, chance: 3,
+    happening: 'Most services keep deleted items in a hidden trash for a limited time.',
+    do: ['Check the trash in the web version', 'Check version history'], dont: 'Wait. That window closes.' },
+  { id: 'format', name: 'Asks to be formatted', t: 4320, chance: 3,
+    happening: 'The drive can’t be read, but your data is usually still there.',
+    do: ['Click Cancel', 'Unplug it safely'], dont: 'Click Format or Initialize.' },
+  { id: 'update', name: 'Gone after an update', t: 20160, chance: 3,
+    happening: 'Files are often moved to another user profile, not deleted.',
+    do: ['Check you’re in your usual account', 'Search for one file name you know'], dont: 'Reset or reinstall Windows.' },
+];
+const start = 'deleted';
+const kit = ['The device, switched off', 'Its charger or power cable', 'A list of the files that matter most', 'Your passwords (we never need to keep them)'];
+const zones = [
+  { name: 'MINUTES', act: 'Act within minutes', from: 0, to: 60, at: 88 },
+  { name: 'HOURS', act: 'Act within hours', from: 60, to: 1440, at: 140 },
+  { name: 'DAYS', act: 'You have days', from: 1440, to: 43200, at: 258 },
+];
+const chanceWord = ['', 'Low', 'Fair', 'High'];
+const marks: [number, string][] = [[1, ''], [5, '5m'], [15, '15m'], [60, '1h'], [180, '3h'], [720, '12h'], [1440, '1d'], [4320, '3d'], [10080, '7d'], [43200, '30d']];
+
+// Dial geometry, in SVG units. Angles are degrees clockwise from 12 o'clock.
+const R = 280; // face
+const VB = { x: -500, y: -340, w: 1000, h: 710 };
+const angle = (t: number) => 10 + (290 * Math.log10(Math.max(t, 1))) / Math.log10(43200);
+const pt = (r: number, a: number) => {
+  const rad = (a * Math.PI) / 180;
+  return [+(r * Math.sin(rad)).toFixed(2), +(-r * Math.cos(rad)).toFixed(2)];
+};
+const arc = (r: number, a1: number, a2: number) => {
+  const [x1, y1] = pt(r, a1), [x2, y2] = pt(r, a2);
+  return `M${x1} ${y1}A${r} ${r} 0 ${Math.abs(a2 - a1) > 180 ? 1 : 0} ${a2 > a1 ? 1 : 0} ${x2} ${y2}`;
+};
+const pct = (x: number, y: number) => `left:${(((x - VB.x) / VB.w) * 100).toFixed(2)}%;top:${(((y - VB.y) / VB.h) * 100).toFixed(2)}%`;
+
+const majors = marks.map(([t, label]) => ({ a: angle(t), label }));
+const minors = Array.from({ length: 101 }, (_, i) => i * 3).filter((a) => !majors.some((m) => Math.abs(m.a - a) < 1.5));
+const zoneArcs = zones.map((z) => {
+  const a1 = z.from ? angle(z.from) : 0, a2 = angle(z.to);
+  // Names on the lower half run the other way round, so they read left to right.
+  const flip = z.at > 110 && z.at < 250;
+  return { ...z, ring: arc(272, a1 + 1, a2 - 1), text: flip ? arc(272, z.at + 25, z.at - 25) : arc(272, z.at - 25, z.at + 25) };
+});
+// Recovery-chance gauge: three segments in the empty arc between 30 days and 12 o'clock.
+const gauge = [[306, 320], [322, 336], [338, 350]].map(([a1, a2]) => arc(258, a1, a2));
+const pins = problems.map((p) => {
+  const a = angle(p.t), s = Math.sin((a * Math.PI) / 180), c = Math.cos((a * Math.PI) / 180);
+  const side = s > 0.25 ? 'r' : s < -0.25 ? 'l' : c > 0 ? 't' : 'b';
+  const zone = zones.find((z) => p.t >= z.from && p.t < z.to)!;
+  const [lx, ly] = pt(304, a);
+  return { ...p, a: +a.toFixed(2), side, zone, dot: pt(272, a), lead: [pt(284, a), pt(298, a)], style: pct(lx, ly) };
+});
+const first = pins.find((p) => p.id === start)!;
+---
+<section class="sec rc" aria-labelledby="svc-rc-title" data-rc>
+  <div class="wrap rc-layout" style={`--a:${first.a}deg`} data-chance={first.chance}>
+    <header class="rc-head">
+      <p class="rc-eyebrow">T+00:00</p>
+      <h2 id="svc-rc-title">The clock starts when the file disappears.</h2>
+      <p>
+        <span class="rc-on-dial">Find your problem on the dial. Time runs clockwise from 12: the closer it sits to 12, the faster you need to act.</span>
+        <span class="rc-on-ruler">Find your problem on the ruler. The higher it sits, the faster you need to act.</span>
+      </p>
+    </header>
+
+    <div class="rc-kit">
+      <p class="rc-kit-title">Bring it in with</p>
+      <ul>{kit.map((k) => <li>{k}</li>)}</ul>
+      <p class="rc-kit-note">We tell you what’s recoverable before any work starts.</p>
+      <div class="rc-kit-cta">
+        <a class="btn btn-primary" href="#quote" data-rc-quote={first.name}>Get my files back</a>
+        <a class="rc-phone" href={business.phoneHref}>{business.phone}</a>
+      </div>
+    </div>
+
+    <div class="rc-dial">
+      <svg viewBox={`${VB.x} ${VB.y} ${VB.w} ${VB.h}`} aria-hidden="true">
+        <defs>
+          {zoneArcs.map((z, i) => <path id={`rc-zt-${i}`} d={z.text} />)}
+          <path id="rc-gt" d={arc(236, 304, 352)} />
+        </defs>
+        <circle class="rc-face" r={R} />
+        {zoneArcs.map((z, i) => <path class={i === 0 ? 'rc-ring is-hot' : 'rc-ring'} d={z.ring} />)}
+        {minors.map((a) => { const [x1, y1] = pt(258, a), [x2, y2] = pt(266, a); return <line class="rc-tick" x1={x1} y1={y1} x2={x2} y2={y2} />; })}
+        {majors.map((m) => { const [x1, y1] = pt(250, m.a), [x2, y2] = pt(266, m.a); return <line class="rc-tick is-major" x1={x1} y1={y1} x2={x2} y2={y2} />; })}
+        {majors.filter((m) => m.label).map((m) => { const [x, y] = pt(236, m.a); return <text class="rc-time" x={x} y={y}>{m.label}</text>; })}
+        <line class="rc-tick is-zero" x1="0" y1="-246" x2="0" y2="-268" />
+        <text class="rc-time is-zero" x="0" y="-232">T+0</text>
+        {zoneArcs.map((z, i) => <text class={i === 0 ? 'rc-zone is-hot' : 'rc-zone'} dy="0.35em"><textPath href={`#rc-zt-${i}`} startOffset="50%">{z.name}</textPath></text>)}
+
+        <g class="rc-gauge">
+          {gauge.map((d, i) => <path class={`rc-g rc-g${i + 1}`} d={d} />)}
+          <text class="rc-gauge-text"><textPath href="#rc-gt" startOffset="50%">RECOVERY CHANCE <tspan class="rc-gauge-word" data-rc-word>{chanceWord[first.chance].toUpperCase()}</tspan></textPath></text>
+        </g>
+
+        <circle class="rc-bezel" r="198" />
+        {pins.map((p) => <circle class={p.id === start ? 'rc-mark is-on' : 'rc-mark'} data-rc-mark={p.id} cx={p.dot[0]} cy={p.dot[1]} r="3.5" />)}
+        {pins.map((p) => <line class={p.id === start ? 'rc-lead is-on' : 'rc-lead'} data-rc-lead={p.id} x1={p.lead[0][0]} y1={p.lead[0][1]} x2={p.lead[1][0]} y2={p.lead[1][1]} />)}
+        <g class="rc-hand">
+          <circle r={R} fill="none" stroke="none" />
+          <line x1="0" y1="-202" x2="0" y2="-246" />
+          <circle class="rc-tip" cy="-246" r="4" />
+        </g>
+      </svg>
+
+      <div class="rc-pins" role="group" aria-label="Pick your problem">
+        {pins.map((p) => (
+          <button type="button" class={`rc-pin is-${p.side}`} style={p.style} aria-pressed={p.id === start ? 'true' : 'false'} aria-controls="rc-readout" data-rc-pin={p.id} data-a={p.a} data-chance={p.chance} data-name={p.name}>
+            <span class="rc-act">{p.zone.act}</span>
+            <span class="rc-pin-name">{p.name}</span>
+          </button>
+        ))}
+      </div>
+
+      <div class="rc-readout" id="rc-readout" aria-live="polite">
+        {pins.map((p) => (
+          <div class={p.id === start ? 'rc-read is-on' : 'rc-read'} data-rc-read={p.id}>
+            <p class="rc-name">{p.name}</p>
+            <p class="rc-what">{p.happening}</p>
+            <p class="rc-do"><span><b>DO →</b> {p.do[0]}</span><span><b>then →</b> {p.do[1]}</span></p>
+            <p class="rc-dont"><b>DON’T:</b> {p.dont}</p>
+            <p class="sr-only">Recovery chance: {chanceWord[p.chance]}.</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <ol class="rc-ruler">
+      {zones.map((z) => (
+        <li class="rc-zone-row">
+          <p class="rc-ruler-zone">{z.act}</p>
+          <ul>
+            {pins.filter((p) => p.zone === z).map((p) => (
+              <li class="rc-row">
+                <button type="button" class="rc-row-btn" aria-expanded={p.id === start ? 'true' : 'false'} aria-controls={`rc-row-${p.id}`} data-rc-row={p.id}>{p.name}</button>
+                <div class="rc-row-ans" id={`rc-row-${p.id}`} hidden={p.id !== start}>
+                  <p class="rc-what">{p.happening}</p>
+                  <p class="rc-do"><span><b>DO →</b> {p.do[0]}</span><span><b>then →</b> {p.do[1]}</span></p>
+                  <p class="rc-dont"><b>DON’T:</b> {p.dont}</p>
+                  <p class="rc-chance">Recovery chance <span class={`rc-chance-bar is-${p.chance}`} aria-hidden="true"><i></i><i></i><i></i></span> <b>{chanceWord[p.chance].toUpperCase()}</b></p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<script is:inline>(function(){
+  var root=document.querySelector('[data-rc]');
+  if(!root)return;
+  var layout=root.querySelector('.rc-layout'),quote=root.querySelector('[data-rc-quote]'),word=root.querySelector('[data-rc-word]');
+  var words=['','LOW','FAIR','HIGH'];
+  var pins=[].slice.call(root.querySelectorAll('[data-rc-pin]'));
+  var rows=[].slice.call(root.querySelectorAll('[data-rc-row]'));
+  var select=function(id){
+    pins.forEach(function(p){
+      var on=p.dataset.rcPin===id;
+      p.setAttribute('aria-pressed',String(on));
+      if(on){
+        layout.style.setProperty('--a',p.dataset.a+'deg');
+        layout.dataset.chance=p.dataset.chance;
+        word.textContent=words[+p.dataset.chance];
+        quote.dataset.rcQuote=p.dataset.name;
+      }
+    });
+    root.querySelectorAll('[data-rc-read]').forEach(function(r){r.classList.toggle('is-on',r.dataset.rcRead===id);});
+    root.querySelectorAll('[data-rc-mark],[data-rc-lead]').forEach(function(m){m.classList.toggle('is-on',(m.dataset.rcMark||m.dataset.rcLead)===id);});
+  };
+  pins.forEach(function(p,i){
+    p.addEventListener('click',function(){select(p.dataset.rcPin);});
+    // Arrow keys step round the dial.
+    p.addEventListener('keydown',function(e){
+      var d={ArrowRight:1,ArrowDown:1,ArrowLeft:-1,ArrowUp:-1}[e.key];
+      if(!d)return;
+      e.preventDefault();
+      var n=pins[(i+d+pins.length)%pins.length];n.focus();select(n.dataset.rcPin);
+    });
+  });
+  rows.forEach(function(b){
+    b.addEventListener('click',function(){
+      var open=b.getAttribute('aria-expanded')!=='true';
+      rows.forEach(function(x){var on=open&&x===b;x.setAttribute('aria-expanded',String(on));document.getElementById(x.getAttribute('aria-controls')).hidden=!on;});
+      if(open)select(b.dataset.rcRow);
+    });
+  });
+  quote.addEventListener('click',function(){
+    var msg=document.getElementById('q-message');
+    if(msg&&!msg.value)msg.value='Data recovery. '+quote.dataset.rcQuote+'. ';
+    setTimeout(function(){var n=document.getElementById('q-name');if(n)n.focus({preventScroll:true});},450);
+  });
+})();</script>

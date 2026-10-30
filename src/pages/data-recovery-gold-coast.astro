@@ -1,5 +1,156 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import data from '../data/pages/data-recovery-gold-coast.json';
+// Data Recovery service page, fully redesigned. Content is the page's original copy (hard drive,
+// SSD, USB, RAID/NAS and cloud recovery; onsite, remote and drop-off; act-fast advice; FAQs),
+// rewritten in sentence case, plus a "rescue clock" triage, a storage-by-storage guide and new
+// FAQs. Business claims are only ones already on the site, or marked TODO(client).
+import PageLayout from '../layouts/PageLayout.astro';
+import ServiceHero from '../components/redesign/ServiceHero.astro';
+import RescueClock from '../components/service/RescueClock.astro';
+import StorageShelf from '../components/service/StorageShelf.astro';
+import HowItWorks from '../components/service/HowItWorks.astro';
+import PriceSection from '../components/service/PriceSection.astro';
+import ServiceReviews from '../components/service/ServiceReviews.astro';
+import Areas from '../components/redesign/Areas.astro';
+import Faq from '../components/redesign/Faq.astro';
+import CtaBand from '../components/redesign/CtaBand.astro';
+import { recoveryPrices } from '../data/pricing';
+import { SITE, businessSchema, faqSchema } from '../data/site';
+
+const path = '/data-recovery-gold-coast';
+const url = `${SITE}${path}`;
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Services', href: '/services' },
+  { label: 'Data Recovery' },
+];
+
+// Questions people ask before handing over a drive. Facts as of 2026: BitLocker recovery keys are
+// kept in the Microsoft account (aka.ms/myrecoverykey); a factory reset or erase on encrypted
+// Windows, Apple silicon and T2 Macs throws away the encryption key; No More Ransom lists free
+// decryptors. Recovery times are the original page's.
+const faqs = [
+  { q: 'How much does data recovery cost on the Gold Coast?', a: 'It depends on what went wrong, not on how many files there are. Restoring from a cloud or email bin starts from $99, deleted files from a working drive from $149, a formatted or corrupted drive from $199, and a failing hard drive from $349. You get an assessment and the price first, and nothing goes ahead until you say yes.' },
+  // TODO(client): confirm whether there's a no-recovery, no-charge policy and say so here if there is.
+  { q: 'What if you can’t get anything back?', a: 'You’ll know before you spend anything. We assess the drive first and tell you honestly what’s recoverable and what it will cost, so you can decide whether it’s worth going ahead.' },
+  { q: 'Should I try free recovery software first?', a: 'Only on a healthy drive where files were simply deleted, and only if you install the software on a different drive, never the one you’re recovering from. Don’t run it on a drive that clicks, freezes or keeps disconnecting: every scan wears it further, and it may not survive a second attempt.' },
+  { q: 'Can you get files off a laptop that won’t turn on?', a: 'Usually, yes. If the laptop has a removable drive, we take it out and read it in another machine. Many recent laptops, including MacBooks, have storage soldered to the board and encrypted, so the board has to be repaired before the files can be read. See <a href="/hardware-repair-diagnostics-gold-coast">hardware repair &amp; diagnostics</a>.' },
+  { q: 'Do you need my password or a recovery key?', a: 'If the drive is encrypted, yes. Windows BitLocker drives need the 48-digit recovery key, which is usually saved in your Microsoft account at aka.ms/myrecoverykey. Macs need your login password or FileVault key. Without the key, an encrypted drive can’t be read by anyone, including us.' },
+  { q: 'Can you recover files after a factory reset or reinstalling Windows?', a: 'Often not, and it’s better to know that up front. Reinstalling Windows writes over a lot of the old data, and resetting an encrypted Windows PC or a recent Mac throws away the key that unlocks it. Bring it in before using it any further and we’ll check what’s left.' },
+  { q: 'Can you get files back from ransomware without paying?', a: 'Sometimes. Some ransomware has a free decryption tool (the No More Ransom project lists them), OneDrive can roll files back up to 30 days on Microsoft 365, and backups that weren’t plugged in at the time are usually safe. Don’t pay first, and don’t wipe the computer until it’s been looked at. See <a href="/virus-spyware-removal-gold-coast">virus &amp; spyware removal</a>.' },
+  // TODO(client): confirm how files are handled for privacy (who opens them, how long copies are kept).
+  { q: 'Will you go through my photos and documents?', a: 'Only enough to check they’ve come back whole, by opening a sample from each folder. If there’s something sensitive, tell us which folders matter and we’ll check just those.' },
+  { q: 'How long does data recovery take?', a: 'Restoring deleted files or a cloud bin usually takes 1 to 2 hours. A failing hard drive typically takes 24 to 72 hours, because it has to be copied slowly and carefully first. RAID, SSD and ransomware jobs vary with the damage.' },
+  { q: 'What do I get my files back on?', a: 'On a new drive or your new computer, never back on the drive that failed. We check the files open before you take them away, and can set up <a href="/data-backup-transfer-gold-coast">automatic backups</a> so it doesn’t happen again.' },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        '@id': `${url}#service`,
+        name: 'Data Recovery Gold Coast',
+        serviceType: 'Data recovery',
+        url,
+        description: 'Data recovery across the Gold Coast: deleted files, failed or corrupted hard drives and SSDs, USB drives and SD cards, RAID and NAS, cloud storage and email, and ransomware-affected files. Onsite, remote or drop-off, for homes and small businesses.',
+        provider: businessSchema,
+        areaServed: businessSchema.areaServed,
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${url}#breadcrumb`,
+        itemListElement: breadcrumbs.map((c, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: c.label,
+          item: c.href ? `${SITE}${c.href === '/' ? '/' : c.href}` : url,
+        })),
+      },
+    ],
+  },
+  faqSchema(faqs, url),
+];
 ---
-<Layout headHtml={data.headHtml} bodyHtml={data.bodyHtml} footerHtml={data.footerHtml ?? null} bare={data.bare ?? false} />
+<PageLayout
+  title="Data Recovery Gold Coast | Computers Gold Coast"
+  description="Professional data recovery on the Gold Coast, hard drive, SSD, USB, RAID/NAS and cloud data recovery. Onsite, remote and drop-off service. Free phone quote."
+  shareDescription="Files back from deleted folders, failed hard drives and SSDs, USB drives, RAID and NAS, and cloud storage. Onsite, remote or drop-off on the Gold Coast."
+  path={path}
+  schema={schema}
+>
+  <ServiceHero
+    eyebrow="Data recovery · Gold Coast"
+    title="Data recovery on the Gold Coast."
+    highlight="Lost files? Don’t panic."
+    intro="Deleted the wrong folder? Drive clicking, or not showing up at all? Stop using it and get in touch. We recover files from hard drives, SSDs, USB drives, RAID and NAS, and cloud storage, and tell you honestly what can be saved before any work starts. Onsite, remote or drop-off."
+    breadcrumbs={breadcrumbs}
+    path={path}
+    formPlaceholder="e.g. External drive stopped showing up, family photos on it"
+  />
+
+  <RescueClock />
+
+  <StorageShelf
+    eyebrow="What we recover from"
+    title="If it held a file, bring it in."
+    intro="Every kind of storage breaks in its own way, and the fix depends on how. Pick yours to see what fails, the signs, and how we get your files off it."
+    note={'Files back? Keep them safe with <a href="/data-backup-transfer-gold-coast">automatic backups</a>. Ransomware or a virus behind it? See <a href="/virus-spyware-removal-gold-coast">virus &amp; spyware removal</a>. Need sturdier storage for a household or office? Ask about a <a href="/nas-file-server-setup-gold-coast">NAS or file server</a>.'}
+  />
+
+  <HowItWorks
+    eyebrow="How it works"
+    title="From lost to back in your hands."
+    intro="Tell us what happened and stop using the device. We work out the cause before touching anything, then recover your files using the method least likely to do more damage."
+    steps={[
+      { title: 'Tell us what happened', text: 'Call, or send the quote form with what the device is and what it’s doing. You get honest advice on the phone straight away, including what not to do in the meantime.' },
+      { title: 'We assess it first', text: 'Onsite with no call-out fee, remotely, or dropped off. We find the cause and tell you what’s recoverable and the price before any recovery starts.' },
+      { title: 'Files back, checked', text: 'Recovered onto a new drive or your new computer, never back onto the one that failed. We open them with you to check, and can set up backups so it doesn’t happen again.' },
+    ]}
+    example={{
+      problem: 'External drive not showing up',
+      checks: ['USB cable', 'Drive case board', 'Drive health', 'File system'],
+      faultLabel: 'Failed',
+      cause: 'Faulty board in the drive’s case',
+      fix: 'Drive read directly, every file copied off',
+    }}
+  />
+
+  <PriceSection
+    eyebrow="Pricing"
+    title="Data recovery prices."
+    intro="Data recovery is priced by what went wrong, not by how many files there are. These are typical starting prices. You get the assessment and your exact price before any work starts."
+    list={recoveryPrices}
+    extra={'Files only deleted from a cloud account? That’s usually the quickest and cheapest job. Moving to a new computer at the same time? See <a href="/data-backup-transfer-gold-coast">data backup &amp; transfer</a>.'}
+  />
+
+  <ServiceReviews
+    title="What customers say about our service."
+    intro="In Gold Coast customers’ own words."
+    picks={[1, 4, 6]}
+  />
+
+  <section class="sec" aria-labelledby="svc-areas-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="svc-eyebrow">Where we work</p>
+        <h2 id="svc-areas-title">Data recovery across the Gold Coast.</h2>
+        <p class="lede">Onsite, remote or drop-off, from Coomera to Coolangatta and up to Tamborine Mountain, for homes and businesses alike. Not sure if we cover your suburb? <a class="link" href="tel:+61447266455">Give us a call</a>.</p>
+      </div>
+      <Areas />
+    </div>
+  </section>
+
+  <section class="sec sec-alt" aria-label="Frequently asked questions">
+    <div class="wrap">
+      <Faq title="Data recovery questions, answered." intro="What Gold Coast customers ask us before they hand over a drive. Can’t see yours? Call and you’ll talk to a technician, not a call centre." items={faqs} />
+    </div>
+  </section>
+
+  <CtaBand
+    title="Get your files back before they’re overwritten."
+    text="Switch it off, then call. We’ll tell you what’s recoverable and the price before any work starts."
+    href="#quote"
+    label="Get a free quote"
+  />
+</PageLayout>
